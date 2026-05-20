@@ -7,6 +7,7 @@ import {
   SUPPORTED_LANGUAGES,
 } from './constants.js';
 import { useKanjiData } from './hooks/useKanjiData.js';
+import { usePersistedState } from './hooks/usePersistedState.js';
 import { useProgress } from './hooks/useProgress.js';
 import { useQuizCache } from './hooks/useQuizCache.js';
 import { useStudyStats } from './hooks/useStudyStats.js';
@@ -29,17 +30,17 @@ import { StatsDashboard } from './components/StatsDashboard.jsx';
 import { StrokeOrder } from './components/StrokeOrder.jsx';
 
 export default function App() {
-  const [language, setLanguage] = useState('id');
-  const [selectedLevels, setSelectedLevels] = useState([]);
+  const [language, setLanguage] = usePersistedState('kanjiApp:language', 'id');
+  const [selectedLevels, setSelectedLevels] = usePersistedState('kanjiApp:selectedLevels', []);
   const [selectedKanji, setSelectedKanji] = useState([]);
-  const [preferredVocabLevels, setPreferredVocabLevels] = useState([]);
+  const [preferredVocabLevels, setPreferredVocabLevels] = usePersistedState('kanjiApp:preferredVocabLevels', []);
   const [isVocabModalOpen, setIsVocabModalOpen] = useState(false);
   const [previewKanjiCharacter, setPreviewKanjiCharacter] = useState('');
   const [isFlashcardOpen, setIsFlashcardOpen] = useState(false);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [strokeOrderKanji, setStrokeOrderKanji] = useState('');
   const [breakdownKanji, setBreakdownKanji] = useState('');
-  const [sortMode, setSortMode] = useState(KANJI_SORT_MODES.default);
+  const [sortMode, setSortMode] = usePersistedState('kanjiApp:sortMode', KANJI_SORT_MODES.default);
   const [query, setQuery] = useState('');
 
   const t = (key, params) => formatText(language, key, params);
@@ -154,7 +155,6 @@ export default function App() {
         ? current.filter((item) => item !== level)
         : [...current, level].sort((a, b) => b - a),
     );
-    setQuery('');
   }
 
   function toggleKanji(character) {
