@@ -2,10 +2,17 @@ import { useCallback, useEffect, useState } from 'react';
 import { SRS_INTERVALS_DAYS } from '../constants.js';
 
 const STORAGE_KEY = 'kanjiProgress';
+const CURRENT_SCHEMA_VERSION = 1;
 
 function load() {
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    if (!raw || typeof raw !== 'object') return {};
+    if (raw.schemaVersion === CURRENT_SCHEMA_VERSION) {
+      return raw.data && typeof raw.data === 'object' ? raw.data : {};
+    }
+    // legacy: flat character→entry map, no wrapping
+    return raw;
   } catch {
     return {};
   }
@@ -13,7 +20,10 @@ function load() {
 
 function save(data) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ schemaVersion: CURRENT_SCHEMA_VERSION, data }),
+    );
   } catch {
     // storage quota exceeded – silently skip
   }
@@ -118,5 +128,16 @@ export function useProgress() {
     [progress],
   );
 
-  return { progress, recordResult, recordQuizResults, getProgressStats, getKanjiStatus };
+  const replaceProgress = useCallback((next) => {
+    setProgress(next && typeof next === 'object' ? next : {});
+  }, []);
+
+  return {
+    progress,
+    recordResult,
+    recordQuizResults,
+    getProgressStats,
+    getKanjiStatus,
+    replaceProgress,
+  };
 }

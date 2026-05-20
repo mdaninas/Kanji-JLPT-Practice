@@ -59,8 +59,15 @@ export default function App() {
     language,
   );
   const { vocabByCharacter, isVocabLoading, vocabError } = useVocabData(language);
-  const { recordResult, recordQuizResults, getProgressStats, getKanjiStatus } = useProgress();
-  const { stats, recordSession, reset: resetStats } = useStudyStats();
+  const {
+    progress,
+    recordResult,
+    recordQuizResults,
+    getProgressStats,
+    getKanjiStatus,
+    replaceProgress,
+  } = useProgress();
+  const { stats, recordSession, reset: resetStats, replaceStats } = useStudyStats();
   const quizCache = useQuizCache();
 
   useEffect(() => {
@@ -313,6 +320,30 @@ export default function App() {
             setIsStatsOpen(false);
           }}
           onClearQuizCache={() => quizCache.clear()}
+          onExport={() => {
+            const payload = {
+              schemaVersion: 1,
+              exportedAt: new Date().toISOString(),
+              progress,
+              stats,
+            };
+            const blob = new Blob([JSON.stringify(payload, null, 2)], {
+              type: 'application/json',
+            });
+            const url = URL.createObjectURL(blob);
+            const date = new Date().toISOString().slice(0, 10);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `kanji-progress-${date}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+          }}
+          onImport={(parsed) => {
+            replaceProgress(parsed.progress || {});
+            replaceStats(parsed.stats || {});
+          }}
           onClose={() => setIsStatsOpen(false)}
         />
       )}

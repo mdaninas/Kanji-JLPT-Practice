@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 const STATS_KEY = 'studyStats';
+const CURRENT_SCHEMA_VERSION = 1;
 
 const defaultStats = {
   totalCorrect: 0,
@@ -14,7 +15,13 @@ const defaultStats = {
 
 function loadStats() {
   try {
-    return { ...defaultStats, ...JSON.parse(localStorage.getItem(STATS_KEY) || '{}') };
+    const raw = JSON.parse(localStorage.getItem(STATS_KEY) || '{}');
+    if (!raw || typeof raw !== 'object') return defaultStats;
+    if (raw.schemaVersion === CURRENT_SCHEMA_VERSION) {
+      return { ...defaultStats, ...(raw.data || {}) };
+    }
+    // legacy: stats object stored at top level
+    return { ...defaultStats, ...raw };
   } catch {
     return defaultStats;
   }
@@ -22,7 +29,10 @@ function loadStats() {
 
 function saveStats(stats) {
   try {
-    localStorage.setItem(STATS_KEY, JSON.stringify(stats));
+    localStorage.setItem(
+      STATS_KEY,
+      JSON.stringify({ schemaVersion: CURRENT_SCHEMA_VERSION, data: stats }),
+    );
   } catch {
     /* quota */
   }
@@ -111,5 +121,9 @@ export function useStudyStats() {
     }
   }, []);
 
-  return { stats, recordSession, reset };
+  const replaceStats = useCallback((next) => {
+    setStats({ ...defaultStats, ...(next && typeof next === 'object' ? next : {}) });
+  }, []);
+
+  return { stats, recordSession, reset, replaceStats };
 }

@@ -1,13 +1,58 @@
+import { useRef } from 'react';
 import { LEVELS } from '../constants.js';
 
-export function StatsDashboard({ t, stats, onReset, onClearQuizCache, onClose }) {
+export function StatsDashboard({
+  t,
+  stats,
+  onReset,
+  onClearQuizCache,
+  onExport,
+  onImport,
+  onClose,
+}) {
   const accuracy = stats.totalAnswered > 0
     ? Math.round((stats.totalCorrect / stats.totalAnswered) * 100)
     : 0;
   const hasData = stats.totalAnswered > 0 || stats.streak > 0;
+  const fileInputRef = useRef(null);
 
   function handleReset() {
     if (window.confirm(t('statsResetConfirm'))) onReset();
+  }
+
+  function handleImportClick() {
+    fileInputRef.current?.click();
+  }
+
+  function handleFileChange(event) {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      let parsed;
+      try {
+        parsed = JSON.parse(reader.result);
+      } catch {
+        window.alert(t('statsImportError'));
+        return;
+      }
+      if (
+        !parsed
+        || typeof parsed !== 'object'
+        || parsed.schemaVersion !== 1
+        || typeof parsed.progress !== 'object'
+        || typeof parsed.stats !== 'object'
+      ) {
+        window.alert(t('statsImportError'));
+        return;
+      }
+      if (!window.confirm(t('statsImportConfirm'))) return;
+      onImport(parsed);
+    };
+    reader.onerror = () => window.alert(t('statsImportError'));
+    reader.readAsText(file);
   }
 
   return (
@@ -109,6 +154,16 @@ export function StatsDashboard({ t, stats, onReset, onClearQuizCache, onClose })
         )}
 
         <div className="modalFooter statsFooter">
+          {onExport && (
+            <button type="button" className="paperButton" onClick={onExport}>
+              {t('statsExport')}
+            </button>
+          )}
+          {onImport && (
+            <button type="button" className="paperButton" onClick={handleImportClick}>
+              {t('statsImport')}
+            </button>
+          )}
           {onClearQuizCache && (
             <button type="button" className="paperButton" onClick={onClearQuizCache}>
               {t('clearQuizCache')}
@@ -121,6 +176,13 @@ export function StatsDashboard({ t, stats, onReset, onClearQuizCache, onClose })
             {t('close')}
           </button>
         </div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="application/json,.json"
+          onChange={handleFileChange}
+          style={{ display: 'none' }}
+        />
       </section>
     </div>
   );
