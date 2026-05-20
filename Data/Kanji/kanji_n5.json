@@ -1,0 +1,2273 @@
+{
+  "一": {
+    "freq_mainichi_shinbun": 2,
+    "grade": 1,
+    "heisig_en": "one",
+    "jlpt": 5,
+    "kanji": "一",
+    "kun_readings": [
+      "ひと-",
+      "ひと.つ"
+    ],
+    "meanings": [
+      "one",
+      "one radical (no.1)"
+    ],
+    "name_readings": [
+      "い",
+      "いっ",
+      "いる",
+      "かず",
+      "かつ",
+      "かづ",
+      "てん",
+      "はじめ",
+      "ひ",
+      "ひとつ",
+      "まこと"
+    ],
+    "notes": [],
+    "on_readings": [
+      "イチ",
+      "イツ"
+    ],
+    "stroke_count": 1,
+    "unicode": "4E00"
+  },
+  "七": {
+    "freq_mainichi_shinbun": 115,
+    "grade": 1,
+    "heisig_en": "seven",
+    "jlpt": 5,
+    "kanji": "七",
+    "kun_readings": [
+      "なな",
+      "なな.つ",
+      "なの"
+    ],
+    "meanings": [
+      "seven"
+    ],
+    "name_readings": [
+      "し",
+      "しっ",
+      "な",
+      "ひち"
+    ],
+    "notes": [],
+    "on_readings": [
+      "シチ"
+    ],
+    "stroke_count": 2,
+    "unicode": "4E03"
+  },
+  "万": {
+    "freq_mainichi_shinbun": 375,
+    "grade": 2,
+    "heisig_en": "ten thousand",
+    "jlpt": 5,
+    "kanji": "万",
+    "kun_readings": [
+      "よろず"
+    ],
+    "meanings": [
+      "10,000",
+      "ten thousand"
+    ],
+    "name_readings": [
+      "かず",
+      "ま",
+      "ゆる"
+    ],
+    "notes": [],
+    "on_readings": [
+      "バン",
+      "マン"
+    ],
+    "stroke_count": 3,
+    "unicode": "4E07"
+  },
+  "三": {
+    "freq_mainichi_shinbun": 14,
+    "grade": 1,
+    "heisig_en": "three",
+    "jlpt": 5,
+    "kanji": "三",
+    "kun_readings": [
+      "み",
+      "み.つ",
+      "みっ.つ"
+    ],
+    "meanings": [
+      "three"
+    ],
+    "name_readings": [
+      "か",
+      "さ",
+      "さい",
+      "さえ",
+      "さぶ",
+      "ざ",
+      "ざえ",
+      "ざぶ",
+      "そう",
+      "ぞ",
+      "ただ",
+      "みつ",
+      "みん",
+      "も",
+      "や"
+    ],
+    "notes": [],
+    "on_readings": [
+      "サン",
+      "ゾウ"
+    ],
+    "stroke_count": 3,
+    "unicode": "4E09"
+  },
+  "上": {
+    "freq_mainichi_shinbun": 35,
+    "grade": 1,
+    "heisig_en": "above",
+    "jlpt": 5,
+    "kanji": "上",
+    "kun_readings": [
+      "-あ.がり",
+      "-あ.がる",
+      "-あ.げる",
+      "-うえ",
+      "あ.がり",
+      "あ.がる",
+      "あ.げる",
+      "うえ",
+      "うわ-",
+      "かみ",
+      "たてまつ.る",
+      "のぼ.す",
+      "のぼ.せる",
+      "のぼ.り",
+      "のぼ.る"
+    ],
+    "meanings": [
+      "above",
+      "up"
+    ],
+    "name_readings": [
+      "あおい",
+      "あげ",
+      "い",
+      "か",
+      "かき",
+      "かず",
+      "かん",
+      "こう",
+      "のぼり",
+      "ほつ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "シャン",
+      "ショウ",
+      "ジョウ"
+    ],
+    "stroke_count": 3,
+    "unicode": "4E0A"
+  },
+  "下": {
+    "freq_mainichi_shinbun": 97,
+    "grade": 1,
+    "heisig_en": "below",
+    "jlpt": 5,
+    "kanji": "下",
+    "kun_readings": [
+      "-くだ.す",
+      "お.りる",
+      "お.ろす",
+      "くだ.さる",
+      "くだ.す",
+      "くだ.り",
+      "くだ.る",
+      "さ.がる",
+      "さ.げる",
+      "した",
+      "しも",
+      "もと"
+    ],
+    "meanings": [
+      "below",
+      "descend",
+      "down",
+      "give",
+      "inferior",
+      "low"
+    ],
+    "name_readings": [
+      "さか",
+      "しと"
+    ],
+    "notes": [],
+    "on_readings": [
+      "カ",
+      "ゲ"
+    ],
+    "stroke_count": 3,
+    "unicode": "4E0B"
+  },
+  "中": {
+    "freq_mainichi_shinbun": 11,
+    "grade": 1,
+    "heisig_en": "in",
+    "jlpt": 5,
+    "kanji": "中",
+    "kun_readings": [
+      "あた.る",
+      "うち",
+      "なか"
+    ],
+    "meanings": [
+      "center",
+      "in",
+      "inside",
+      "mean",
+      "middle"
+    ],
+    "name_readings": [
+      "あたる",
+      "かなえ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "チュウ"
+    ],
+    "stroke_count": 4,
+    "unicode": "4E2D"
+  },
+  "九": {
+    "freq_mainichi_shinbun": 55,
+    "grade": 1,
+    "heisig_en": "nine",
+    "jlpt": 5,
+    "kanji": "九",
+    "kun_readings": [
+      "ここの",
+      "ここの.つ"
+    ],
+    "meanings": [
+      "nine"
+    ],
+    "name_readings": [
+      "いちじく",
+      "いちのく",
+      "この",
+      "ひさし"
+    ],
+    "notes": [],
+    "on_readings": [
+      "キュウ",
+      "ク"
+    ],
+    "stroke_count": 2,
+    "unicode": "4E5D"
+  },
+  "二": {
+    "freq_mainichi_shinbun": 9,
+    "grade": 1,
+    "heisig_en": "two",
+    "jlpt": 5,
+    "kanji": "二",
+    "kun_readings": [
+      "ふた",
+      "ふた.つ",
+      "ふたたび"
+    ],
+    "meanings": [
+      "two",
+      "two radical (no. 7)"
+    ],
+    "name_readings": [
+      "おと",
+      "つぎ",
+      "つぐ",
+      "にい",
+      "は",
+      "ふ",
+      "ふたつ",
+      "ふだ",
+      "わ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ジ",
+      "ニ"
+    ],
+    "stroke_count": 2,
+    "unicode": "4E8C"
+  },
+  "五": {
+    "freq_mainichi_shinbun": 31,
+    "grade": 1,
+    "heisig_en": "five",
+    "jlpt": 5,
+    "kanji": "五",
+    "kun_readings": [
+      "いつ",
+      "いつ.つ"
+    ],
+    "meanings": [
+      "five"
+    ],
+    "name_readings": [
+      "い",
+      "さ",
+      "さつ",
+      "ち",
+      "ふ",
+      "み",
+      "め"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ゴ"
+    ],
+    "stroke_count": 4,
+    "unicode": "4E94"
+  },
+  "人": {
+    "freq_mainichi_shinbun": 5,
+    "grade": 1,
+    "heisig_en": "person",
+    "jlpt": 5,
+    "kanji": "人",
+    "kun_readings": [
+      "-と",
+      "-り",
+      "ひと"
+    ],
+    "meanings": [
+      "person"
+    ],
+    "name_readings": [
+      "じ",
+      "と",
+      "ね",
+      "ひこ",
+      "ふみ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ジン",
+      "ニン"
+    ],
+    "stroke_count": 2,
+    "unicode": "4EBA"
+  },
+  "今": {
+    "freq_mainichi_shinbun": 49,
+    "grade": 2,
+    "heisig_en": "now",
+    "jlpt": 5,
+    "kanji": "今",
+    "kun_readings": [
+      "いま"
+    ],
+    "meanings": [
+      "now"
+    ],
+    "name_readings": [
+      "な"
+    ],
+    "notes": [],
+    "on_readings": [
+      "キン",
+      "コン"
+    ],
+    "stroke_count": 4,
+    "unicode": "4ECA"
+  },
+  "休": {
+    "freq_mainichi_shinbun": 642,
+    "grade": 1,
+    "heisig_en": "rest",
+    "jlpt": 5,
+    "kanji": "休",
+    "kun_readings": [
+      "やす.まる",
+      "やす.む",
+      "やす.める"
+    ],
+    "meanings": [
+      "day off",
+      "rest",
+      "retire",
+      "sleep"
+    ],
+    "name_readings": [],
+    "notes": [],
+    "on_readings": [
+      "キュウ"
+    ],
+    "stroke_count": 6,
+    "unicode": "4F11"
+  },
+  "何": {
+    "freq_mainichi_shinbun": 340,
+    "grade": 2,
+    "heisig_en": "what",
+    "jlpt": 5,
+    "kanji": "何",
+    "kun_readings": [
+      "なに",
+      "なに-",
+      "なん",
+      "なん-"
+    ],
+    "meanings": [
+      "what"
+    ],
+    "name_readings": [
+      "あが"
+    ],
+    "notes": [],
+    "on_readings": [
+      "カ"
+    ],
+    "stroke_count": 7,
+    "unicode": "4F55"
+  },
+  "先": {
+    "freq_mainichi_shinbun": 173,
+    "grade": 1,
+    "heisig_en": "before",
+    "jlpt": 5,
+    "kanji": "先",
+    "kun_readings": [
+      "さき",
+      "ま.ず"
+    ],
+    "meanings": [
+      "ahead",
+      "before",
+      "future",
+      "precedence",
+      "previous"
+    ],
+    "name_readings": [
+      "ぽん"
+    ],
+    "notes": [],
+    "on_readings": [
+      "セン"
+    ],
+    "stroke_count": 6,
+    "unicode": "5148"
+  },
+  "入": {
+    "freq_mainichi_shinbun": 56,
+    "grade": 1,
+    "heisig_en": "enter",
+    "jlpt": 5,
+    "kanji": "入",
+    "kun_readings": [
+      "-い.り",
+      "-い.る",
+      "-い.れ",
+      "い.る",
+      "い.れる",
+      "はい.る"
+    ],
+    "meanings": [
+      "enter",
+      "insert"
+    ],
+    "name_readings": [
+      "いり",
+      "いる",
+      "に",
+      "の",
+      "りり"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ジュ",
+      "ニュウ"
+    ],
+    "stroke_count": 2,
+    "unicode": "5165"
+  },
+  "八": {
+    "freq_mainichi_shinbun": 92,
+    "grade": 1,
+    "heisig_en": "eight",
+    "jlpt": 5,
+    "kanji": "八",
+    "kun_readings": [
+      "や",
+      "や.つ",
+      "やっ.つ",
+      "よう"
+    ],
+    "meanings": [
+      "eight",
+      "eight radical (no. 12)"
+    ],
+    "name_readings": [
+      "な",
+      "は",
+      "はっ",
+      "やち",
+      "やつ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ハチ",
+      "ハツ"
+    ],
+    "stroke_count": 2,
+    "unicode": "516B"
+  },
+  "六": {
+    "freq_mainichi_shinbun": 93,
+    "grade": 1,
+    "heisig_en": "six",
+    "jlpt": 5,
+    "kanji": "六",
+    "kun_readings": [
+      "む",
+      "む.つ",
+      "むい",
+      "むっ.つ"
+    ],
+    "meanings": [
+      "six"
+    ],
+    "name_readings": [
+      "く",
+      "むつ",
+      "ろっ",
+      "ろつ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "リク",
+      "ロク"
+    ],
+    "stroke_count": 4,
+    "unicode": "516D"
+  },
+  "円": {
+    "freq_mainichi_shinbun": 69,
+    "grade": 1,
+    "heisig_en": "circle",
+    "jlpt": 5,
+    "kanji": "円",
+    "kun_readings": [
+      "まど",
+      "まど.か",
+      "まる",
+      "まる.い",
+      "まろ.やか"
+    ],
+    "meanings": [
+      "circle",
+      "round",
+      "yen"
+    ],
+    "name_readings": [
+      "つぶら",
+      "のぶ",
+      "まどか",
+      "みつ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "エン"
+    ],
+    "stroke_count": 4,
+    "unicode": "5186"
+  },
+  "出": {
+    "freq_mainichi_shinbun": 13,
+    "grade": 1,
+    "heisig_en": "exit",
+    "jlpt": 5,
+    "kanji": "出",
+    "kun_readings": [
+      "-だ.す",
+      "-で",
+      "い.だす",
+      "い.でる",
+      "だ.す",
+      "で.る"
+    ],
+    "meanings": [
+      "come out",
+      "exit",
+      "go out",
+      "leave",
+      "protrude",
+      "put out"
+    ],
+    "name_readings": [
+      "いず",
+      "いづ",
+      "いで",
+      "じ",
+      "すっ",
+      "すつ",
+      "てん"
+    ],
+    "notes": [],
+    "on_readings": [
+      "シュツ",
+      "スイ"
+    ],
+    "stroke_count": 5,
+    "unicode": "51FA"
+  },
+  "前": {
+    "freq_mainichi_shinbun": 27,
+    "grade": 2,
+    "heisig_en": "in front",
+    "jlpt": 5,
+    "kanji": "前",
+    "kun_readings": [
+      "-まえ",
+      "まえ"
+    ],
+    "meanings": [
+      "before",
+      "in front"
+    ],
+    "name_readings": [
+      "さき",
+      "さと",
+      "まい"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ゼン"
+    ],
+    "stroke_count": 9,
+    "unicode": "524D"
+  },
+  "北": {
+    "freq_mainichi_shinbun": 153,
+    "grade": 2,
+    "heisig_en": "north",
+    "jlpt": 5,
+    "kanji": "北",
+    "kun_readings": [
+      "きた"
+    ],
+    "meanings": [
+      "north"
+    ],
+    "name_readings": [
+      "きら",
+      "ほう",
+      "ほっ",
+      "ほつ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ホク"
+    ],
+    "stroke_count": 5,
+    "unicode": "5317"
+  },
+  "十": {
+    "freq_mainichi_shinbun": 8,
+    "grade": 1,
+    "heisig_en": "ten",
+    "jlpt": 5,
+    "kanji": "十",
+    "kun_readings": [
+      "そ",
+      "と",
+      "とお"
+    ],
+    "meanings": [
+      "ten"
+    ],
+    "name_readings": [
+      "い",
+      "か",
+      "ぎ",
+      "さ",
+      "し",
+      "そ",
+      "そう",
+      "ち",
+      "とう",
+      "ね",
+      "ま",
+      "る",
+      "わ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ジッ",
+      "ジュウ",
+      "ジュッ"
+    ],
+    "stroke_count": 2,
+    "unicode": "5341"
+  },
+  "千": {
+    "freq_mainichi_shinbun": 195,
+    "grade": 1,
+    "heisig_en": "thousand",
+    "jlpt": 5,
+    "kanji": "千",
+    "kun_readings": [
+      "ち"
+    ],
+    "meanings": [
+      "thousand"
+    ],
+    "name_readings": [
+      "かず",
+      "ゆき"
+    ],
+    "notes": [],
+    "on_readings": [
+      "セン"
+    ],
+    "stroke_count": 3,
+    "unicode": "5343"
+  },
+  "午": {
+    "freq_mainichi_shinbun": 154,
+    "grade": 2,
+    "heisig_en": "noon",
+    "jlpt": 5,
+    "kanji": "午",
+    "kun_readings": [
+      "うま"
+    ],
+    "meanings": [
+      "11AM-1PM",
+      "noon",
+      "seventh sign of Chinese zodiac",
+      "sign of the horse"
+    ],
+    "name_readings": [],
+    "notes": [],
+    "on_readings": [
+      "ゴ"
+    ],
+    "stroke_count": 4,
+    "unicode": "5348"
+  },
+  "半": {
+    "freq_mainichi_shinbun": 224,
+    "grade": 2,
+    "heisig_en": "half",
+    "jlpt": 5,
+    "kanji": "半",
+    "kun_readings": [
+      "なか.ば"
+    ],
+    "meanings": [
+      "half",
+      "middle",
+      "odd number",
+      "part-",
+      "semi-"
+    ],
+    "name_readings": [
+      "は"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ハン"
+    ],
+    "stroke_count": 5,
+    "unicode": "534A"
+  },
+  "南": {
+    "freq_mainichi_shinbun": 341,
+    "grade": 2,
+    "heisig_en": "south",
+    "jlpt": 5,
+    "kanji": "南",
+    "kun_readings": [
+      "みなみ"
+    ],
+    "meanings": [
+      "south"
+    ],
+    "name_readings": [
+      "なみ",
+      "は",
+      "みな",
+      "みまみ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ナ",
+      "ナン"
+    ],
+    "stroke_count": 9,
+    "unicode": "5357"
+  },
+  "友": {
+    "freq_mainichi_shinbun": 622,
+    "grade": 2,
+    "heisig_en": "friend",
+    "jlpt": 5,
+    "kanji": "友",
+    "kun_readings": [
+      "とも"
+    ],
+    "meanings": [
+      "friend"
+    ],
+    "name_readings": [
+      "う",
+      "ど",
+      "ゆ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ユウ"
+    ],
+    "stroke_count": 4,
+    "unicode": "53CB"
+  },
+  "右": {
+    "freq_mainichi_shinbun": 602,
+    "grade": 1,
+    "heisig_en": "right",
+    "jlpt": 5,
+    "kanji": "右",
+    "kun_readings": [
+      "みぎ"
+    ],
+    "meanings": [
+      "right"
+    ],
+    "name_readings": [
+      "あき",
+      "すけ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ウ",
+      "ユウ"
+    ],
+    "stroke_count": 5,
+    "unicode": "53F3"
+  },
+  "名": {
+    "freq_mainichi_shinbun": 177,
+    "grade": 1,
+    "heisig_en": "name",
+    "jlpt": 5,
+    "kanji": "名",
+    "kun_readings": [
+      "-な",
+      "な"
+    ],
+    "meanings": [
+      "distinguished",
+      "name",
+      "noted",
+      "reputation"
+    ],
+    "name_readings": [
+      "と"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ミョウ",
+      "メイ"
+    ],
+    "stroke_count": 6,
+    "unicode": "540D"
+  },
+  "四": {
+    "freq_mainichi_shinbun": 47,
+    "grade": 1,
+    "heisig_en": "four",
+    "jlpt": 5,
+    "kanji": "四",
+    "kun_readings": [
+      "よ",
+      "よ.つ",
+      "よっ.つ",
+      "よん"
+    ],
+    "meanings": [
+      "four"
+    ],
+    "name_readings": [
+      "あ",
+      "つ",
+      "よつ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "シ"
+    ],
+    "stroke_count": 5,
+    "unicode": "56DB"
+  },
+  "国": {
+    "freq_mainichi_shinbun": 3,
+    "grade": 2,
+    "heisig_en": "country",
+    "jlpt": 5,
+    "kanji": "国",
+    "kun_readings": [
+      "くに"
+    ],
+    "meanings": [
+      "country"
+    ],
+    "name_readings": [
+      "くな",
+      "こ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "コク"
+    ],
+    "stroke_count": 8,
+    "unicode": "56FD"
+  },
+  "土": {
+    "freq_mainichi_shinbun": 307,
+    "grade": 1,
+    "heisig_en": "soil",
+    "jlpt": 5,
+    "kanji": "土",
+    "kun_readings": [
+      "つち"
+    ],
+    "meanings": [
+      "Turkey",
+      "earth",
+      "ground",
+      "soil"
+    ],
+    "name_readings": [
+      "つく",
+      "は",
+      "ひじ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ト",
+      "ド"
+    ],
+    "stroke_count": 3,
+    "unicode": "571F"
+  },
+  "外": {
+    "freq_mainichi_shinbun": 81,
+    "grade": 2,
+    "heisig_en": "outside",
+    "jlpt": 5,
+    "kanji": "外",
+    "kun_readings": [
+      "そと",
+      "と-",
+      "はず.す",
+      "はず.れる",
+      "ほか"
+    ],
+    "meanings": [
+      "outside"
+    ],
+    "name_readings": [
+      "うい",
+      "け",
+      "ふか"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ガイ",
+      "ゲ"
+    ],
+    "stroke_count": 5,
+    "unicode": "5916"
+  },
+  "大": {
+    "freq_mainichi_shinbun": 7,
+    "grade": 1,
+    "heisig_en": "large",
+    "jlpt": 5,
+    "kanji": "大",
+    "kun_readings": [
+      "-おお.いに",
+      "おお-",
+      "おお.きい"
+    ],
+    "meanings": [
+      "big",
+      "large"
+    ],
+    "name_readings": [
+      "うふ",
+      "お",
+      "おう",
+      "た",
+      "たかし",
+      "とも",
+      "はじめ",
+      "ひろ",
+      "ひろし",
+      "まさ",
+      "まさる",
+      "もと",
+      "わ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "タイ",
+      "ダイ"
+    ],
+    "stroke_count": 3,
+    "unicode": "5927"
+  },
+  "天": {
+    "freq_mainichi_shinbun": 512,
+    "grade": 1,
+    "heisig_en": "heavens",
+    "jlpt": 5,
+    "kanji": "天",
+    "kun_readings": [
+      "あま-",
+      "あまつ",
+      "あめ"
+    ],
+    "meanings": [
+      "heavens",
+      "imperial",
+      "sky"
+    ],
+    "name_readings": [
+      "あき",
+      "あも",
+      "た",
+      "たかし",
+      "て",
+      "なま"
+    ],
+    "notes": [],
+    "on_readings": [
+      "テン"
+    ],
+    "stroke_count": 4,
+    "unicode": "5929"
+  },
+  "女": {
+    "freq_mainichi_shinbun": 151,
+    "grade": 1,
+    "heisig_en": "woman",
+    "jlpt": 5,
+    "kanji": "女",
+    "kun_readings": [
+      "おんな",
+      "め"
+    ],
+    "meanings": [
+      "female",
+      "woman"
+    ],
+    "name_readings": [
+      "おな",
+      "た",
+      "つき",
+      "な"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ジョ",
+      "ニョ",
+      "ニョウ"
+    ],
+    "stroke_count": 3,
+    "unicode": "5973"
+  },
+  "子": {
+    "freq_mainichi_shinbun": 72,
+    "grade": 1,
+    "heisig_en": "child",
+    "jlpt": 5,
+    "kanji": "子",
+    "kun_readings": [
+      "-こ",
+      "こ",
+      "ね"
+    ],
+    "meanings": [
+      "11PM-1AM",
+      "child",
+      "first sign of Chinese zodiac",
+      "sign of the rat"
+    ],
+    "name_readings": [
+      "い",
+      "き",
+      "ぎ",
+      "く",
+      "け",
+      "ねっ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "シ",
+      "ス",
+      "ツ"
+    ],
+    "stroke_count": 3,
+    "unicode": "5B50"
+  },
+  "学": {
+    "freq_mainichi_shinbun": 63,
+    "grade": 1,
+    "heisig_en": "study",
+    "jlpt": 5,
+    "kanji": "学",
+    "kun_readings": [
+      "まな.ぶ"
+    ],
+    "meanings": [
+      "learning",
+      "science",
+      "study"
+    ],
+    "name_readings": [
+      "たか",
+      "のり"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ガク"
+    ],
+    "stroke_count": 8,
+    "unicode": "5B66"
+  },
+  "小": {
+    "freq_mainichi_shinbun": 114,
+    "grade": 1,
+    "heisig_en": "little",
+    "jlpt": 5,
+    "kanji": "小",
+    "kun_readings": [
+      "お-",
+      "こ-",
+      "さ-",
+      "ちい.さい"
+    ],
+    "meanings": [
+      "little",
+      "small"
+    ],
+    "name_readings": [
+      "いさら",
+      "こう",
+      "さざ",
+      "しゃお",
+      "ちいさ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ショウ"
+    ],
+    "stroke_count": 3,
+    "unicode": "5C0F"
+  },
+  "山": {
+    "freq_mainichi_shinbun": 131,
+    "grade": 1,
+    "heisig_en": "mountain",
+    "jlpt": 5,
+    "kanji": "山",
+    "kun_readings": [
+      "やま"
+    ],
+    "meanings": [
+      "mountain"
+    ],
+    "name_readings": [
+      "さ",
+      "やの",
+      "やん"
+    ],
+    "notes": [],
+    "on_readings": [
+      "サン",
+      "セン"
+    ],
+    "stroke_count": 3,
+    "unicode": "5C71"
+  },
+  "川": {
+    "freq_mainichi_shinbun": 181,
+    "grade": 1,
+    "heisig_en": "stream",
+    "jlpt": 5,
+    "kanji": "川",
+    "kun_readings": [
+      "かわ"
+    ],
+    "meanings": [
+      "river",
+      "river or three-stroke river radical (no. 47)",
+      "stream"
+    ],
+    "name_readings": [
+      "か",
+      "こ",
+      "さわ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "セン"
+    ],
+    "stroke_count": 3,
+    "unicode": "5DDD"
+  },
+  "左": {
+    "freq_mainichi_shinbun": 630,
+    "grade": 1,
+    "heisig_en": "left",
+    "jlpt": 5,
+    "kanji": "左",
+    "kun_readings": [
+      "ひだり"
+    ],
+    "meanings": [
+      "left"
+    ],
+    "name_readings": [
+      "そ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "サ",
+      "シャ"
+    ],
+    "stroke_count": 5,
+    "unicode": "5DE6"
+  },
+  "年": {
+    "freq_mainichi_shinbun": 6,
+    "grade": 1,
+    "heisig_en": "year",
+    "jlpt": 5,
+    "kanji": "年",
+    "kun_readings": [
+      "とし"
+    ],
+    "meanings": [
+      "counter for years",
+      "year"
+    ],
+    "name_readings": [
+      "ね"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ネン"
+    ],
+    "stroke_count": 6,
+    "unicode": "5E74"
+  },
+  "後": {
+    "freq_mainichi_shinbun": 26,
+    "grade": 2,
+    "heisig_en": "behind",
+    "jlpt": 5,
+    "kanji": "後",
+    "kun_readings": [
+      "あと",
+      "うし.ろ",
+      "うしろ",
+      "おく.れる",
+      "のち"
+    ],
+    "meanings": [
+      "back",
+      "behind",
+      "later"
+    ],
+    "name_readings": [
+      "こし",
+      "し",
+      "しい",
+      "しり"
+    ],
+    "notes": [],
+    "on_readings": [
+      "コウ",
+      "ゴ"
+    ],
+    "stroke_count": 9,
+    "unicode": "5F8C"
+  },
+  "日": {
+    "freq_mainichi_shinbun": 1,
+    "grade": 1,
+    "heisig_en": "day",
+    "jlpt": 5,
+    "kanji": "日",
+    "kun_readings": [
+      "-か",
+      "-び",
+      "ひ"
+    ],
+    "meanings": [
+      "Japan",
+      "counter for days",
+      "day",
+      "sun"
+    ],
+    "name_readings": [
+      "あ",
+      "あき",
+      "いる",
+      "く",
+      "くさ",
+      "こう",
+      "す",
+      "たち",
+      "に",
+      "にっ",
+      "につ",
+      "へ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ジツ",
+      "ニチ"
+    ],
+    "stroke_count": 4,
+    "unicode": "65E5"
+  },
+  "時": {
+    "freq_mainichi_shinbun": 16,
+    "grade": 2,
+    "heisig_en": "time",
+    "jlpt": 5,
+    "kanji": "時",
+    "kun_readings": [
+      "-どき",
+      "とき"
+    ],
+    "meanings": [
+      "hour",
+      "time"
+    ],
+    "name_readings": [
+      "と",
+      "とぎ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ジ"
+    ],
+    "stroke_count": 10,
+    "unicode": "6642"
+  },
+  "書": {
+    "freq_mainichi_shinbun": 169,
+    "grade": 2,
+    "heisig_en": "write",
+    "jlpt": 5,
+    "kanji": "書",
+    "kun_readings": [
+      "-が.き",
+      "-がき",
+      "か.く"
+    ],
+    "meanings": [
+      "write"
+    ],
+    "name_readings": [
+      "かき"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ショ"
+    ],
+    "stroke_count": 10,
+    "unicode": "66F8"
+  },
+  "月": {
+    "freq_mainichi_shinbun": 23,
+    "grade": 1,
+    "heisig_en": "month",
+    "jlpt": 5,
+    "kanji": "月",
+    "kun_readings": [
+      "つき"
+    ],
+    "meanings": [
+      "month",
+      "moon"
+    ],
+    "name_readings": [
+      "おと",
+      "がっ",
+      "す",
+      "ずき",
+      "もり"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ガツ",
+      "ゲツ"
+    ],
+    "stroke_count": 4,
+    "unicode": "6708"
+  },
+  "木": {
+    "freq_mainichi_shinbun": 317,
+    "grade": 1,
+    "heisig_en": "tree",
+    "jlpt": 5,
+    "kanji": "木",
+    "kun_readings": [
+      "き",
+      "こ-"
+    ],
+    "meanings": [
+      "tree",
+      "wood"
+    ],
+    "name_readings": [
+      "ぐ",
+      "も",
+      "もと"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ボク",
+      "モク"
+    ],
+    "stroke_count": 4,
+    "unicode": "6728"
+  },
+  "本": {
+    "freq_mainichi_shinbun": 10,
+    "grade": 1,
+    "heisig_en": "book",
+    "jlpt": 5,
+    "kanji": "本",
+    "kun_readings": [
+      "もと"
+    ],
+    "meanings": [
+      "book",
+      "counter for long cylindrical things",
+      "main",
+      "origin",
+      "present",
+      "real",
+      "true"
+    ],
+    "name_readings": [
+      "ごう",
+      "まと"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ホン"
+    ],
+    "stroke_count": 5,
+    "unicode": "672C"
+  },
+  "来": {
+    "freq_mainichi_shinbun": 102,
+    "grade": 2,
+    "heisig_en": "come",
+    "jlpt": 5,
+    "kanji": "来",
+    "kun_readings": [
+      "き",
+      "き.たす",
+      "き.たる",
+      "きた.す",
+      "きた.る",
+      "く.る",
+      "こ"
+    ],
+    "meanings": [
+      "become",
+      "cause",
+      "come",
+      "due",
+      "next"
+    ],
+    "name_readings": [
+      "くり",
+      "くる",
+      "ごろ",
+      "さ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "タイ",
+      "ライ"
+    ],
+    "stroke_count": 7,
+    "unicode": "6765"
+  },
+  "東": {
+    "freq_mainichi_shinbun": 37,
+    "grade": 2,
+    "heisig_en": "east",
+    "jlpt": 5,
+    "kanji": "東",
+    "kun_readings": [
+      "ひがし"
+    ],
+    "meanings": [
+      "east"
+    ],
+    "name_readings": [
+      "あい",
+      "あがり",
+      "あずま",
+      "あづま",
+      "こち",
+      "さき",
+      "しの",
+      "とお",
+      "はる",
+      "ひが",
+      "もと"
+    ],
+    "notes": [],
+    "on_readings": [
+      "トウ"
+    ],
+    "stroke_count": 8,
+    "unicode": "6771"
+  },
+  "校": {
+    "freq_mainichi_shinbun": 294,
+    "grade": 1,
+    "heisig_en": "exam",
+    "jlpt": 5,
+    "kanji": "校",
+    "kun_readings": [],
+    "meanings": [
+      "correction",
+      "exam",
+      "printing",
+      "proof",
+      "school"
+    ],
+    "name_readings": [
+      "めん"
+    ],
+    "notes": [],
+    "on_readings": [
+      "キョウ",
+      "コウ"
+    ],
+    "stroke_count": 10,
+    "unicode": "6821"
+  },
+  "母": {
+    "freq_mainichi_shinbun": 570,
+    "grade": 2,
+    "heisig_en": "mama",
+    "jlpt": 5,
+    "kanji": "母",
+    "kun_readings": [
+      "はは",
+      "も"
+    ],
+    "meanings": [
+      "mother"
+    ],
+    "name_readings": [],
+    "notes": [],
+    "on_readings": [
+      "ボ"
+    ],
+    "stroke_count": 5,
+    "unicode": "6BCD"
+  },
+  "毎": {
+    "freq_mainichi_shinbun": 436,
+    "grade": 2,
+    "heisig_en": "every",
+    "jlpt": 5,
+    "kanji": "毎",
+    "kun_readings": [
+      "-ごと.に",
+      "ごと"
+    ],
+    "meanings": [
+      "every"
+    ],
+    "name_readings": [
+      "つね"
+    ],
+    "notes": [],
+    "on_readings": [
+      "マイ"
+    ],
+    "stroke_count": 6,
+    "unicode": "6BCE"
+  },
+  "気": {
+    "freq_mainichi_shinbun": 113,
+    "grade": 1,
+    "heisig_en": "spirit",
+    "jlpt": 5,
+    "kanji": "気",
+    "kun_readings": [
+      "き"
+    ],
+    "meanings": [
+      "air",
+      "atmosphere",
+      "mind",
+      "mood",
+      "spirit"
+    ],
+    "name_readings": [],
+    "notes": [],
+    "on_readings": [
+      "キ",
+      "ケ"
+    ],
+    "stroke_count": 6,
+    "unicode": "6C17"
+  },
+  "水": {
+    "freq_mainichi_shinbun": 223,
+    "grade": 1,
+    "heisig_en": "water",
+    "jlpt": 5,
+    "kanji": "水",
+    "kun_readings": [
+      "みず",
+      "みず-"
+    ],
+    "meanings": [
+      "water"
+    ],
+    "name_readings": [
+      "うず",
+      "ずみ",
+      "つ",
+      "ど",
+      "み",
+      "みさ",
+      "みつ",
+      "みな",
+      "みん"
+    ],
+    "notes": [],
+    "on_readings": [
+      "スイ"
+    ],
+    "stroke_count": 4,
+    "unicode": "6C34"
+  },
+  "火": {
+    "freq_mainichi_shinbun": 574,
+    "grade": 1,
+    "heisig_en": "fire",
+    "jlpt": 5,
+    "kanji": "火",
+    "kun_readings": [
+      "-び",
+      "ひ",
+      "ほ-"
+    ],
+    "meanings": [
+      "fire"
+    ],
+    "name_readings": [],
+    "notes": [],
+    "on_readings": [
+      "カ"
+    ],
+    "stroke_count": 4,
+    "unicode": "706B"
+  },
+  "父": {
+    "freq_mainichi_shinbun": 646,
+    "grade": 2,
+    "heisig_en": "father",
+    "jlpt": 5,
+    "kanji": "父",
+    "kun_readings": [
+      "ちち"
+    ],
+    "meanings": [
+      "father"
+    ],
+    "name_readings": [],
+    "notes": [],
+    "on_readings": [
+      "フ"
+    ],
+    "stroke_count": 4,
+    "unicode": "7236"
+  },
+  "生": {
+    "freq_mainichi_shinbun": 29,
+    "grade": 1,
+    "heisig_en": "life",
+    "jlpt": 5,
+    "kanji": "生",
+    "kun_readings": [
+      "-う",
+      "い.かす",
+      "い.きる",
+      "い.ける",
+      "う.まれ",
+      "う.まれる",
+      "う.む",
+      "うま.れる",
+      "うまれ",
+      "お.う",
+      "き",
+      "な.す",
+      "な.る",
+      "なま",
+      "なま-",
+      "は.える",
+      "は.やす",
+      "む.す"
+    ],
+    "meanings": [
+      "birth",
+      "genuine",
+      "life"
+    ],
+    "name_readings": [
+      "あさ",
+      "いき",
+      "いく",
+      "いけ",
+      "うぶ",
+      "うまい",
+      "え",
+      "おい",
+      "ぎゅう",
+      "くるみ",
+      "ごせ",
+      "さ",
+      "じょう",
+      "すぎ",
+      "そ",
+      "そう",
+      "ちる",
+      "なば",
+      "にう",
+      "にゅう",
+      "ふ",
+      "み",
+      "もう",
+      "よい",
+      "りゅう"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ショウ",
+      "セイ"
+    ],
+    "stroke_count": 5,
+    "unicode": "751F"
+  },
+  "男": {
+    "freq_mainichi_shinbun": 240,
+    "grade": 1,
+    "heisig_en": "male/man",
+    "jlpt": 5,
+    "kanji": "男",
+    "kun_readings": [
+      "お",
+      "おとこ"
+    ],
+    "meanings": [
+      "male"
+    ],
+    "name_readings": [
+      "み"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ダン",
+      "ナン"
+    ],
+    "stroke_count": 7,
+    "unicode": "7537"
+  },
+  "白": {
+    "freq_mainichi_shinbun": 483,
+    "grade": 1,
+    "heisig_en": "white",
+    "jlpt": 5,
+    "kanji": "白",
+    "kun_readings": [
+      "しら-",
+      "しろ",
+      "しろ.い"
+    ],
+    "meanings": [
+      "white"
+    ],
+    "name_readings": [
+      "あき",
+      "か",
+      "はっ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ハク",
+      "ビャク"
+    ],
+    "stroke_count": 5,
+    "unicode": "767D"
+  },
+  "百": {
+    "freq_mainichi_shinbun": 163,
+    "grade": 1,
+    "heisig_en": "hundred",
+    "jlpt": 5,
+    "kanji": "百",
+    "kun_readings": [
+      "もも"
+    ],
+    "meanings": [
+      "hundred"
+    ],
+    "name_readings": [
+      "お",
+      "ど",
+      "どう",
+      "なり",
+      "ひゃっ",
+      "ひゅく",
+      "も",
+      "もんど",
+      "ゆう"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ヒャク",
+      "ビャク"
+    ],
+    "stroke_count": 6,
+    "unicode": "767E"
+  },
+  "聞": {
+    "freq_mainichi_shinbun": 319,
+    "grade": 2,
+    "heisig_en": "hear",
+    "jlpt": 5,
+    "kanji": "聞",
+    "kun_readings": [
+      "き.く",
+      "き.こえる"
+    ],
+    "meanings": [
+      "ask",
+      "hear",
+      "listen"
+    ],
+    "name_readings": [],
+    "notes": [],
+    "on_readings": [
+      "ブン",
+      "モン"
+    ],
+    "stroke_count": 14,
+    "unicode": "805E"
+  },
+  "行": {
+    "freq_mainichi_shinbun": 20,
+    "grade": 2,
+    "heisig_en": "going",
+    "jlpt": 5,
+    "kanji": "行",
+    "kun_readings": [
+      "-い.き",
+      "-いき",
+      "-ゆ.き",
+      "-ゆき",
+      "い.く",
+      "おこ.なう",
+      "おこな.う",
+      "ゆ.く"
+    ],
+    "meanings": [
+      "act",
+      "bank",
+      "carry out",
+      "conduct",
+      "going",
+      "journey",
+      "line",
+      "row"
+    ],
+    "name_readings": [
+      "いく",
+      "なみ",
+      "なめ",
+      "みち",
+      "ゆき",
+      "ゆく"
+    ],
+    "notes": [],
+    "on_readings": [
+      "アン",
+      "ギョウ",
+      "コウ"
+    ],
+    "stroke_count": 6,
+    "unicode": "884C"
+  },
+  "西": {
+    "freq_mainichi_shinbun": 259,
+    "grade": 2,
+    "heisig_en": "west",
+    "jlpt": 5,
+    "kanji": "西",
+    "kun_readings": [
+      "にし"
+    ],
+    "meanings": [
+      "Spain",
+      "west"
+    ],
+    "name_readings": [
+      "いり",
+      "ひし",
+      "むら"
+    ],
+    "notes": [],
+    "on_readings": [
+      "サイ",
+      "ス",
+      "セイ"
+    ],
+    "stroke_count": 6,
+    "unicode": "897F"
+  },
+  "見": {
+    "freq_mainichi_shinbun": 22,
+    "grade": 1,
+    "heisig_en": "see",
+    "jlpt": 5,
+    "kanji": "見",
+    "kun_readings": [
+      "み.える",
+      "み.せる",
+      "み.る"
+    ],
+    "meanings": [
+      "chances",
+      "hopes",
+      "idea",
+      "look at",
+      "opinion",
+      "see",
+      "visible"
+    ],
+    "name_readings": [],
+    "notes": [],
+    "on_readings": [
+      "ケン"
+    ],
+    "stroke_count": 7,
+    "unicode": "898B"
+  },
+  "話": {
+    "freq_mainichi_shinbun": 134,
+    "grade": 2,
+    "heisig_en": "tale",
+    "jlpt": 5,
+    "kanji": "話",
+    "kun_readings": [
+      "はな.す",
+      "はなし"
+    ],
+    "meanings": [
+      "tale",
+      "talk"
+    ],
+    "name_readings": [],
+    "notes": [],
+    "on_readings": [
+      "ワ"
+    ],
+    "stroke_count": 13,
+    "unicode": "8A71"
+  },
+  "語": {
+    "freq_mainichi_shinbun": 301,
+    "grade": 2,
+    "heisig_en": "word",
+    "jlpt": 5,
+    "kanji": "語",
+    "kun_readings": [
+      "かた.らう",
+      "かた.る"
+    ],
+    "meanings": [
+      "language",
+      "speech",
+      "word"
+    ],
+    "name_readings": [],
+    "notes": [],
+    "on_readings": [
+      "ゴ"
+    ],
+    "stroke_count": 14,
+    "unicode": "8A9E"
+  },
+  "読": {
+    "freq_mainichi_shinbun": 618,
+    "grade": 2,
+    "heisig_en": "read",
+    "jlpt": 5,
+    "kanji": "読",
+    "kun_readings": [
+      "-よ.み",
+      "よ.む"
+    ],
+    "meanings": [
+      "read"
+    ],
+    "name_readings": [
+      "よみ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "トウ",
+      "トク",
+      "ドク"
+    ],
+    "stroke_count": 14,
+    "unicode": "8AAD"
+  },
+  "車": {
+    "freq_mainichi_shinbun": 333,
+    "grade": 1,
+    "heisig_en": "car",
+    "jlpt": 5,
+    "kanji": "車",
+    "kun_readings": [
+      "くるま"
+    ],
+    "meanings": [
+      "car"
+    ],
+    "name_readings": [
+      "くら",
+      "くろま"
+    ],
+    "notes": [],
+    "on_readings": [
+      "シャ"
+    ],
+    "stroke_count": 7,
+    "unicode": "8ECA"
+  },
+  "金": {
+    "freq_mainichi_shinbun": 53,
+    "grade": 1,
+    "heisig_en": "gold",
+    "jlpt": 5,
+    "kanji": "金",
+    "kun_readings": [
+      "-がね",
+      "かな-",
+      "かね"
+    ],
+    "meanings": [
+      "gold"
+    ],
+    "name_readings": [
+      "かん",
+      "きむ",
+      "こ",
+      "この",
+      "ん"
+    ],
+    "notes": [],
+    "on_readings": [
+      "キン",
+      "コン",
+      "ゴン"
+    ],
+    "stroke_count": 8,
+    "unicode": "91D1"
+  },
+  "長": {
+    "freq_mainichi_shinbun": 12,
+    "grade": 2,
+    "heisig_en": "long",
+    "jlpt": 5,
+    "kanji": "長",
+    "kun_readings": [
+      "おさ",
+      "なが.い"
+    ],
+    "meanings": [
+      "leader",
+      "long",
+      "senior",
+      "superior"
+    ],
+    "name_readings": [
+      "お",
+      "おしゃ",
+      "たかし",
+      "たけ",
+      "な",
+      "は",
+      "ひさ"
+    ],
+    "notes": [],
+    "on_readings": [
+      "チョウ"
+    ],
+    "stroke_count": 8,
+    "unicode": "9577"
+  },
+  "間": {
+    "freq_mainichi_shinbun": 33,
+    "grade": 2,
+    "heisig_en": "interval",
+    "jlpt": 5,
+    "kanji": "間",
+    "kun_readings": [
+      "あい",
+      "あいだ",
+      "ま"
+    ],
+    "meanings": [
+      "interval",
+      "space"
+    ],
+    "name_readings": [
+      "ちか",
+      "は",
+      "はざ",
+      "はし"
+    ],
+    "notes": [],
+    "on_readings": [
+      "カン",
+      "ケン"
+    ],
+    "stroke_count": 12,
+    "unicode": "9593"
+  },
+  "雨": {
+    "freq_mainichi_shinbun": 950,
+    "grade": 1,
+    "heisig_en": "rain",
+    "jlpt": 5,
+    "kanji": "雨",
+    "kun_readings": [
+      "-さめ",
+      "あま-",
+      "あめ"
+    ],
+    "meanings": [
+      "rain"
+    ],
+    "name_readings": [],
+    "notes": [],
+    "on_readings": [
+      "ウ"
+    ],
+    "stroke_count": 8,
+    "unicode": "96E8"
+  },
+  "電": {
+    "freq_mainichi_shinbun": 268,
+    "grade": 2,
+    "heisig_en": "electricity",
+    "jlpt": 5,
+    "kanji": "電",
+    "kun_readings": [],
+    "meanings": [
+      "electricity"
+    ],
+    "name_readings": [],
+    "notes": [],
+    "on_readings": [
+      "デン"
+    ],
+    "stroke_count": 13,
+    "unicode": "96FB"
+  },
+  "食": {
+    "freq_mainichi_shinbun": 328,
+    "grade": 2,
+    "heisig_en": "eat",
+    "jlpt": 5,
+    "kanji": "食",
+    "kun_readings": [
+      "く.う",
+      "く.らう",
+      "た.べる",
+      "は.む"
+    ],
+    "meanings": [
+      "eat",
+      "food"
+    ],
+    "name_readings": [
+      "ぐい"
+    ],
+    "notes": [],
+    "on_readings": [
+      "ショク",
+      "ジキ"
+    ],
+    "stroke_count": 9,
+    "unicode": "98DF"
+  },
+  "高": {
+    "freq_mainichi_shinbun": 65,
+    "grade": 2,
+    "heisig_en": "tall",
+    "jlpt": 5,
+    "kanji": "高",
+    "kun_readings": [
+      "-だか",
+      "たか",
+      "たか.い",
+      "たか.まる",
+      "たか.める"
+    ],
+    "meanings": [
+      "expensive",
+      "high",
+      "tall"
+    ],
+    "name_readings": [
+      "か",
+      "こ",
+      "じょい",
+      "た",
+      "はか"
+    ],
+    "notes": [],
+    "on_readings": [
+      "コウ"
+    ],
+    "stroke_count": 10,
+    "unicode": "9AD8"
+  }
+}

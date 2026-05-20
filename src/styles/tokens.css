@@ -1,0 +1,128 @@
+/* ============================================================
+   Kanji JLPT — Design Tokens (MUJI system)
+   Single source of truth. Reference these via var(--name); never
+   inline hex values inside components.
+   ============================================================ */
+
+:root {
+  /* Surfaces */
+  --color-bg:           #f3f1ec;
+  --color-paper:        #ffffff;
+  --color-bg-sunken:    #ede9df;
+
+  /* Ink scale */
+  --color-ink-50:       #dcd6cc;
+  --color-ink-100:      #c4bdb0;
+  --color-ink-200:      #9a9690;
+  --color-ink-300:      #6e6a64;
+  --color-ink-500:      #3a3631;
+  --color-ink-900:      #1a1a1a;
+
+  /* Accents */
+  --color-accent:       #6a7a3a;
+  --color-accent-soft:  #8a9a5e;
+  --color-warm:         #a04f3a;
+  --color-warm-soft:    #c47966;
+  --color-danger:       #8a2a1a;
+  --color-gold:         #c9923a;
+
+  /* Semantic */
+  --color-text:          var(--color-ink-900);
+  --color-text-muted:    var(--color-ink-200);
+  --color-text-faint:    var(--color-ink-100);
+  --color-text-body:     var(--color-ink-500);
+  --color-border:        var(--color-ink-50);
+  --color-border-strong: var(--color-ink-900);
+  --color-focus-ring:    var(--color-accent);
+
+  /* JLPT swatches */
+  --color-level-n5: var(--color-ink-900);
+  --color-level-n4: #5a4630;
+  --color-level-n3: #7a6a4e;
+  --color-level-n2: #9a8a6e;
+  --color-level-n1: #bab09a;
+
+  /* Typography */
+  --font-sans:  "Inter Tight", "Helvetica Neue", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Shippori Mincho", "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --font-mono:  ui-monospace, "JetBrains Mono", monospace;
+
+  --text-9:   9px;
+  --text-10: 10px;
+  --text-11: 11px;
+  --text-12: 12px;
+  --text-13: 13px;
+  --text-14: 14px;
+  --text-16: 16px;
+  --text-18: 18px;
+  --text-22: 22px;
+  --text-28: 28px;
+  --text-32: 32px;
+  --text-42: 42px;
+  --text-hero: 240px;
+  --text-hero-mobile: 160px;
+
+  --tracking-tight:   -0.5px;
+  --tracking-normal:   0;
+  --tracking-wide:     1px;
+  --tracking-widest:   3px;
+  --tracking-mega:     5px;
+
+  --weight-regular:    400;
+  --weight-medium:     500;
+  --weight-semibold:   600;
+  --weight-bold:       700;
+
+  --leading-display:   0.85;
+  --leading-tight:     1.1;
+  --leading-snug:      1.3;
+  --leading-normal:    1.5;
+  --leading-relaxed:   1.65;
+
+  /* Spacing — 4px base */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --gutter-desktop: 40px;
+  --gutter-mobile:  20px;
+  --column-gap:     48px;
+
+  /* Radius — MUJI = sharp. Pills + avatars only. */
+  --radius-0:    0;
+  --radius-pill: 9999px;
+
+  /* Borders */
+  --border-hairline: 1px;
+  --border-strong:   1.5px;
+  --border-bold:     2px;
+
+  /* Shadows — used sparingly */
+  --shadow-none:        none;
+  --shadow-card:        0 1px 0 rgba(0, 0, 0, 0.03), 0 4px 16px rgba(0, 0, 0, 0.04);
+  --shadow-card-raised: 0 12px 40px rgba(0, 0, 0, 0.08);
+  --shadow-modal:       0 16px 50px rgba(0, 0, 0, 0.16);
+
+  /* Motion */
+  --duration-instant: 80ms;
+  --duration-fast:   140ms;
+  --duration-base:   220ms;
+  --duration-slow:   360ms;
+  --easing-standard: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --easing-decel:    cubic-bezier(0, 0.5, 0.2, 1);
+  --easing-accel:    cubic-bezier(0.4, 0, 1, 1);
+
+  /* Z-index */
+  --z-base:    0;
+  --z-sticky:  10;
+  --z-overlay: 100;
+  --z-modal:   1000;
+  --z-toast:   2000;
+}

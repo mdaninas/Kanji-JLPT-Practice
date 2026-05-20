@@ -1,0 +1,22 @@
+{
+  "name": "jlpt-kanji-study-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "api": "node server/index.js",
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.69.0",
+    "@hono/node-server": "^1.13.0",
+    "hono": "^4.6.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "vite": "^7.0.0"
+  }
+}
