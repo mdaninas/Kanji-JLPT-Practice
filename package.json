@@ -7,7 +7,10 @@
     "api": "node server/index.js",
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
-    "preview": "vite preview --host 127.0.0.1"
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.69.0",
@@ -17,6 +20,8 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "vite": "^7.0.0"
+    "@vitest/coverage-v8": "^4.1.7",
+    "vite": "^7.0.0",
+    "vitest": "^4.1.7"
   }
 }
