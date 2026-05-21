@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import {
+  DEFAULT_QUIZ_MODEL,
   LEVEL_LABEL_BY_VALUE,
   LEVELS,
   MAX_SELECTED_KANJI,
@@ -34,6 +35,7 @@ export default function App() {
   const [selectedLevels, setSelectedLevels] = usePersistedState('kanjiApp:selectedLevels', []);
   const [selectedKanji, setSelectedKanji] = useState([]);
   const [preferredVocabLevels, setPreferredVocabLevels] = usePersistedState('kanjiApp:preferredVocabLevels', []);
+  const [quizModel, setQuizModel] = usePersistedState('kanjiApp:quizModel', DEFAULT_QUIZ_MODEL);
   const [isVocabModalOpen, setIsVocabModalOpen] = useState(false);
   const [previewKanjiCharacter, setPreviewKanjiCharacter] = useState('');
   const [isFlashcardOpen, setIsFlashcardOpen] = useState(false);
@@ -304,6 +306,8 @@ export default function App() {
           selectedKanji={selectedKanji}
           isVocabLoading={isVocabLoading}
           preferredVocabLevels={preferredVocabLevels}
+          quizModel={quizModel}
+          onQuizModelChange={setQuizModel}
           onClose={() => setIsVocabModalOpen(false)}
           onRecordQuizResults={recordQuizResults}
           onRecordSession={recordSession}

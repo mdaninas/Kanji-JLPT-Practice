@@ -13,6 +13,7 @@ export function useQuizState({
   selectedStudySet,
   selectedKanji,
   preferredVocabLevels,
+  quizModel,
   onRecordQuizResults,
   onRecordSession,
   quizCache,
@@ -80,7 +81,7 @@ export function useQuizState({
     recordedRef.current = false;
 
     if (quizCache) {
-      const cached = quizCache.get(quizPayload, language);
+      const cached = quizCache.get(quizPayload, language, quizModel);
       if (cached) {
         setReadingQuiz(cached);
         setAllQuestions(cached.questions || []);
@@ -92,16 +93,22 @@ export function useQuizState({
 
     let data = null;
     try {
+      const requestBody = {
+        deck: quizPayload,
+        explanationLanguage: language,
+        questionCount,
+      };
+      if (quizModel) requestBody.model = quizModel;
       const response = await fetch('/api/generate-reading-quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ deck: quizPayload, explanationLanguage: language, questionCount }),
+        body: JSON.stringify(requestBody),
       });
       data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Failed to generate quiz.');
       setReadingQuiz(data.quiz);
       setAllQuestions(data.quiz.questions || []);
-      if (quizCache) quizCache.set(quizPayload, language, data.quiz);
+      if (quizCache) quizCache.set(quizPayload, language, quizModel, data.quiz);
     } catch (error) {
       setQuizError(t(classifyQuizError(error, data)));
     } finally {

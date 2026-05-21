@@ -2,6 +2,14 @@ export const MAX_SELECTED_KANJI = 10;
 export const MAX_RANDOM_VOCAB_PER_KANJI = 3;
 export const QUIZ_QUESTION_COUNT = 10;
 
+export const QUIZ_MODELS = [
+  { value: 'claude-sonnet-4-6', labelKey: 'modelSonnetLabel' },
+  { value: 'claude-opus-4-7', labelKey: 'modelOpusLabel' },
+  { value: 'claude-haiku-4-5-20251001', labelKey: 'modelHaikuLabel' },
+];
+
+export const DEFAULT_QUIZ_MODEL = 'claude-sonnet-4-6';
+
 export const SRS_INTERVALS_DAYS = [0, 1, 3, 7, 14, 30];
 
 export const VOCAB_LOADERS = {
@@ -198,6 +206,11 @@ export const TEXT = {
     sortGrade: 'Per grade',
     gradeBadge: 'Grade {grade}',
     freqBadge: 'Freq #{freq}',
+    modelLabel: 'Model',
+    modelHint: 'Pilih model akan tersimpan dan dipakai lagi nanti.',
+    modelSonnetLabel: 'Sonnet 4.6 — Balanced',
+    modelOpusLabel: 'Opus 4.7 — Best quality',
+    modelHaikuLabel: 'Haiku 4.5 — Fastest',
   },
   en: {
     appName: 'Kanji Study',
@@ -322,6 +335,11 @@ export const TEXT = {
     sortGrade: 'By grade',
     gradeBadge: 'Grade {grade}',
     freqBadge: 'Freq #{freq}',
+    modelLabel: 'Model',
+    modelHint: 'Your model choice is saved for next time.',
+    modelSonnetLabel: 'Sonnet 4.6 — Balanced',
+    modelOpusLabel: 'Opus 4.7 — Best quality',
+    modelHaikuLabel: 'Haiku 4.5 — Fastest',
   },
   ja: {
     appName: '',

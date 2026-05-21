@@ -48,10 +48,12 @@ Do not commit your `.env` file. It contains a private API key.
 | Name | Required | Default | Description |
 | --- | --- | --- | --- |
 | `ANTHROPIC_API_KEY` | Yes | None | API key used by the local quiz API server. |
-| `ANTHROPIC_MODEL` | No | `claude-sonnet-4-6` | Claude model used for quiz generation. |
+| `ANTHROPIC_MODEL` | No | `claude-sonnet-4-6` | Default Claude model. Must be one of: `claude-sonnet-4-6`, `claude-opus-4-7`, `claude-haiku-4-5-20251001`. |
 | `HOST` | No | `127.0.0.1` | Host for the local API server. |
 | `PORT` | No | `8787` | Port for the local API server. |
 | `APP_ORIGIN` | No | `http://127.0.0.1:5173` | Frontend origin allowed by the API server. |
+
+The quiz modal has a **Model** picker so you can override the default per request — choose Sonnet 4.6 (balanced), Opus 4.7 (best quality), or Haiku 4.5 (fastest). Your choice is saved to `localStorage` and reused next time. `GET /api/health` returns the active default model and, when an API key is configured, the list of supported models.
 
 ### Running Locally
 
@@ -185,10 +187,12 @@ Jangan commit file `.env` karena file ini berisi API key pribadi.
 | Name | Required | Default | Description |
 | --- | --- | --- | --- |
 | `ANTHROPIC_API_KEY` | Ya | Tidak ada | API key untuk server quiz lokal. |
-| `ANTHROPIC_MODEL` | Tidak | `claude-sonnet-4-6` | Model Claude untuk generate quiz. |
+| `ANTHROPIC_MODEL` | Tidak | `claude-sonnet-4-6` | Model Claude default. Harus salah satu dari: `claude-sonnet-4-6`, `claude-opus-4-7`, `claude-haiku-4-5-20251001`. |
 | `HOST` | Tidak | `127.0.0.1` | Host untuk API server lokal. |
 | `PORT` | Tidak | `8787` | Port untuk API server lokal. |
 | `APP_ORIGIN` | Tidak | `http://127.0.0.1:5173` | Origin frontend yang diizinkan oleh API server. |
+
+Di modal quiz tersedia pilihan **Model** sehingga kamu bisa override default per-request — pilih Sonnet 4.6 (balanced), Opus 4.7 (best quality), atau Haiku 4.5 (fastest). Pilihan disimpan ke `localStorage` dan dipakai lagi nanti. `GET /api/health` mengembalikan model default aktif dan, jika API key sudah dikonfigurasi, daftar model yang didukung.
 
 ### Cara Menjalankan
 

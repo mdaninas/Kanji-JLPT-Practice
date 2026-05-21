@@ -3,7 +3,12 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 
-import { generateKanjiReadingQuiz } from './kanjiReadingQuiz.js';
+import {
+  DEFAULT_MODEL,
+  SUPPORTED_MODELS,
+  generateKanjiReadingQuiz,
+  resolveModel,
+} from './kanjiReadingQuiz.js';
 import { loadLocalEnv } from './loadEnv.js';
 
 loadLocalEnv();
@@ -44,13 +49,18 @@ app.onError((error, c) => {
 
 app.notFound((c) => c.json({ error: 'Not found.' }, 404));
 
-app.get('/api/health', (c) =>
-  c.json({
+app.get('/api/health', (c) => {
+  const hasApiKey = Boolean(process.env.ANTHROPIC_API_KEY);
+  const body = {
     ok: true,
-    hasApiKey: Boolean(process.env.ANTHROPIC_API_KEY),
-    model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-6',
-  }),
-);
+    hasApiKey,
+    model: resolveModel(process.env.ANTHROPIC_MODEL) || DEFAULT_MODEL,
+  };
+  if (hasApiKey) {
+    body.supportedModels = SUPPORTED_MODELS;
+  }
+  return c.json(body);
+});
 
 app.post('/api/generate-reading-quiz', async (c) => {
   // Manual content-length guard since Hono doesn't enforce a default body cap.
@@ -70,6 +80,17 @@ app.post('/api/generate-reading-quiz', async (c) => {
     return c.json({ error: 'deck must be a non-empty array.' }, 400);
   }
 
+  if (body.model !== undefined && !SUPPORTED_MODELS.includes(body.model)) {
+    return c.json(
+      {
+        code: 'unsupported_model',
+        error: 'Unsupported model.',
+        supportedModels: SUPPORTED_MODELS,
+      },
+      400,
+    );
+  }
+
   if (!process.env.ANTHROPIC_API_KEY) {
     return c.json(
       { code: 'missing_api_key', error: 'ANTHROPIC_API_KEY is not configured.' },
@@ -82,6 +103,7 @@ app.post('/api/generate-reading-quiz', async (c) => {
       deck: body.deck,
       questionCount: Number(body.questionCount || 10),
       explanationLanguage: body.explanationLanguage,
+      model: body.model,
     });
     return c.json({ quiz }, 200);
   } catch (error) {

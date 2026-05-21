@@ -1,4 +1,4 @@
-import { LEVELS } from '../../constants.js';
+import { LEVELS, QUIZ_MODELS } from '../../constants.js';
 
 export function QuizSetupToolbox({
   t,
@@ -7,6 +7,8 @@ export function QuizSetupToolbox({
   randomVocabDeck,
   selectedStudySet,
   isVocabLoading,
+  quizModel,
+  onQuizModelChange,
   onToggleLevel,
   onGenerate,
 }) {
@@ -33,6 +35,21 @@ export function QuizSetupToolbox({
             : t('preferredHint', { levels: preferredVocabLevelLabel })}
         </p>
       </div>
+      {onQuizModelChange && (
+        <label className="modelPicker">
+          <span className="eyebrow">{t('modelLabel')}</span>
+          <select
+            value={quizModel}
+            onChange={(e) => onQuizModelChange(e.target.value)}
+          >
+            {QUIZ_MODELS.map((model) => (
+              <option key={model.value} value={model.value}>
+                {t(model.labelKey)}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       <button
         type="button"
         className="primaryButton modalGenerateButton"

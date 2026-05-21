@@ -22,8 +22,8 @@ function stableStringify(value) {
   return JSON.stringify(value);
 }
 
-export function hashDeck(deck, language) {
-  return djb2(stableStringify({ deck, language }));
+export function hashDeck(deck, language, model) {
+  return djb2(stableStringify({ deck, language, model: model || '' }));
 }
 
 function loadCache() {
@@ -50,8 +50,8 @@ function saveCache(cache) {
 }
 
 export function useQuizCache() {
-  const get = useCallback((deck, language) => {
-    const key = hashDeck(deck, language);
+  const get = useCallback((deck, language, model) => {
+    const key = hashDeck(deck, language, model);
     const cache = loadCache();
     const entry = cache[key];
     if (!entry) return null;
@@ -63,8 +63,8 @@ export function useQuizCache() {
     return entry.quiz;
   }, []);
 
-  const set = useCallback((deck, language, quiz) => {
-    const key = hashDeck(deck, language);
+  const set = useCallback((deck, language, model, quiz) => {
+    const key = hashDeck(deck, language, model);
     const cache = loadCache();
     cache[key] = { quiz, savedAt: Date.now() };
     saveCache(cache);

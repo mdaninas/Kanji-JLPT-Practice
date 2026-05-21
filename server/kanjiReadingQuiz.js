@@ -1,6 +1,24 @@
 import Anthropic from '@anthropic-ai/sdk';
 
-const DEFAULT_MODEL = 'claude-sonnet-4-6';
+export const SUPPORTED_MODELS = Object.freeze([
+  'claude-sonnet-4-6',
+  'claude-opus-4-7',
+  'claude-haiku-4-5-20251001',
+]);
+
+export const DEFAULT_MODEL = 'claude-sonnet-4-6';
+
+export function resolveModel(requestedModel) {
+  if (SUPPORTED_MODELS.includes(requestedModel)) {
+    return requestedModel;
+  }
+  const envModel = process.env.ANTHROPIC_MODEL;
+  if (SUPPORTED_MODELS.includes(envModel)) {
+    return envModel;
+  }
+  return DEFAULT_MODEL;
+}
+
 const MAX_KANJI_ITEMS = 10;
 const MAX_VOCAB_PER_KANJI = 10;
 const MAX_QUESTIONS = 30;
@@ -501,9 +519,10 @@ export async function generateKanjiReadingQuiz({
   deck,
   questionCount = 10,
   explanationLanguage = 'id',
-  model = process.env.ANTHROPIC_MODEL || DEFAULT_MODEL,
+  model,
 }) {
   const safeDeck = normalizeDeck(deck);
+  const resolvedModel = resolveModel(model);
   const safeQuestionCount = Math.min(
     clampQuestionCount(questionCount),
     safeDeck.reduce((total, item) => total + item.vocab.length, 0),
@@ -522,7 +541,7 @@ export async function generateKanjiReadingQuiz({
   });
 
   const message = await client.messages.create({
-    model,
+    model: resolvedModel,
     max_tokens: 4096,
     temperature: 0.3,
     system: `

@@ -18,6 +18,8 @@ export function QuizModal({
   selectedKanji,
   isVocabLoading,
   preferredVocabLevels,
+  quizModel,
+  onQuizModelChange,
   onClose,
   onRecordQuizResults,
   onRecordSession,
@@ -49,6 +51,7 @@ export function QuizModal({
     selectedStudySet,
     selectedKanji,
     preferredVocabLevels,
+    quizModel,
     onRecordQuizResults,
     onRecordSession,
     quizCache,
@@ -107,6 +110,8 @@ export function QuizModal({
           randomVocabDeck={randomVocabDeck}
           selectedStudySet={selectedStudySet}
           isVocabLoading={isVocabLoading}
+          quizModel={quizModel}
+          onQuizModelChange={onQuizModelChange}
           onToggleLevel={togglePreferredVocabLevel}
           onGenerate={generateRandomVocabDeck}
         />
