@@ -52,6 +52,8 @@ Do not commit your `.env` file. It contains a private API key.
 | `HOST` | No | `127.0.0.1` | Host for the local API server. |
 | `PORT` | No | `8787` | Port for the local API server. |
 | `APP_ORIGIN` | No | `http://127.0.0.1:5173` | Frontend origin allowed by the API server. |
+| `UPSTASH_REDIS_REST_URL` | No | None | Upstash Redis REST URL for production rate limiting. |
+| `UPSTASH_REDIS_REST_TOKEN` | No | None | Upstash Redis REST token. |
 
 The quiz modal has a **Model** picker so you can override the default per request — choose Sonnet 4.6 (balanced), Opus 4.7 (best quality), or Haiku 4.5 (fastest). Your choice is saved to `localStorage` and reused next time. `GET /api/health` returns the active default model and, when an API key is configured, the list of supported models.
 
@@ -98,6 +100,24 @@ Preview the production build locally:
 ```bash
 npm run preview
 ```
+
+### Production deployment
+
+The quiz endpoint (`POST /api/generate-reading-quiz`) is rate-limited per
+client IP. Default limit: **10 requests per minute per IP**.
+
+For serverless deployments (e.g. Vercel) the limiter must use a shared
+store — in-memory state does not survive between cold starts. Set both
+Upstash Redis env vars in your hosting provider:
+
+- `UPSTASH_REDIS_REST_URL`
+- `UPSTASH_REDIS_REST_TOKEN`
+
+Create a free database at [upstash.com](https://upstash.com/) — the free
+tier (10k commands/day) is enough for typical traffic. When these vars
+are missing the API server falls back to an in-memory limiter, which is
+fine for local development but **not safe** for stateless production
+deployments.
 
 ### Optional Python Notebook Environment
 
@@ -191,6 +211,8 @@ Jangan commit file `.env` karena file ini berisi API key pribadi.
 | `HOST` | Tidak | `127.0.0.1` | Host untuk API server lokal. |
 | `PORT` | Tidak | `8787` | Port untuk API server lokal. |
 | `APP_ORIGIN` | Tidak | `http://127.0.0.1:5173` | Origin frontend yang diizinkan oleh API server. |
+| `UPSTASH_REDIS_REST_URL` | Tidak | Tidak ada | URL REST Upstash Redis untuk rate limiting di production. |
+| `UPSTASH_REDIS_REST_TOKEN` | Tidak | Tidak ada | Token REST Upstash Redis. |
 
 Di modal quiz tersedia pilihan **Model** sehingga kamu bisa override default per-request — pilih Sonnet 4.6 (balanced), Opus 4.7 (best quality), atau Haiku 4.5 (fastest). Pilihan disimpan ke `localStorage` dan dipakai lagi nanti. `GET /api/health` mengembalikan model default aktif dan, jika API key sudah dikonfigurasi, daftar model yang didukung.
 
@@ -237,6 +259,23 @@ Preview production build secara lokal:
 ```bash
 npm run preview
 ```
+
+### Production deployment
+
+Endpoint quiz (`POST /api/generate-reading-quiz`) memiliki rate limit per
+IP client. Default: **10 request per menit per IP**.
+
+Untuk deployment serverless (misal Vercel), rate limiter wajib pakai
+shared store — state in-memory tidak persist antar cold start. Set kedua
+env var Upstash Redis di hosting provider:
+
+- `UPSTASH_REDIS_REST_URL`
+- `UPSTASH_REDIS_REST_TOKEN`
+
+Buat database gratis di [upstash.com](https://upstash.com/) — free tier
+(10k command/hari) cukup untuk traffic normal. Kalau env var ini tidak
+di-set, server fallback ke limiter in-memory yang aman untuk development
+lokal tapi **tidak aman** untuk deployment serverless.
 
 ### Environment Conda Opsional untuk Notebook
 

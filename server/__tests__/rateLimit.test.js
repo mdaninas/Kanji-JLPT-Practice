@@ -46,7 +46,12 @@ describe('createRateLimiter', () => {
     }
 
     clock.advance(45_000);
-    expect(limiter.check('1.1.1.1')).toEqual({ allowed: false, retryAfter: 15 });
+    expect(limiter.check('1.1.1.1')).toEqual({
+      allowed: false,
+      retryAfter: 15,
+      limit: 10,
+      remaining: 0,
+    });
   });
 
   it('allows the IP again after the sliding window passes', () => {

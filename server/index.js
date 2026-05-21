@@ -14,7 +14,7 @@ import {
   resolveModel,
 } from './kanjiReadingQuiz.js';
 import { loadLocalEnv } from './loadEnv.js';
-import { createRateLimiter } from './rateLimit.js';
+import { checkRateLimit } from './rateLimit.js';
 
 loadLocalEnv();
 
@@ -27,9 +27,6 @@ const HOST = process.env.HOST || '127.0.0.1';
 const PORT = Number(process.env.PORT || 8787);
 const ALLOWED_ORIGIN = process.env.APP_ORIGIN || 'http://127.0.0.1:5173';
 const MAX_BODY_SIZE = 1_000_000;
-
-const quizRateLimiter = createRateLimiter({ limit: 10, windowMs: 60_000 });
-quizRateLimiter.start();
 
 const app = new Hono();
 
@@ -68,24 +65,33 @@ function getClientIp(c) {
       return first;
     }
   }
-  return c.env?.incoming?.socket?.remoteAddress || 'unknown';
+  const realIp = c.req.header('x-real-ip');
+  if (realIp) {
+    const trimmed = realIp.trim();
+    if (trimmed) {
+      return trimmed;
+    }
+  }
+  return 'unknown';
 }
 
 app.post('/api/generate-reading-quiz', async (c, next) => {
   const requestId = c.get('requestId');
   const ip = getClientIp(c);
-  const result = quizRateLimiter.check(ip);
+  const result = await checkRateLimit(ip);
 
-  if (!result.allowed) {
-    console.log(
-      `[${requestId}] rate limited ip=${ip} retryAfter=${result.retryAfter}s`,
-    );
-    c.header('Retry-After', String(result.retryAfter));
+  c.header('X-RateLimit-Limit', String(result.limit));
+  c.header('X-RateLimit-Remaining', String(result.remaining));
+
+  if (!result.success) {
+    const retryAfter = result.retryAfter ?? 0;
+    console.log(`[${requestId}] rate limited ip=${ip} retryAfter=${retryAfter}s`);
+    c.header('Retry-After', String(retryAfter));
     return c.json(
       {
-        code: 'local_rate_limited',
-        error: `Too many requests. Wait ${result.retryAfter}s.`,
-        retryAfter: result.retryAfter,
+        code: 'rate_limited',
+        error: `Too many requests. Try again in ${retryAfter}s.`,
+        retryAfter,
       },
       429,
     );
