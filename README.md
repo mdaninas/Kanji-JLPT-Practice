@@ -1,198 +1,97 @@
-# JLPT Kanji Question Generator
+# Kanji App For JLPT
 
-A local web app for studying JLPT kanji, drawing vocabulary, and generating kanji reading quizzes. The app supports English and Indonesian, and the vocabulary data follows the language selected on the page.
+![React](https://img.shields.io/badge/React-19-149ECA?style=flat-square&logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Hono](https://img.shields.io/badge/Hono-API-E36002?style=flat-square)
+![Anthropic](https://img.shields.io/badge/Claude-AI_Quiz-191919?style=flat-square)
+![Vitest](https://img.shields.io/badge/Vitest-tested-6E9F18?style=flat-square&logo=vitest&logoColor=white)
+![PWA](https://img.shields.io/badge/PWA-ready-1f7a70?style=flat-square)
 
-## English
+Aplikasi belajar kanji JLPT berbasis React yang membantu learner membuat sesi latihan singkat, memilih kanji, mengambil vocabulary, lalu membuat quiz reading berbasis AI. Project ini saya buat sebagai study tool yang praktis sekaligus portofolio untuk menunjukkan kemampuan membangun frontend interaktif, API lokal, integrasi AI, data processing, persistence, dan testing.
 
-### Features
+## Ringkasan
 
-- Browse JLPT kanji from N5 to N1.
-- Select up to 10 kanji for a focused study deck.
-- Draw random vocabulary from the selected kanji.
-- Switch between English and Indonesian vocabulary meanings.
-- Generate kanji reading quiz questions with Anthropic Claude.
-- Run the frontend and API server locally.
+Kanji App For JLPT mengubah data kanji dan vocabulary lokal menjadi pengalaman belajar yang lebih terarah:
 
-### Tech Stack
+- Pilih level JLPT N5 sampai N1.
+- Pilih maksimal 10 kanji untuk satu deck latihan.
+- Ambil vocabulary random dari kanji pilihan.
+- Generate quiz reading kanji berbasis konteks kalimat Jepang.
+- Latihan ulang dengan flashcard, progres, statistik, dan review.
 
-- React
-- Vite
-- Node.js HTTP server
-- Anthropic SDK
-- Local CSV and JSON data files
+Dataset saat ini berisi **2.211 kanji** dan sekitar **8.506 vocabulary per bahasa** untuk Bahasa Indonesia dan English.
 
-### Requirements
+## Fitur Utama
 
-- Node.js `20.19.0` or newer, or Node.js `22.12.0` or newer.
-- npm.
-- An Anthropic API key for quiz generation.
+- **JLPT kanji browser**: jelajahi kanji N5, N4, N3, N2, dan N1 dari data JSON lokal.
+- **Focused study deck**: pilih sampai 10 kanji agar sesi belajar tetap kecil dan fokus.
+- **Bilingual vocabulary**: arti vocabulary bisa mengikuti pilihan Bahasa Indonesia atau English.
+- **Search dan sorting**: cari kanji berdasarkan karakter, arti, on-yomi, atau kun-yomi, lalu urutkan berdasarkan default, frekuensi, atau grade.
+- **Random vocab picker**: ambil sampai 3 vocabulary per kanji dengan preferensi level JLPT.
+- **AI reading quiz**: buat 10 soal pilihan ganda untuk membaca vocabulary kanji di dalam kalimat Jepang menggunakan Anthropic Claude.
+- **Model picker**: pilih Sonnet, Opus, atau Haiku untuk menyesuaikan kualitas dan kecepatan quiz.
+- **Quiz cache lokal**: hasil quiz yang sama disimpan sementara di browser agar tidak selalu memanggil API.
+- **Flashcard mode**: latihan cepat dengan kartu bolak-balik, audio Jepang, dan pencatatan hasil.
+- **Progress dan statistik**: simpan status kanji, akurasi quiz, streak harian, riwayat sesi, export, dan import progres.
+- **Stroke order dan breakdown kanji**: ambil animasi goresan dan komponen kanji dari KanjiVG.
+- **PWA support**: manifest, icon, dan service worker untuk app shell caching.
+- **Dark/light theme**: preferensi tema disimpan di browser.
 
-### Setup
+## Highlight Teknis
 
-Install JavaScript dependencies:
+Project ini tidak hanya menampilkan UI, tetapi juga memperhatikan fondasi engineering:
 
-```bash
-npm install
+- **React 19 + Vite 7** untuk frontend yang ringan dan cepat.
+- **Hono + Node.js** untuk API lokal yang menangani health check, versioning, CORS, rate limit, dan quiz generation.
+- **Prompt validation** di server agar Claude hanya memakai vocabulary yang dipilih user, bukan mengarang target kata atau reading.
+- **Rate limiting** 10 request per menit per IP, dengan fallback in-memory untuk development dan Upstash Redis untuk production/serverless.
+- **Local persistence** menggunakan `localStorage` untuk bahasa, tema, model AI, progress, statistik, dan quiz cache.
+- **SVG sanitization** sebelum menampilkan data eksternal dari KanjiVG.
+- **Unit test** untuk parsing CSV, normalisasi kanji/vocab, quiz payload, formatting, dan rate limiter.
+- **Coverage threshold** di Vitest untuk menjaga kualitas utility penting.
+
+## Arsitektur Singkat
+
+```mermaid
+flowchart LR
+  User["User"] --> UI["React + Vite App"]
+  UI --> Data["Local CSV / JSON Data"]
+  UI --> Storage["localStorage"]
+  UI --> KanjiVG["KanjiVG CDN"]
+  UI --> API["Hono API Server"]
+  API --> Limit["Rate Limiter"]
+  Limit --> Memory["In-memory Dev Store"]
+  Limit --> Redis["Upstash Redis Production"]
+  API --> Claude["Anthropic Claude"]
 ```
 
-Create a `.env` file in the project root:
+## Tech Stack
 
-```bash
-ANTHROPIC_API_KEY=your_anthropic_api_key_here
-```
+| Area | Teknologi |
+| --- | --- |
+| Frontend | React 19, Vite 7, CSS custom properties |
+| Backend API | Node.js, Hono, `@hono/node-server` |
+| AI | Anthropic SDK |
+| Data | JSON kanji, CSV vocabulary, preprocessing notebook |
+| Persistence | `localStorage`, browser cache, service worker |
+| Rate limit | In-memory limiter, Upstash Redis optional |
+| Testing | Vitest, V8 coverage |
 
-Do not commit your `.env` file. It contains a private API key.
-
-### Environment Variables
-
-| Name | Required | Default | Description |
-| --- | --- | --- | --- |
-| `ANTHROPIC_API_KEY` | Yes | None | API key used by the local quiz API server. |
-| `ANTHROPIC_MODEL` | No | `claude-sonnet-4-6` | Default Claude model. Must be one of: `claude-sonnet-4-6`, `claude-opus-4-7`, `claude-haiku-4-5-20251001`. |
-| `HOST` | No | `127.0.0.1` | Host for the local API server. |
-| `PORT` | No | `8787` | Port for the local API server. |
-| `APP_ORIGIN` | No | `http://127.0.0.1:5173` | Frontend origin allowed by the API server. |
-| `UPSTASH_REDIS_REST_URL` | No | None | Upstash Redis REST URL for production rate limiting. |
-| `UPSTASH_REDIS_REST_TOKEN` | No | None | Upstash Redis REST token. |
-
-The quiz modal has a **Model** picker so you can override the default per request — choose Sonnet 4.6 (balanced), Opus 4.7 (best quality), or Haiku 4.5 (fastest). Your choice is saved to `localStorage` and reused next time. `GET /api/health` returns the active default model and, when an API key is configured, the list of supported models.
-
-### Running Locally
-
-Open two terminals from the project folder.
-
-Terminal 1: start the API server.
-
-```bash
-npm run api
-```
-
-The API runs at:
-
-```text
-http://127.0.0.1:8787
-```
-
-Terminal 2: start the frontend.
-
-```bash
-npm run dev
-```
-
-Open the app in your browser:
-
-```text
-http://127.0.0.1:5173
-```
-
-The Vite dev server proxies `/api` requests to `http://127.0.0.1:8787`.
-
-### Build
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-Preview the production build locally:
-
-```bash
-npm run preview
-```
-
-### Production deployment
-
-The quiz endpoint (`POST /api/generate-reading-quiz`) is rate-limited per
-client IP. Default limit: **10 requests per minute per IP**.
-
-For serverless deployments (e.g. Vercel) the limiter must use a shared
-store — in-memory state does not survive between cold starts. Set both
-Upstash Redis env vars in your hosting provider:
-
-- `UPSTASH_REDIS_REST_URL`
-- `UPSTASH_REDIS_REST_TOKEN`
-
-Create a free database at [upstash.com](https://upstash.com/) — the free
-tier (10k commands/day) is enough for typical traffic. When these vars
-are missing the API server falls back to an in-memory limiter, which is
-fine for local development but **not safe** for stateless production
-deployments.
-
-### Optional Python Notebook Environment
-
-The main app uses Node.js. The Conda environment is only for preprocessing notebooks, such as files inside `Preprocessing/`.
-
-Create the Conda environment:
-
-```bash
-conda env create -f environment.yml
-conda activate kanji-app
-```
-
-Then open and run the notebook manually.
-
-### Project Structure
-
-```text
-Data/
-  Kanji/                 JLPT kanji JSON data
-  Vocabulary/            Vocabulary CSV data
-    English/             English vocabulary meanings
-    Indonesian/          Indonesian vocabulary meanings
-Preprocessing/           Data preprocessing notebooks
-server/                  Local quiz generation API server
-src/                     React frontend
-dist/                    Production build output
-```
-
-### Troubleshooting
-
-If quiz generation fails:
-
-- Make sure `npm run api` is running.
-- Make sure `.env` contains a valid `ANTHROPIC_API_KEY`.
-- Make sure the frontend is opened from `http://127.0.0.1:5173`.
-- If you changed `PORT`, update the proxy target in `vite.config.js`.
-
-If vocabulary does not match the selected language:
-
-- Check `Data/Vocabulary/English/`.
-- Check `Data/Vocabulary/Indonesian/`.
-- Make sure the CSV files contain `Kanji`, `Reading`, and the translation column.
-
-## Bahasa Indonesia
-
-### Fitur
-
-- Melihat data kanji JLPT dari N5 sampai N1.
-- Memilih maksimal 10 kanji untuk deck belajar yang fokus.
-- Mengambil vocabulary random dari kanji yang dipilih.
-- Mengganti arti vocabulary antara Bahasa Inggris dan Bahasa Indonesia.
-- Generate soal latihan membaca kanji menggunakan Anthropic Claude.
-- Menjalankan frontend dan API server secara lokal.
-
-### Teknologi
-
-- React
-- Vite
-- Node.js HTTP server
-- Anthropic SDK
-- Data lokal dari file CSV dan JSON
+## Cara Menjalankan
 
 ### Kebutuhan
 
 - Node.js `20.19.0` atau lebih baru, atau Node.js `22.12.0` atau lebih baru.
 - npm.
-- Anthropic API key untuk fitur generate quiz.
+- Anthropic API key untuk fitur generate quiz AI.
 
-### Setup
-
-Install dependency JavaScript:
+### Install dependency
 
 ```bash
 npm install
 ```
+
+### Konfigurasi environment
 
 Buat file `.env` di root project:
 
@@ -200,39 +99,23 @@ Buat file `.env` di root project:
 ANTHROPIC_API_KEY=your_anthropic_api_key_here
 ```
 
-Jangan commit file `.env` karena file ini berisi API key pribadi.
+File `.env` berisi secret pribadi, jadi jangan dicommit.
 
-### Environment Variables
-
-| Name | Required | Default | Description |
-| --- | --- | --- | --- |
-| `ANTHROPIC_API_KEY` | Ya | Tidak ada | API key untuk server quiz lokal. |
-| `ANTHROPIC_MODEL` | Tidak | `claude-sonnet-4-6` | Model Claude default. Harus salah satu dari: `claude-sonnet-4-6`, `claude-opus-4-7`, `claude-haiku-4-5-20251001`. |
-| `HOST` | Tidak | `127.0.0.1` | Host untuk API server lokal. |
-| `PORT` | Tidak | `8787` | Port untuk API server lokal. |
-| `APP_ORIGIN` | Tidak | `http://127.0.0.1:5173` | Origin frontend yang diizinkan oleh API server. |
-| `UPSTASH_REDIS_REST_URL` | Tidak | Tidak ada | URL REST Upstash Redis untuk rate limiting di production. |
-| `UPSTASH_REDIS_REST_TOKEN` | Tidak | Tidak ada | Token REST Upstash Redis. |
-
-Di modal quiz tersedia pilihan **Model** sehingga kamu bisa override default per-request — pilih Sonnet 4.6 (balanced), Opus 4.7 (best quality), atau Haiku 4.5 (fastest). Pilihan disimpan ke `localStorage` dan dipakai lagi nanti. `GET /api/health` mengembalikan model default aktif dan, jika API key sudah dikonfigurasi, daftar model yang didukung.
-
-### Cara Menjalankan
-
-Buka dua terminal dari folder project.
-
-Terminal 1: jalankan API server.
+### Jalankan API server
 
 ```bash
 npm run api
 ```
 
-API berjalan di:
+Default API berjalan di:
 
 ```text
 http://127.0.0.1:8787
 ```
 
-Terminal 2: jalankan frontend.
+### Jalankan frontend
+
+Buka terminal kedua, lalu jalankan:
 
 ```bash
 npm run dev
@@ -246,78 +129,105 @@ http://127.0.0.1:5173
 
 Vite akan meneruskan request `/api` ke `http://127.0.0.1:8787`.
 
-### Build
+## Environment Variables
 
-Buat production build:
+| Name | Required | Default | Keterangan |
+| --- | --- | --- | --- |
+| `ANTHROPIC_API_KEY` | Ya, untuk quiz AI | - | API key Anthropic untuk generate quiz. |
+| `ANTHROPIC_MODEL` | Tidak | `claude-sonnet-4-6` | Default model Claude. |
+| `HOST` | Tidak | `127.0.0.1` | Host API server lokal. |
+| `PORT` | Tidak | `8787` | Port API server lokal. |
+| `APP_ORIGIN` | Tidak | `http://127.0.0.1:5173` | Origin frontend yang diizinkan oleh CORS. |
+| `UPSTASH_REDIS_REST_URL` | Tidak | - | Redis REST URL untuk rate limit production. |
+| `UPSTASH_REDIS_REST_TOKEN` | Tidak | - | Redis REST token untuk rate limit production. |
+
+Model yang didukung oleh app:
+
+- `claude-sonnet-4-6`
+- `claude-opus-4-7`
+- `claude-haiku-4-5-20251001`
+
+## NPM Scripts
+
+| Script | Fungsi |
+| --- | --- |
+| `npm run dev` | Menjalankan frontend Vite. |
+| `npm run api` | Menjalankan API server Hono. |
+| `npm run build` | Membuat production build. |
+| `npm run preview` | Preview hasil build secara lokal. |
+| `npm test` | Menjalankan unit test sekali. |
+| `npm run test:watch` | Menjalankan Vitest watch mode. |
+| `npm run test:coverage` | Menjalankan test dengan laporan coverage. |
+
+## API Endpoint
+
+| Method | Endpoint | Fungsi |
+| --- | --- | --- |
+| `GET` | `/api/health` | Mengecek status API, API key, default model, dan supported models. |
+| `GET` | `/api/version` | Mengembalikan nama API, versi package, dan model aktif. |
+| `POST` | `/api/generate-reading-quiz` | Generate quiz reading kanji dari deck vocabulary yang dipilih user. |
+
+Endpoint quiz memiliki proteksi rate limit **10 request per menit per IP**.
+
+## Testing
+
+Jalankan semua test:
+
+```bash
+npm test
+```
+
+Jalankan coverage:
+
+```bash
+npm run test:coverage
+```
+
+Test yang tersedia mencakup:
+
+- Parsing CSV vocabulary.
+- Normalisasi data kanji dan vocabulary.
+- Pembuatan payload quiz untuk LLM.
+- Formatting teks multi-bahasa.
+- Rate limiter untuk API quiz.
+
+## Struktur Project
+
+```text
+Data/
+  Kanji/                 Data kanji JLPT dalam format JSON
+  Vocabulary/            Data vocabulary CSV
+    English/             Vocabulary dengan arti English
+    Indonesian/          Vocabulary dengan arti Bahasa Indonesia
+Preprocessing/           Notebook untuk preprocessing dan translasi data
+public/                  Manifest, service worker, dan icon PWA
+server/                  API Hono untuk generate quiz dan rate limit
+src/
+  components/            UI utama, modal, quiz, flashcard, statistik
+  hooks/                 State, persistence, progress, quiz cache
+  styles/                Design tokens
+  __tests__/             Unit test frontend utilities
+```
+
+## Deployment Notes
+
+Frontend dapat dibuild dengan:
 
 ```bash
 npm run build
 ```
 
-Preview production build secara lokal:
+Untuk deployment serverless, jangan mengandalkan rate limit in-memory karena state bisa hilang antar cold start. Set `UPSTASH_REDIS_REST_URL` dan `UPSTASH_REDIS_REST_TOKEN` agar rate limit memakai shared store.
 
-```bash
-npm run preview
-```
+Fitur quiz AI membutuhkan koneksi ke API server dan `ANTHROPIC_API_KEY`. Fitur browse kanji, vocabulary, flashcard, progress lokal, dan PWA app shell tetap berbasis data lokal/browser.
 
-### Production deployment
+## Pengembangan Berikutnya
 
-Endpoint quiz (`POST /api/generate-reading-quiz`) memiliki rate limit per
-IP client. Default: **10 request per menit per IP**.
-
-Untuk deployment serverless (misal Vercel), rate limiter wajib pakai
-shared store — state in-memory tidak persist antar cold start. Set kedua
-env var Upstash Redis di hosting provider:
-
-- `UPSTASH_REDIS_REST_URL`
-- `UPSTASH_REDIS_REST_TOKEN`
-
-Buat database gratis di [upstash.com](https://upstash.com/) — free tier
-(10k command/hari) cukup untuk traffic normal. Kalau env var ini tidak
-di-set, server fallback ke limiter in-memory yang aman untuk development
-lokal tapi **tidak aman** untuk deployment serverless.
-
-### Environment Conda Opsional untuk Notebook
-
-App utama menggunakan Node.js. Environment Conda hanya untuk notebook preprocessing, misalnya file di dalam folder `Preprocessing/`.
-
-Buat environment Conda:
-
-```bash
-conda env create -f environment.yml
-conda activate kanji-app
-```
-
-Setelah itu, buka dan jalankan notebook secara manual.
-
-### Struktur Project
-
-```text
-Data/
-  Kanji/                 Data kanji JLPT dalam format JSON
-  Vocabulary/            Data vocabulary dalam format CSV
-    English/             Arti vocabulary Bahasa Inggris
-    Indonesian/          Arti vocabulary Bahasa Indonesia
-Preprocessing/           Notebook untuk preprocessing data
-server/                  API server lokal untuk generate quiz
-src/                     Frontend React
-dist/                    Output production build
-```
-
-### Troubleshooting
-
-Jika generate quiz gagal:
-
-- Pastikan `npm run api` sedang berjalan.
-- Pastikan `.env` berisi `ANTHROPIC_API_KEY` yang valid.
-- Pastikan frontend dibuka dari `http://127.0.0.1:5173`.
-- Jika `PORT` diubah, sesuaikan juga proxy di `vite.config.js`.
-
-Jika vocabulary tidak mengikuti bahasa yang dipilih:
-
-- Cek folder `Data/Vocabulary/English/`.
-- Cek folder `Data/Vocabulary/Indonesian/`.
-- Pastikan file CSV memiliki kolom `Kanji`, `Reading`, dan kolom terjemahan.
+- Menambahkan live demo production.
+- Menambah mode review otomatis berdasarkan jadwal SRS.
+- Menambah visualisasi progres yang lebih detail per kanji.
+- Menambah opsi cloud sync untuk progres belajar.
+- Memperluas dukungan bahasa selain Indonesia dan English.
 
 ## Author
 
