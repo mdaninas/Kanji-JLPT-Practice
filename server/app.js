@@ -79,6 +79,37 @@ function getClientIp(c) {
   return 'unknown';
 }
 
+function getAnthropicErrorResponse(error) {
+  const status = error?.status;
+  const type = error?.error?.type || error?.type || '';
+
+  if (status === 401 || type === 'authentication_error') {
+    return {
+      body: { code: 'anthropic_auth_error', error: 'Anthropic API key was rejected.' },
+      status: 401,
+    };
+  }
+  if (status === 403 || type === 'permission_error') {
+    return {
+      body: { code: 'anthropic_permission_error', error: 'Anthropic API key does not have access to this model.' },
+      status: 403,
+    };
+  }
+  if (status === 404 || type === 'not_found_error') {
+    return {
+      body: { code: 'anthropic_model_error', error: 'Anthropic model is unavailable.' },
+      status: 502,
+    };
+  }
+  if (status === 429 || type === 'rate_limit_error') {
+    return {
+      body: { code: 'rate_limited', error: 'Anthropic API rate limit hit.' },
+      status: 429,
+    };
+  }
+  return null;
+}
+
 app.post('/api/generate-reading-quiz', async (c, next) => {
   const requestId = c.get('requestId');
   const ip = getClientIp(c);
@@ -162,17 +193,6 @@ app.post('/api/generate-reading-quiz', async (c) => {
     return c.json({ error: 'deck must be a non-empty array.' }, 400);
   }
 
-  if (body.model !== undefined && !SUPPORTED_MODELS.includes(body.model)) {
-    return c.json(
-      {
-        code: 'unsupported_model',
-        error: 'Unsupported model.',
-        supportedModels: SUPPORTED_MODELS,
-      },
-      400,
-    );
-  }
-
   if (!process.env.ANTHROPIC_API_KEY) {
     return c.json(
       { code: 'missing_api_key', error: 'ANTHROPIC_API_KEY is not configured.' },
@@ -189,9 +209,9 @@ app.post('/api/generate-reading-quiz', async (c) => {
     });
     return c.json({ quiz }, 200);
   } catch (error) {
-    const message = String(error?.message || '');
-    if (message.includes('rate_limit') || message.includes('429')) {
-      return c.json({ code: 'rate_limited', error: 'Anthropic API rate limit hit.' }, 429);
+    const anthropicError = getAnthropicErrorResponse(error);
+    if (anthropicError) {
+      return c.json(anthropicError.body, anthropicError.status);
     }
     console.error(`[${requestId}] quiz generation failed`, error);
     return c.json(

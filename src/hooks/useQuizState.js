@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { MAX_RANDOM_VOCAB_PER_KANJI } from '../constants.js';
+import {
+  DEFAULT_QUIZ_MODEL,
+  MAX_RANDOM_VOCAB_PER_KANJI,
+  isSupportedQuizModel,
+} from '../constants.js';
 import {
   buildQuizPayload,
   classifyQuizError,
@@ -80,8 +84,10 @@ export function useQuizState({
     setIsFromCache(false);
     recordedRef.current = false;
 
+    const safeQuizModel = isSupportedQuizModel(quizModel) ? quizModel : DEFAULT_QUIZ_MODEL;
+
     if (quizCache) {
-      const cached = quizCache.get(quizPayload, language, quizModel);
+      const cached = quizCache.get(quizPayload, language, safeQuizModel);
       if (cached) {
         setReadingQuiz(cached);
         setAllQuestions(cached.questions || []);
@@ -97,8 +103,8 @@ export function useQuizState({
         deck: quizPayload,
         explanationLanguage: language,
         questionCount,
+        model: safeQuizModel,
       };
-      if (quizModel) requestBody.model = quizModel;
       const response = await fetch('/api/generate-reading-quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -108,7 +114,7 @@ export function useQuizState({
       if (!response.ok) throw new Error(data.error || 'Failed to generate quiz.');
       setReadingQuiz(data.quiz);
       setAllQuestions(data.quiz.questions || []);
-      if (quizCache) quizCache.set(quizPayload, language, quizModel, data.quiz);
+      if (quizCache) quizCache.set(quizPayload, language, safeQuizModel, data.quiz);
     } catch (error) {
       setQuizError(t(classifyQuizError(error, data)));
     } finally {

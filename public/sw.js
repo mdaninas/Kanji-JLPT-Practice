@@ -1,5 +1,5 @@
 // Simple service worker: cache-first for app shell + static data, network-only for /api/.
-const CACHE_NAME = 'kanji-app-v1';
+const CACHE_NAME = 'kanji-app-v2';
 const APP_SHELL = ['/', '/index.html', '/manifest.webmanifest', '/icon.svg'];
 
 self.addEventListener('install', (event) => {

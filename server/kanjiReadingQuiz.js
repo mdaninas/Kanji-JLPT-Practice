@@ -1,12 +1,12 @@
 import Anthropic from '@anthropic-ai/sdk';
 
 export const SUPPORTED_MODELS = Object.freeze([
-  'claude-sonnet-4-6',
-  'claude-opus-4-7',
-  'claude-haiku-4-5-20251001',
+  'claude-sonnet-4-20250514',
+  'claude-opus-4-1-20250805',
+  'claude-3-5-haiku-20241022',
 ]);
 
-export const DEFAULT_MODEL = 'claude-sonnet-4-6';
+export const DEFAULT_MODEL = 'claude-sonnet-4-20250514';
 
 export function resolveModel(requestedModel) {
   if (SUPPORTED_MODELS.includes(requestedModel)) {

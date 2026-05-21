@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import {
   DEFAULT_QUIZ_MODEL,
+  isSupportedQuizModel,
   LEVEL_LABEL_BY_VALUE,
   LEVELS,
   MAX_SELECTED_KANJI,
@@ -79,6 +80,12 @@ export default function App() {
     document.documentElement.lang = language;
     document.title = t('documentTitle');
   }, [language]);
+
+  useEffect(() => {
+    if (!isSupportedQuizModel(quizModel)) {
+      setQuizModel(DEFAULT_QUIZ_MODEL);
+    }
+  }, [quizModel, setQuizModel]);
 
   useEffect(() => {
     function handleKeyDown(event) {

@@ -134,7 +134,7 @@ Vite akan meneruskan request `/api` ke `http://127.0.0.1:8787`.
 | Name | Required | Default | Keterangan |
 | --- | --- | --- | --- |
 | `ANTHROPIC_API_KEY` | Ya, untuk quiz AI | - | API key Anthropic untuk generate quiz. |
-| `ANTHROPIC_MODEL` | Tidak | `claude-sonnet-4-6` | Default model Claude. |
+| `ANTHROPIC_MODEL` | Tidak | `claude-sonnet-4-20250514` | Default model Claude. |
 | `HOST` | Tidak | `127.0.0.1` | Host API server lokal. |
 | `PORT` | Tidak | `8787` | Port API server lokal. |
 | `APP_ORIGIN` | Tidak | `http://127.0.0.1:5173` | Origin frontend yang diizinkan oleh CORS. |
@@ -143,9 +143,9 @@ Vite akan meneruskan request `/api` ke `http://127.0.0.1:8787`.
 
 Model yang didukung oleh app:
 
-- `claude-sonnet-4-6`
-- `claude-opus-4-7`
-- `claude-haiku-4-5-20251001`
+- `claude-sonnet-4-20250514`
+- `claude-opus-4-1-20250805`
+- `claude-3-5-haiku-20241022`
 
 ## NPM Scripts
 

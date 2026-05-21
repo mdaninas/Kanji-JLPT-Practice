@@ -3,12 +3,16 @@ export const MAX_RANDOM_VOCAB_PER_KANJI = 3;
 export const QUIZ_QUESTION_COUNT = 10;
 
 export const QUIZ_MODELS = [
-  { value: 'claude-sonnet-4-6', labelKey: 'modelSonnetLabel' },
-  { value: 'claude-opus-4-7', labelKey: 'modelOpusLabel' },
-  { value: 'claude-haiku-4-5-20251001', labelKey: 'modelHaikuLabel' },
+  { value: 'claude-sonnet-4-20250514', labelKey: 'modelSonnetLabel' },
+  { value: 'claude-opus-4-1-20250805', labelKey: 'modelOpusLabel' },
+  { value: 'claude-3-5-haiku-20241022', labelKey: 'modelHaikuLabel' },
 ];
 
-export const DEFAULT_QUIZ_MODEL = 'claude-sonnet-4-6';
+export const DEFAULT_QUIZ_MODEL = 'claude-sonnet-4-20250514';
+
+export function isSupportedQuizModel(model) {
+  return QUIZ_MODELS.some((item) => item.value === model);
+}
 
 export const SRS_INTERVALS_DAYS = [0, 1, 3, 7, 14, 30];
 
@@ -109,6 +113,9 @@ export const TEXT = {
     quizError: 'Gagal membuat soal. Cek API server dan env ANTHROPIC_API_KEY.',
     quizErrorNoServer: 'Server API tidak bisa dijangkau. Pastikan server sudah dijalankan dengan "npm run api".',
     quizErrorNoApiKey: 'ANTHROPIC_API_KEY belum dikonfigurasi. Tambahkan ke file .env di folder server.',
+    quizErrorAnthropicAuth: 'API key Anthropic ditolak. Cek ulang value ANTHROPIC_API_KEY di Vercel.',
+    quizErrorAnthropicPermission: 'API key Anthropic tidak punya akses ke model yang dipilih.',
+    quizErrorAnthropicModel: 'Model Anthropic tidak tersedia. Pilih model lain atau update ANTHROPIC_MODEL.',
     quizErrorRateLimit: 'Terlalu banyak permintaan ke API. Tunggu sebentar lalu coba lagi.',
     correctAnswer: 'Jawaban benar',
     sentenceVocab: 'Vocab di kalimat',
@@ -208,9 +215,9 @@ export const TEXT = {
     freqBadge: 'Freq #{freq}',
     modelLabel: 'Model',
     modelHint: 'Pilih model akan tersimpan dan dipakai lagi nanti.',
-    modelSonnetLabel: 'Sonnet 4.6 — Balanced',
-    modelOpusLabel: 'Opus 4.7 — Best quality',
-    modelHaikuLabel: 'Haiku 4.5 — Fastest',
+    modelSonnetLabel: 'Sonnet 4 — Balanced',
+    modelOpusLabel: 'Opus 4.1 — Best quality',
+    modelHaikuLabel: 'Haiku 3.5 — Fastest',
     primaryNav: 'Navigasi utama',
     themeToDark: 'Pakai tema gelap',
     themeToLight: 'Pakai tema terang',
@@ -243,6 +250,9 @@ export const TEXT = {
     quizError: 'Could not generate quiz. Check the API server and ANTHROPIC_API_KEY env.',
     quizErrorNoServer: 'API server is unreachable. Make sure the server is running with "npm run api".',
     quizErrorNoApiKey: 'ANTHROPIC_API_KEY is not configured. Add it to the .env file in the server folder.',
+    quizErrorAnthropicAuth: 'Anthropic API key was rejected. Check the ANTHROPIC_API_KEY value in Vercel.',
+    quizErrorAnthropicPermission: 'Anthropic API key does not have access to the selected model.',
+    quizErrorAnthropicModel: 'Anthropic model is unavailable. Choose another model or update ANTHROPIC_MODEL.',
     quizErrorRateLimit: 'Too many API requests. Wait a moment and try again.',
     correctAnswer: 'Correct answer',
     sentenceVocab: 'Words in sentence',
@@ -342,9 +352,9 @@ export const TEXT = {
     freqBadge: 'Freq #{freq}',
     modelLabel: 'Model',
     modelHint: 'Your model choice is saved for next time.',
-    modelSonnetLabel: 'Sonnet 4.6 — Balanced',
-    modelOpusLabel: 'Opus 4.7 — Best quality',
-    modelHaikuLabel: 'Haiku 4.5 — Fastest',
+    modelSonnetLabel: 'Sonnet 4 — Balanced',
+    modelOpusLabel: 'Opus 4.1 — Best quality',
+    modelHaikuLabel: 'Haiku 3.5 — Fastest',
     primaryNav: 'Primary navigation',
     themeToDark: 'Switch to dark theme',
     themeToLight: 'Switch to light theme',
