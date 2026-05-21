@@ -211,6 +211,11 @@ export const TEXT = {
     modelSonnetLabel: 'Sonnet 4.6 — Balanced',
     modelOpusLabel: 'Opus 4.7 — Best quality',
     modelHaikuLabel: 'Haiku 4.5 — Fastest',
+    primaryNav: 'Navigasi utama',
+    themeToDark: 'Pakai tema gelap',
+    themeToLight: 'Pakai tema terang',
+    flashcardNeedsSet: 'Pilih kanji dulu untuk mulai flashcard',
+    quizNeedsSet: 'Pilih kanji dulu untuk mulai quiz',
   },
   en: {
     appName: 'Kanji Study',
@@ -340,6 +345,11 @@ export const TEXT = {
     modelSonnetLabel: 'Sonnet 4.6 — Balanced',
     modelOpusLabel: 'Opus 4.7 — Best quality',
     modelHaikuLabel: 'Haiku 4.5 — Fastest',
+    primaryNav: 'Primary navigation',
+    themeToDark: 'Switch to dark theme',
+    themeToLight: 'Switch to light theme',
+    flashcardNeedsSet: 'Pick kanji first to start flashcards',
+    quizNeedsSet: 'Pick kanji first to start a quiz',
   },
   ja: {
     appName: '',

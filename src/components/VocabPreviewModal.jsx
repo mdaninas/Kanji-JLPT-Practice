@@ -1,7 +1,9 @@
 import { LEVEL_LABEL_BY_VALUE } from '../constants.js';
+import { useFocusTrap } from '../hooks/useFocusTrap.js';
 import { ReadingLines } from './ReadingLines.jsx';
 
 export function VocabPreviewModal({ t, previewKanji, onClose }) {
+  const modalRef = useFocusTrap();
   return (
     <div
       className="modalBackdrop"
@@ -9,6 +11,7 @@ export function VocabPreviewModal({ t, previewKanji, onClose }) {
       onClick={onClose}
     >
       <section
+        ref={modalRef}
         className="vocabModal"
         role="dialog"
         aria-modal="true"

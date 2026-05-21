@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { LEVEL_LABEL_BY_VALUE } from '../constants.js';
 import { isValidQuizCandidate } from '../utils.js';
+import { useFocusTrap } from '../hooks/useFocusTrap.js';
 import { useQuizState } from '../hooks/useQuizState.js';
 import { QuizQuestion } from './quiz/QuizQuestion.jsx';
 import { QuizLoading } from './quiz/QuizLoading.jsx';
@@ -57,6 +58,8 @@ export function QuizModal({
     quizCache,
   });
 
+  const modalRef = useFocusTrap();
+
   const llmPayloadVocabCount = randomVocabDeck.reduce(
     (total, kanji) =>
       total + kanji.vocab.filter((vocab) => isValidQuizCandidate(kanji, vocab)).length,
@@ -85,6 +88,7 @@ export function QuizModal({
   return (
     <div className="modalBackdrop" role="presentation" onClick={onClose}>
       <section
+        ref={modalRef}
         className="vocabModal"
         role="dialog"
         aria-modal="true"

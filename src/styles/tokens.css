@@ -5,10 +5,13 @@
    ============================================================ */
 
 :root {
+  color-scheme: light;
+
   /* Surfaces */
   --color-bg:           #f3f1ec;
   --color-paper:        #ffffff;
   --color-bg-sunken:    #ede9df;
+  --color-overlay:      rgba(20, 17, 11, 0.4);
 
   /* Ink scale */
   --color-ink-50:       #dcd6cc;
@@ -41,6 +44,15 @@
   --color-level-n3: #7a6a4e;
   --color-level-n2: #9a8a6e;
   --color-level-n1: #bab09a;
+
+  /* "Inverse" accents — used on selected kanji tile (which flips bg/fg).
+     Light theme: tile bg is dark, so accents here are LIGHT shades.
+     Dark theme: tile bg becomes light, so accents shift to DARK shades. */
+  --color-accent-inverse: #c4d28a;
+  --color-gold-inverse:   #d4b07a;
+
+  /* Stroke order animation — must contrast with --color-paper */
+  --color-stroke-anim: #1f7a70;
 
   /* Typography */
   --font-sans:  "Inter Tight", "Helvetica Neue", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -125,4 +137,56 @@
   --z-overlay: 100;
   --z-modal:   1000;
   --z-toast:   2000;
+}
+
+/* ============================================================
+   Dark theme — recalibrated for contrast (not a simple invert).
+   Ink scale flips: ink-900 becomes the brightest "text" tone,
+   ink-50 becomes the darkest "border" tone. Accents are shifted
+   lighter so they keep >=4.5:1 contrast against --color-bg.
+   ============================================================ */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Surfaces — warm-neutral, paper slightly elevated above bg */
+  --color-bg:           #161412;
+  --color-paper:        #1f1d1a;
+  --color-bg-sunken:    #0f0e0c;
+  --color-overlay:      rgba(0, 0, 0, 0.6);
+
+  /* Ink scale — flipped to keep semantic mapping intact */
+  --color-ink-50:       #2a2823;   /* subtle border */
+  --color-ink-100:      #3d3a35;   /* faint */
+  --color-ink-200:      #7a766f;   /* muted */
+  --color-ink-300:      #a39d92;   /* body */
+  --color-ink-500:      #d0c5b0;   /* secondary headings */
+  --color-ink-900:      #f0ebe1;   /* primary text */
+
+  /* Accents — brightened so they stay legible on dark bg */
+  --color-accent:       #b8c98a;
+  --color-accent-soft:  #9aab6e;
+  --color-warm:         #d27a64;
+  --color-warm-soft:    #b86a55;
+  --color-danger:       #e07560;
+  --color-gold:         #d9a661;
+
+  /* JLPT swatches — N5 stays the heaviest (now: brightest) */
+  --color-level-n5: var(--color-ink-900);
+  --color-level-n4: #d0c5b0;
+  --color-level-n3: #a39d92;
+  --color-level-n2: #7a766f;
+  --color-level-n1: #4d4943;
+
+  /* Inverse accents flip: selected tile bg is light in dark mode,
+     so badges/dots need dark accents to keep contrast. */
+  --color-accent-inverse: #4d5e26;
+  --color-gold-inverse:   #6b4f1f;
+
+  /* Stroke order: brighter teal so it reads on dark paper */
+  --color-stroke-anim: #6dc4b8;
+
+  /* Shadows — softer on dark; modal still gets a real one for depth */
+  --shadow-card:        0 1px 0 rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-card-raised: 0 12px 40px rgba(0, 0, 0, 0.5);
+  --shadow-modal:       0 16px 50px rgba(0, 0, 0, 0.6);
 }

@@ -12,6 +12,7 @@ import { usePersistedState } from './hooks/usePersistedState.js';
 import { useProgress } from './hooks/useProgress.js';
 import { useQuizCache } from './hooks/useQuizCache.js';
 import { useStudyStats } from './hooks/useStudyStats.js';
+import { useTheme } from './hooks/useTheme.js';
 import { useVocabData } from './hooks/useVocabData.js';
 import {
   formatText,
@@ -44,6 +45,7 @@ export default function App() {
   const [breakdownKanji, setBreakdownKanji] = useState('');
   const [sortMode, setSortMode] = usePersistedState('kanjiApp:sortMode', KANJI_SORT_MODES.default);
   const [query, setQuery] = useState('');
+  const { theme, toggleTheme } = useTheme();
 
   const t = (key, params) => formatText(language, key, params);
 
@@ -192,11 +194,46 @@ export default function App() {
           <p className="eyebrow">KANJI · JLPT STUDY</p>
           <h1>{t('title')}</h1>
         </div>
-        <nav className="topNav" aria-label="primary">
-          <span className="active">{t('shelfTitle')}</span>
-          <span>{t('flashcardMode')}</span>
-          <span>{t('quizSectionTitle')}</span>
-          <span>{t('statsButton')}</span>
+        <nav className="topNav" aria-label={t('primaryNav')}>
+          <button
+            type="button"
+            className="topNavItem active"
+            onClick={() => {
+              const target = document.getElementById('kanjiShelfSection');
+              target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }}
+            aria-current="page"
+          >
+            {t('shelfTitle')}
+          </button>
+          <button
+            type="button"
+            className="topNavItem"
+            onClick={() => setIsFlashcardOpen(true)}
+            disabled={selectedStudySet.length === 0}
+            title={selectedStudySet.length === 0 ? t('flashcardNeedsSet') : undefined}
+          >
+            {t('flashcardMode')}
+          </button>
+          <button
+            type="button"
+            className="topNavItem"
+            onClick={() => {
+              setPreviewKanjiCharacter('');
+              setIsVocabModalOpen(true);
+            }}
+            disabled={selectedStudySet.length === 0}
+            title={selectedStudySet.length === 0 ? t('quizNeedsSet') : undefined}
+          >
+            {t('quizSectionTitle')}
+          </button>
+          <button
+            type="button"
+            className="topNavItem"
+            onClick={() => setIsStatsOpen(true)}
+          >
+            {t('statsButton')}
+          </button>
         </nav>
         <div className="topActions">
           <label className="languagePicker">
@@ -209,6 +246,16 @@ export default function App() {
               ))}
             </select>
           </label>
+          <button
+            type="button"
+            className="themeToggle"
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? t('themeToLight') : t('themeToDark')}
+            aria-pressed={theme === 'dark'}
+            title={theme === 'dark' ? t('themeToLight') : t('themeToDark')}
+          >
+            <span aria-hidden="true">{theme === 'dark' ? '☀' : '☾'}</span>
+          </button>
           <button
             type="button"
             className="statsTrigger"
@@ -256,7 +303,7 @@ export default function App() {
         </div>
       </section>
 
-      <section className="questBoard">
+      <section id="kanjiShelfSection" className="questBoard">
         <KanjiShelf
           t={t}
           activeLevelLabel={activeLevelLabel}

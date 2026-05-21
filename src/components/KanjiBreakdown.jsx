@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useFocusTrap } from '../hooks/useFocusTrap.js';
 
 const CDN_BASE = 'https://cdn.jsdelivr.net/gh/KanjiVG/kanjivg@master/kanji';
 const CACHE_KEY = 'kanjiBreakdownCache';
@@ -91,6 +92,7 @@ export function KanjiBreakdown({ t, character, onClose }) {
   const [components, setComponents] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const modalRef = useFocusTrap();
 
   useEffect(() => {
     let cancelled = false;
@@ -131,6 +133,7 @@ export function KanjiBreakdown({ t, character, onClose }) {
   return (
     <div className="modalBackdrop" role="presentation" onClick={onClose}>
       <section
+        ref={modalRef}
         className="breakdownModal"
         role="dialog"
         aria-modal="true"

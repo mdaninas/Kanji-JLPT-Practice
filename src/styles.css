@@ -6,13 +6,14 @@
    ============================================================ */
 
 :root {
-  color-scheme: light;
   color: var(--color-text);
   background: var(--color-bg);
   font-family: var(--font-sans);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  transition: background var(--duration-base) var(--easing-standard),
+              color var(--duration-base) var(--easing-standard);
 }
 
 * {
@@ -128,20 +129,30 @@ p {
   color: var(--color-text-muted);
 }
 
-.topNav span {
+.topNavItem {
   cursor: pointer;
-  padding-bottom: 3px;
+  padding: 0 0 3px;
+  border: 0;
   border-bottom: 1px solid transparent;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
   transition: color var(--duration-fast) var(--easing-standard);
 }
 
-.topNav span:hover {
+.topNavItem:hover:not(:disabled) {
   color: var(--color-text);
 }
 
-.topNav span.active {
+.topNavItem.active {
   color: var(--color-text);
   border-bottom-color: var(--color-text);
+}
+
+.topNavItem:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 .topActions {
@@ -228,6 +239,27 @@ p {
 
 .statsTrigger:hover {
   background: var(--color-bg-sunken);
+}
+
+.themeToggle {
+  display: inline-grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  background: transparent;
+  border: var(--border-hairline) solid var(--color-border);
+  border-radius: var(--radius-0);
+  color: var(--color-text);
+  font-size: var(--text-16);
+  line-height: 1;
+  transition:
+    background var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard);
+}
+
+.themeToggle:hover {
+  background: var(--color-bg-sunken);
+  border-color: var(--color-text);
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -581,7 +613,7 @@ p {
 }
 
 .kanjiTile.selected .kanjiMeaning {
-  color: rgba(247, 245, 240, 0.78);
+  color: color-mix(in srgb, currentColor 78%, transparent);
 }
 
 .vocabBadge {
@@ -593,7 +625,7 @@ p {
 }
 
 .kanjiTile.selected .vocabBadge {
-  color: rgba(247, 245, 240, 0.6);
+  color: color-mix(in srgb, currentColor 60%, transparent);
 }
 
 .statusDot {
@@ -611,7 +643,7 @@ p {
 
 .kanjiTile.selected .dot-mastered { background: var(--color-accent-soft); }
 .kanjiTile.selected .dot-weak     { background: var(--color-warm-soft); }
-.kanjiTile.selected .dot-due      { background: #d4b07a; }
+.kanjiTile.selected .dot-due      { background: var(--color-gold-inverse); }
 
 .kanjiInfoBadges {
   display: flex;
@@ -643,13 +675,13 @@ p {
 }
 
 .kanjiTile.selected .kanjiBadge {
-  border-color: rgba(247, 245, 240, 0.35);
-  color: rgba(247, 245, 240, 0.78);
+  border-color: color-mix(in srgb, currentColor 35%, transparent);
+  color: color-mix(in srgb, currentColor 78%, transparent);
 }
 
 .kanjiTile.selected .gradeBadge {
-  color: #c4d28a;
-  border-color: rgba(196, 210, 138, 0.45);
+  color: var(--color-accent-inverse);
+  border-color: color-mix(in srgb, var(--color-accent-inverse) 45%, transparent);
 }
 
 /* Reading lines inside tiles */
@@ -921,7 +953,7 @@ p {
   display: grid;
   place-items: center;
   padding: var(--space-5);
-  background: rgba(20, 17, 11, 0.4);
+  background: var(--color-overlay);
   backdrop-filter: blur(2px);
 }
 
@@ -1942,7 +1974,7 @@ p {
 }
 
 .dangerButton:hover:not(:disabled) {
-  background: rgba(160, 79, 58, 0.06) !important;
+  background: color-mix(in srgb, var(--color-warm) 6%, transparent) !important;
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -1975,6 +2007,14 @@ p {
 
 .strokeSvgWrapper text {
   display: none;
+}
+
+.strokeSvgWrapper path {
+  stroke: var(--color-stroke-anim);
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* ─────────────────────────────────────────────────────────────

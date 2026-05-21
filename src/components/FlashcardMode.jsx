@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { LEVEL_LABEL_BY_VALUE } from '../constants.js';
+import { useFocusTrap } from '../hooks/useFocusTrap.js';
 import { SpeakerButton } from './ReadingLines.jsx';
 
 export function FlashcardMode({ t, studySet, onClose, onRecordResult }) {
@@ -7,6 +8,7 @@ export function FlashcardMode({ t, studySet, onClose, onRecordResult }) {
   const [flipped, setFlipped] = useState(false);
   const [done, setDone] = useState(false);
   const [scores, setScores] = useState({});
+  const modalRef = useFocusTrap();
 
   const current = studySet[index];
   const total = studySet.length;
@@ -56,6 +58,7 @@ export function FlashcardMode({ t, studySet, onClose, onRecordResult }) {
   return (
     <div className="modalBackdrop" role="presentation" onClick={onClose}>
       <div
+        ref={modalRef}
         className="flashcardOverlay"
         role="dialog"
         aria-modal="true"

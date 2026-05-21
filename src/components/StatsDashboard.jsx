@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { LEVELS } from '../constants.js';
+import { useFocusTrap } from '../hooks/useFocusTrap.js';
 
 export function StatsDashboard({
   t,
@@ -15,6 +16,7 @@ export function StatsDashboard({
     : 0;
   const hasData = stats.totalAnswered > 0 || stats.streak > 0;
   const fileInputRef = useRef(null);
+  const modalRef = useFocusTrap();
 
   function handleReset() {
     if (window.confirm(t('statsResetConfirm'))) onReset();
@@ -58,6 +60,7 @@ export function StatsDashboard({
   return (
     <div className="modalBackdrop" role="presentation" onClick={onClose}>
       <section
+        ref={modalRef}
         className="vocabModal statsModal"
         role="dialog"
         aria-modal="true"

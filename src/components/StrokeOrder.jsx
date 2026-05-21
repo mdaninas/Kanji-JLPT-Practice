@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useFocusTrap } from '../hooks/useFocusTrap.js';
 
 const CDN_BASE = 'https://cdn.jsdelivr.net/gh/KanjiVG/kanjivg@master/kanji';
 
@@ -32,6 +33,7 @@ export function StrokeOrder({ t, character, onClose }) {
   const [loading, setLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
   const containerRef = useRef(null);
+  const modalRef = useFocusTrap();
 
   useEffect(() => {
     let cancelled = false;
@@ -79,11 +81,6 @@ export function StrokeOrder({ t, character, onClose }) {
 
     paths.forEach((path) => {
       const length = path.getTotalLength?.() || 100;
-      path.style.stroke = '#1f7a70';
-      path.style.fill = 'none';
-      path.style.strokeWidth = '3';
-      path.style.strokeLinecap = 'round';
-      path.style.strokeLinejoin = 'round';
       path.style.transition = 'none';
       path.style.strokeDasharray = String(length);
       path.style.strokeDashoffset = String(length);
@@ -124,6 +121,7 @@ export function StrokeOrder({ t, character, onClose }) {
   return (
     <div className="modalBackdrop" role="presentation" onClick={onClose}>
       <section
+        ref={modalRef}
         className="strokeOrderModal"
         role="dialog"
         aria-modal="true"
