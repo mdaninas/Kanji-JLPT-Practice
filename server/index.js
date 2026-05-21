@@ -1,7 +1,11 @@
+import { randomUUID } from 'node:crypto';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { logger } from 'hono/logger';
 
 import {
   DEFAULT_MODEL,
@@ -10,30 +14,90 @@ import {
   resolveModel,
 } from './kanjiReadingQuiz.js';
 import { loadLocalEnv } from './loadEnv.js';
+import { createRateLimiter } from './rateLimit.js';
 
 loadLocalEnv();
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const packageJson = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'),
+);
 
 const HOST = process.env.HOST || '127.0.0.1';
 const PORT = Number(process.env.PORT || 8787);
 const ALLOWED_ORIGIN = process.env.APP_ORIGIN || 'http://127.0.0.1:5173';
 const MAX_BODY_SIZE = 1_000_000;
 
+const quizRateLimiter = createRateLimiter({ limit: 10, windowMs: 60_000 });
+quizRateLimiter.start();
+
 const app = new Hono();
 
-app.use('*', logger());
+app.use('*', async (c, next) => {
+  const requestId = randomUUID();
+  c.set('requestId', requestId);
+  c.header('X-Request-Id', requestId);
+
+  const start = Date.now();
+  console.log(`[${requestId}] --> ${c.req.method} ${c.req.path}`);
+
+  await next();
+
+  const elapsed = Date.now() - start;
+  console.log(
+    `[${requestId}] <-- ${c.req.method} ${c.req.path} ${c.res.status} ${elapsed}ms`,
+  );
+});
+
 app.use(
   '*',
   cors({
     origin: ALLOWED_ORIGIN,
-    allowMethods: ['POST', 'OPTIONS'],
+    allowMethods: ['GET', 'POST', 'OPTIONS'],
     allowHeaders: ['Content-Type'],
+    exposeHeaders: ['X-Request-Id'],
     maxAge: 600,
   }),
 );
 
+function getClientIp(c) {
+  const forwarded = c.req.header('x-forwarded-for');
+  if (forwarded) {
+    const first = forwarded.split(',')[0].trim();
+    if (first) {
+      return first;
+    }
+  }
+  return c.env?.incoming?.socket?.remoteAddress || 'unknown';
+}
+
+app.post('/api/generate-reading-quiz', async (c, next) => {
+  const requestId = c.get('requestId');
+  const ip = getClientIp(c);
+  const result = quizRateLimiter.check(ip);
+
+  if (!result.allowed) {
+    console.log(
+      `[${requestId}] rate limited ip=${ip} retryAfter=${result.retryAfter}s`,
+    );
+    c.header('Retry-After', String(result.retryAfter));
+    return c.json(
+      {
+        code: 'local_rate_limited',
+        error: `Too many requests. Wait ${result.retryAfter}s.`,
+        retryAfter: result.retryAfter,
+      },
+      429,
+    );
+  }
+
+  await next();
+});
+
 // Centralized error handler.
 app.onError((error, c) => {
-  console.error('[api]', error);
+  const requestId = c.get('requestId') || '-';
+  console.error(`[${requestId}] [api]`, error);
 
   if (error.code === 'BODY_TOO_LARGE') {
     return c.json({ error: 'Request body is too large.' }, 413);
@@ -62,7 +126,17 @@ app.get('/api/health', (c) => {
   return c.json(body);
 });
 
+app.get('/api/version', (c) => {
+  return c.json({
+    name: 'jlpt-kanji-api',
+    version: packageJson.version,
+    model: resolveModel(process.env.ANTHROPIC_MODEL) || DEFAULT_MODEL,
+  });
+});
+
 app.post('/api/generate-reading-quiz', async (c) => {
+  const requestId = c.get('requestId');
+
   // Manual content-length guard since Hono doesn't enforce a default body cap.
   const contentLength = Number(c.req.header('content-length') || 0);
   if (contentLength > MAX_BODY_SIZE) {
@@ -111,7 +185,7 @@ app.post('/api/generate-reading-quiz', async (c) => {
     if (message.includes('rate_limit') || message.includes('429')) {
       return c.json({ code: 'rate_limited', error: 'Anthropic API rate limit hit.' }, 429);
     }
-    console.error(error);
+    console.error(`[${requestId}] quiz generation failed`, error);
     return c.json(
       { code: 'quiz_generation_failed', error: 'Failed to generate a valid quiz from the selected vocabulary.' },
       500,
