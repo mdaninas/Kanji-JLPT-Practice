@@ -1,12 +1,12 @@
 import Anthropic from '@anthropic-ai/sdk';
 
 export const SUPPORTED_MODELS = Object.freeze([
-  'claude-sonnet-4-20250514',
-  'claude-opus-4-1-20250805',
-  'claude-3-5-haiku-20241022',
+  'claude-sonnet-4-6',
+  'claude-opus-4-7',
+  'claude-haiku-4-5-20251001',
 ]);
 
-export const DEFAULT_MODEL = 'claude-sonnet-4-20250514';
+export const DEFAULT_MODEL = 'claude-sonnet-4-6';
 
 export function resolveModel(requestedModel) {
   if (SUPPORTED_MODELS.includes(requestedModel)) {
@@ -540,10 +540,14 @@ export async function generateKanjiReadingQuiz({
     explanationLanguage,
   });
 
-  const message = await client.messages.create({
+  // Opus 4.7 removed `temperature` (sending it returns 400). Sonnet 4.6 and
+  // Haiku 4.5 still accept it, and a low value helps keep JSON output
+  // deterministic on those models. If you add another Opus 4.7+ model (e.g.
+  // claude-opus-4-8) to SUPPORTED_MODELS, add it to NO_TEMPERATURE_MODELS too.
+  const NO_TEMPERATURE_MODELS = new Set(['claude-opus-4-7']);
+  const requestParams = {
     model: resolvedModel,
     max_tokens: 4096,
-    temperature: 0.3,
     system: `
 You are a careful JLPT Japanese quiz generator.
 
@@ -561,7 +565,12 @@ The short_explanation field must follow the requested explanation language.
         content: prompt,
       },
     ],
-  });
+  };
+  if (!NO_TEMPERATURE_MODELS.has(resolvedModel)) {
+    requestParams.temperature = 0.3;
+  }
+
+  const message = await client.messages.create(requestParams);
 
   const text = extractText(message);
 
