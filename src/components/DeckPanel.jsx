@@ -13,6 +13,7 @@ export function DeckPanel({
   onOpenStrokeOrder,
   onOpenBreakdown,
   getProgressStats,
+  getKanjiStatus,
 }) {
   const characters = selectedStudySet.map((k) => k.character);
   const stats = getProgressStats(characters);
@@ -22,7 +23,7 @@ export function DeckPanel({
     <aside className="deckPanel" aria-labelledby="deck-title">
       <div className="sectionHeading deckHeading">
         <div>
-          <p className="eyebrow">DECK · 手控</p>
+          <p className="eyebrow">{t('deckEyebrow')}</p>
           <h2 id="deck-title">{t('deckTitle')}</h2>
         </div>
         <div className="deckActions">
@@ -55,12 +56,16 @@ export function DeckPanel({
             })}
           </span>
           <div className="progressSegments">
-            {characters.map((char) => (
-              <div
-                key={char}
-                className={`progressSegment seg-${selectedStudySet.find((k) => k.character === char) ? 'active' : 'inactive'}`}
-              />
-            ))}
+            {characters.map((char) => {
+              const status = getKanjiStatus(char);
+              return (
+                <div
+                  key={char}
+                  className={`progressSegment seg-${status}`}
+                  title={char}
+                />
+              );
+            })}
           </div>
         </div>
       )}
@@ -75,20 +80,20 @@ export function DeckPanel({
                 type="button"
                 className="removeDeckButton"
                 onClick={() => onToggleKanji(kanji.character)}
-                aria-label={`Remove ${kanji.character}`}
+                aria-label={t('removeKanjiLabel', { kanji: kanji.character })}
               >
                 ×
               </button>
               <div className="deckKanji">
                 <span className="orderNumber">{String(index + 1).padStart(2, '0')}</span>
-                <span className="deckGlyph">{kanji.character}</span>
+                <span className="deckGlyph" lang="ja">{kanji.character}</span>
                 <div>
                   <h3>{kanji.meanings.slice(0, 2).join(', ') || t('fallbackMeaning')}</h3>
                   <p>
                     {LEVEL_LABEL_BY_VALUE[kanji.jlpt]} · {kanji.strokeCount || '-'}{' '}
                     {t('strokes')}
                   </p>
-                  <ReadingLines kanji={kanji} maxReadings={4} speakLabel={t('playAudio')} />
+                  <ReadingLines t={t} kanji={kanji} maxReadings={4} speakLabel={t('playAudio')} />
                   {kanji.heisig && (
                     <p className="heisigHint">
                       <span className="heisigTag">{t('heisigLabel')}</span>

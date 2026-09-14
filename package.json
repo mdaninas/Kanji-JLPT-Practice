@@ -1,8 +1,11 @@
 {
-  "name": "jlpt-kanji-study-prototype",
+  "name": "kanji-jlpt-practice",
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
   "scripts": {
     "api": "node server/index.js",
     "dev": "vite --host 127.0.0.1",
@@ -10,20 +13,35 @@
     "preview": "vite preview --host 127.0.0.1",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src server scripts",
+    "data:validate": "node scripts/build-data.mjs",
+    "data:fill-n2-en": "node scripts/fill-n2-english.mjs",
+    "icons:png": "node scripts/generate-png-icons.mjs"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.69.0",
-    "@hono/node-server": "^1.13.0",
+    "@anthropic-ai/sdk": "^0.125.0",
+    "@hono/node-server": "^1.19.17",
     "@upstash/ratelimit": "^2.0.8",
-    "@upstash/redis": "^1.38.0",
-    "hono": "^4.6.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "@upstash/redis": "^1.38.4",
+    "hono": "^4.13.7",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^4.1.7",
-    "vite": "^7.0.0",
-    "vitest": "^4.1.7"
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.0",
+    "@eslint/js": "^9.39.1",
+    "@scriptin/jmdict-simplified-loader": "^3.6.1",
+    "@vitejs/plugin-react": "^4.7.0",
+    "@vitest/coverage-v8": "^4.1.11",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.4.0",
+    "jsdom": "^26.1.0",
+    "sharp": "^0.34.4",
+    "vite": "^7.3.6",
+    "vitest": "^4.1.11"
   }
 }

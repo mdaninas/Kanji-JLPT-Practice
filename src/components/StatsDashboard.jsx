@@ -1,6 +1,7 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { LEVELS } from '../constants.js';
 import { useFocusTrap } from '../hooks/useFocusTrap.js';
+import { getDisplayStreak } from '../hooks/useStudyStats.js';
 
 export function StatsDashboard({
   t,
@@ -14,15 +15,21 @@ export function StatsDashboard({
   const accuracy = stats.totalAnswered > 0
     ? Math.round((stats.totalCorrect / stats.totalAnswered) * 100)
     : 0;
-  const hasData = stats.totalAnswered > 0 || stats.streak > 0;
+  const displayStreak = getDisplayStreak(stats);
+  const hasData = stats.totalAnswered > 0 || displayStreak > 0;
   const fileInputRef = useRef(null);
   const modalRef = useFocusTrap();
+  const [confirmAction, setConfirmAction] = useState(null);
+  const [importError, setImportError] = useState('');
+  const [pendingImport, setPendingImport] = useState(null);
 
-  function handleReset() {
-    if (window.confirm(t('statsResetConfirm'))) onReset();
+  function handleResetRequest() {
+    setImportError('');
+    setConfirmAction('reset');
   }
 
   function handleImportClick() {
+    setImportError('');
     fileInputRef.current?.click();
   }
 
@@ -37,7 +44,7 @@ export function StatsDashboard({
       try {
         parsed = JSON.parse(reader.result);
       } catch {
-        window.alert(t('statsImportError'));
+        setImportError(t('statsImportError'));
         return;
       }
       if (
@@ -47,15 +54,37 @@ export function StatsDashboard({
         || typeof parsed.progress !== 'object'
         || typeof parsed.stats !== 'object'
       ) {
-        window.alert(t('statsImportError'));
+        setImportError(t('statsImportError'));
         return;
       }
-      if (!window.confirm(t('statsImportConfirm'))) return;
-      onImport(parsed);
+      setPendingImport(parsed);
+      setConfirmAction('import');
     };
-    reader.onerror = () => window.alert(t('statsImportError'));
+    reader.onerror = () => setImportError(t('statsImportError'));
     reader.readAsText(file);
   }
+
+  function handleConfirmProceed() {
+    if (confirmAction === 'reset') {
+      onReset();
+      setConfirmAction(null);
+      return;
+    }
+    if (confirmAction === 'import' && pendingImport) {
+      onImport(pendingImport);
+      setPendingImport(null);
+      setConfirmAction(null);
+    }
+  }
+
+  function handleConfirmCancel() {
+    setConfirmAction(null);
+    setPendingImport(null);
+  }
+
+  const confirmMessage = confirmAction === 'reset'
+    ? t('statsResetConfirm')
+    : t('statsImportConfirm');
 
   return (
     <div className="modalBackdrop" role="presentation" onClick={onClose}>
@@ -77,6 +106,23 @@ export function StatsDashboard({
           </button>
         </div>
 
+        {confirmAction && (
+          <div className="statsConfirmBanner" role="alertdialog" aria-labelledby="stats-confirm-title">
+            <p id="stats-confirm-title" className="statsConfirmTitle">{t('statsConfirmTitle')}</p>
+            <p>{confirmMessage}</p>
+            <div className="statsConfirmActions">
+              <button type="button" className="paperButton" onClick={handleConfirmCancel}>
+                {t('statsConfirmCancel')}
+              </button>
+              <button type="button" className="primaryButton dangerButton" onClick={handleConfirmProceed}>
+                {t('statsConfirmProceed')}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {importError && <div className="loadError">{importError}</div>}
+
         {!hasData ? (
           <div className="quietState modalEmpty">{t('statsNoData')}</div>
         ) : (
@@ -85,10 +131,13 @@ export function StatsDashboard({
               <div className="statsCard statsCardStreak">
                 <p className="statsLabel">{t('statsStreak')}</p>
                 <p className="statsValue">
-                  {t('statsStreakDays', { count: stats.streak })}
+                  {t('statsStreakDays', { count: displayStreak })}
                 </p>
                 <p className="statsSub">
-                  best {stats.longestStreak} · last {stats.lastStudyDate || '—'}
+                  {t('statsStreakMeta', {
+                    best: stats.longestStreak,
+                    last: stats.lastStudyDate || '—',
+                  })}
                 </p>
               </div>
 
@@ -172,7 +221,7 @@ export function StatsDashboard({
               {t('clearQuizCache')}
             </button>
           )}
-          <button type="button" className="paperButton dangerButton" onClick={handleReset}>
+          <button type="button" className="paperButton dangerButton" onClick={handleResetRequest}>
             {t('statsReset')}
           </button>
           <button type="button" className="paperButton" onClick={onClose}>

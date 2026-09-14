@@ -74,4 +74,17 @@ describe('parseVocabCsv', () => {
     expect(entry.reading).toBe('たべる');
     expect(entry.translation).toBe('to eat, to consume');
   });
+
+  it('parses quoted translations that contain newlines', () => {
+    const csv = `${header}\n日本,にほん,"line one\nline two"`;
+    const [entry] = parseVocabCsv(csv, 5, 'en');
+    expect(entry.translation).toBe('line one\nline two');
+  });
+
+  it('skips kana-only vocab with no Han characters', () => {
+    const csv = `${header}\nあいさつ,あいさつ,greeting\n日本,にほん,Japan`;
+    const result = parseVocabCsv(csv, 5, 'en');
+    expect(result).toHaveLength(1);
+    expect(result[0].word).toBe('日本');
+  });
 });

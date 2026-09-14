@@ -8,6 +8,7 @@ export function QuizSetupToolbox({
   selectedStudySet,
   isVocabLoading,
   quizModel,
+  availableModels = QUIZ_MODELS,
   onQuizModelChange,
   onToggleLevel,
   onGenerate,
@@ -42,7 +43,7 @@ export function QuizSetupToolbox({
             value={quizModel}
             onChange={(e) => onQuizModelChange(e.target.value)}
           >
-            {QUIZ_MODELS.map((model) => (
+            {availableModels.map((model) => (
               <option key={model.value} value={model.value}>
                 {t(model.labelKey)}
               </option>

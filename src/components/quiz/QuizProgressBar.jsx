@@ -11,7 +11,7 @@ export function QuizProgressBar({ t, title, isFromCache, isReviewMode }) {
             <span className="quizCacheBadge">{t('quizFromCache')}</span>
           )}
           {isReviewMode && (
-            <span className="quizReviewBadge">↻ Review</span>
+            <span className="quizReviewBadge">{t('quizReviewMode')}</span>
           )}
         </div>
       </div>

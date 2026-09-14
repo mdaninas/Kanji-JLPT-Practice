@@ -13,17 +13,44 @@ function readFromStorage(key, defaultValue) {
   }
 }
 
-export function usePersistedState(key, defaultValue) {
-  const [value, setValue] = useState(() => readFromStorage(key, defaultValue));
+export function usePersistedState(key, defaultValue, validate) {
+  const [value, setValue] = useState(() => {
+    const stored = readFromStorage(key, defaultValue);
+    return typeof validate === 'function' ? validate(stored) : stored;
+  });
 
   useEffect(() => {
     if (!hasWindow) return;
     try {
-      window.localStorage.setItem(key, JSON.stringify(value));
+      const serialized = JSON.stringify(value);
+      if (window.localStorage.getItem(key) !== serialized) {
+        window.localStorage.setItem(key, serialized);
+      }
     } catch {
-      // storage quota exceeded or disabled – silently skip
+      /* quota */
     }
   }, [key, value]);
+
+  useEffect(() => {
+    if (!hasWindow) return;
+
+    function onStorage(event) {
+      if (event.key !== key) return;
+      if (event.newValue === null) {
+        setValue(defaultValue);
+        return;
+      }
+      try {
+        const parsed = JSON.parse(event.newValue);
+        setValue(typeof validate === 'function' ? validate(parsed) : parsed);
+      } catch {
+        /* ignore corrupt payload */
+      }
+    }
+
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, [key, defaultValue, validate]);
 
   return [value, setValue];
 }

@@ -8,6 +8,7 @@ import {
   buildQuizPayload,
   classifyQuizError,
   countPayloadVocab,
+  resolveQuizErrorKey,
   sampleItems,
 } from '../utils.js';
 
@@ -17,6 +18,7 @@ export function useQuizState({
   selectedStudySet,
   selectedKanji,
   preferredVocabLevels,
+  onPreferredVocabLevelsChange,
   quizModel,
   onRecordQuizResults,
   onRecordSession,
@@ -33,6 +35,16 @@ export function useQuizState({
   const [allQuestions, setAllQuestions] = useState([]);
   const [isReviewMode, setIsReviewMode] = useState(false);
   const recordedRef = useRef(false);
+  const abortRef = useRef(null);
+  const unmountedRef = useRef(false);
+
+  useEffect(() => {
+    unmountedRef.current = false;
+    return () => {
+      unmountedRef.current = true;
+      abortRef.current?.abort();
+    };
+  }, []);
 
   const questions = readingQuiz?.questions || [];
   const activeQuestion = questions[activeQuestionIndex] || null;
@@ -40,8 +52,11 @@ export function useQuizState({
 
   function togglePreferredVocabLevel(level) {
     setPreferredVocabLevelsLocal((current) => {
-      if (current.includes(level)) return current.filter((item) => item !== level);
-      return [...current, level].sort((a, b) => b - a);
+      const next = current.includes(level)
+        ? current.filter((item) => item !== level)
+        : [...current, level].sort((a, b) => b - a);
+      onPreferredVocabLevelsChange?.(next);
+      return next;
     });
     setRandomVocabDeck([]);
   }
@@ -97,7 +112,16 @@ export function useQuizState({
       }
     }
 
+    abortRef.current?.abort();
     let data = null;
+    let httpStatus = 0;
+    let timedOut = false;
+    const controller = new AbortController();
+    abortRef.current = controller;
+    const timeoutId = setTimeout(() => {
+      timedOut = true;
+      controller.abort();
+    }, 60_000);
     try {
       const requestBody = {
         deck: quizPayload,
@@ -109,16 +133,39 @@ export function useQuizState({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestBody),
+        signal: controller.signal,
       });
-      data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Failed to generate quiz.');
+      httpStatus = response.status;
+      const responseText = await response.text();
+      if (responseText) {
+        try {
+          data = JSON.parse(responseText);
+        } catch {
+          data = null;
+        }
+      }
+      if (!response.ok) throw new Error(data?.error || 'Failed to generate quiz.');
       setReadingQuiz(data.quiz);
       setAllQuestions(data.quiz.questions || []);
       if (quizCache) quizCache.set(quizPayload, language, safeQuizModel, data.quiz);
     } catch (error) {
-      setQuizError(t(classifyQuizError(error, data)));
+      if (error.name === 'AbortError') {
+        if (timedOut && !unmountedRef.current) {
+          setQuizError(t(resolveQuizErrorKey('quizErrorTimeout')));
+        }
+        return;
+      }
+      const errorKey = classifyQuizError(error, data, httpStatus);
+      const retryAfter = data?.retryAfter;
+      const resolvedKey = resolveQuizErrorKey(errorKey);
+      setQuizError(
+        errorKey === 'quizErrorRateLimit' && retryAfter
+          ? t('quizErrorRateLimitRetry', { seconds: retryAfter })
+          : t(resolvedKey),
+      );
     } finally {
-      setIsQuizLoading(false);
+      clearTimeout(timeoutId);
+      if (!unmountedRef.current) setIsQuizLoading(false);
     }
   }
 
@@ -140,15 +187,12 @@ export function useQuizState({
   }
 
   function handleNext() {
-    if (activeQuestionIndex < questions.length - 1) {
-      setActiveQuestionIndex((i) => i + 1);
-      setTimeout(() => {
-        const el = document.getElementById(`q-${questions[activeQuestionIndex + 1]?.id}`);
-        el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 50);
-    } else if (allAnswered && questions.length > 0) {
-      onRecordQuizResults(questions, quizAnswers);
-    }
+    if (activeQuestionIndex >= questions.length - 1) return;
+    const nextId = questions[activeQuestionIndex + 1]?.id;
+    setActiveQuestionIndex((index) => index + 1);
+    requestAnimationFrame(() => {
+      document.getElementById(`q-${nextId}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   }
 
   useEffect(() => {

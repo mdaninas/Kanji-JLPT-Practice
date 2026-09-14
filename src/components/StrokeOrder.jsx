@@ -1,37 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { useFocusTrap } from '../hooks/useFocusTrap.js';
-
-const CDN_BASE = 'https://cdn.jsdelivr.net/gh/KanjiVG/kanjivg@master/kanji';
-
-function unicodeFileName(character) {
-  const code = character.codePointAt(0).toString(16).padStart(5, '0');
-  return `${code}.svg`;
-}
-
-function parseSvgSafely(rawSvg) {
-  // Parse SVG via DOMParser, then strip <script> elements and inline event
-  // handlers (on*) before returning. Safer than regex-based string scrubbing.
-  const doc = new DOMParser().parseFromString(rawSvg, 'image/svg+xml');
-  if (doc.querySelector('parsererror')) return null;
-
-  doc.querySelectorAll('script').forEach((node) => node.remove());
-  doc.querySelectorAll('*').forEach((element) => {
-    [...element.attributes].forEach((attribute) => {
-      const name = attribute.name.toLowerCase();
-      if (name.startsWith('on') || name === 'href' && attribute.value.startsWith('javascript:')) {
-        element.removeAttribute(attribute.name);
-      }
-    });
-  });
-
-  return doc.documentElement;
-}
+import {
+  fetchKanjiSvgText,
+  parseSvgSafely,
+  prefersReducedMotion,
+} from '../utils/kanjivg.js';
 
 export function StrokeOrder({ t, character, onClose }) {
   const [svgElement, setSvgElement] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(() => !prefersReducedMotion());
   const containerRef = useRef(null);
   const modalRef = useFocusTrap();
 
@@ -40,12 +19,9 @@ export function StrokeOrder({ t, character, onClose }) {
     setLoading(true);
     setError('');
     setSvgElement(null);
+    setIsPlaying(!prefersReducedMotion());
 
-    fetch(`${CDN_BASE}/${unicodeFileName(character)}`)
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.text();
-      })
+    fetchKanjiSvgText(character)
       .then((text) => {
         if (cancelled) return;
         const parsed = parseSvgSafely(text);
@@ -65,7 +41,6 @@ export function StrokeOrder({ t, character, onClose }) {
     return () => { cancelled = true; };
   }, [character, t]);
 
-  // Mount sanitized SVG element into the container.
   useEffect(() => {
     const root = containerRef.current;
     if (!root) return;
@@ -88,10 +63,6 @@ export function StrokeOrder({ t, character, onClose }) {
 
     if (!isPlaying) return undefined;
 
-    // Web Animations API draws each stroke at a constant 0.18 px/ms pace and
-    // sequences them with a short gap. Transition-delay accumulation in CSS
-    // was glitchy on kanji with many strokes; the WAAPI keeps timing precise
-    // and lets us cancel cleanly on replay/unmount.
     const PX_PER_MS = 0.18;
     const GAP_MS = 90;
     let delay = 0;

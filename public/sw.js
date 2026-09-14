@@ -1,10 +1,9 @@
-// Simple service worker: cache-first for app shell + static data, network-only for /api/.
-const CACHE_NAME = 'kanji-app-v2';
-const APP_SHELL = ['/', '/index.html', '/manifest.webmanifest', '/icon.svg'];
+const CACHE_VERSION = 'kanji-app-v3';
+const APP_SHELL = ['/', '/index.html', '/manifest.webmanifest', '/icon.svg', '/icon-192.png'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)),
+    caches.open(CACHE_VERSION).then((cache) => cache.addAll(APP_SHELL)),
   );
   self.skipWaiting();
 });
@@ -12,10 +11,10 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((names) =>
-      Promise.all(
-        names.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name)),
-      ),
-    ),
+      Promise.all(names.filter((name) => name !== CACHE_VERSION).map((name) => caches.delete(name))),
+    ).then(() => self.clients.matchAll()).then((clients) => {
+      clients.forEach((client) => client.postMessage({ type: 'APP_UPDATE_AVAILABLE' }));
+    }),
   );
   self.clients.claim();
 });
@@ -24,37 +23,37 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Never cache API calls.
-  if (url.pathname.startsWith('/api/')) {
-    return;
-  }
+  if (url.pathname.startsWith('/api/')) return;
+  if (request.method !== 'GET' || url.origin !== self.location.origin) return;
 
-  // Only handle same-origin GETs.
-  if (request.method !== 'GET' || url.origin !== self.location.origin) {
+  if (request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname === '/') {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response?.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_VERSION).then((cache) => cache.put('/index.html', clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match('/index.html')),
+    );
     return;
   }
 
   event.respondWith(
     caches.match(request).then((cached) => {
-      if (cached) {
-        // Refresh in background.
-        fetch(request)
-          .then((response) => {
-            if (response && response.ok) {
-              caches.open(CACHE_NAME).then((cache) => cache.put(request, response.clone()));
-            }
-          })
-          .catch(() => {});
-        return cached;
-      }
+      const networkFetch = fetch(request)
+        .then((response) => {
+          if (response?.ok && response.type === 'basic') {
+            const clone = response.clone();
+            caches.open(CACHE_VERSION).then((cache) => cache.put(request, clone));
+          }
+          return response;
+        })
+        .catch(() => cached);
 
-      return fetch(request).then((response) => {
-        if (response && response.ok && response.type === 'basic') {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
-        }
-        return response;
-      }).catch(() => caches.match('/'));
+      return cached || networkFetch;
     }),
   );
 });

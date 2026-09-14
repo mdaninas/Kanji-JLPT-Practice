@@ -1,6 +1,9 @@
 import { useCallback, useMemo } from 'react';
 
-const CACHE_KEY = 'quizCache';
+import { QUIZ_PROMPT_VERSION } from '../constants.js';
+import { LEGACY_KEYS, migrateStorageKey, STORAGE_KEYS } from '../storageKeys.js';
+
+const CACHE_KEY = STORAGE_KEYS.quizCache;
 const TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 const MAX_ENTRIES = 30;
 
@@ -23,11 +26,17 @@ function stableStringify(value) {
 }
 
 export function hashDeck(deck, language, model) {
-  return djb2(stableStringify({ deck, language, model: model || '' }));
+  return djb2(stableStringify({
+    deck,
+    language,
+    model: model || '',
+    promptVersion: QUIZ_PROMPT_VERSION,
+  }));
 }
 
 function loadCache() {
   try {
+    migrateStorageKey(CACHE_KEY, LEGACY_KEYS.quizCache);
     return JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
   } catch {
     return {};
@@ -73,6 +82,7 @@ export function useQuizCache() {
   const clear = useCallback(() => {
     try {
       localStorage.removeItem(CACHE_KEY);
+      localStorage.removeItem(LEGACY_KEYS.quizCache);
     } catch {
       /* ignore */
     }

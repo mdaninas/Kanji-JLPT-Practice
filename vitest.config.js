@@ -6,7 +6,13 @@ export default defineConfig({
     include: ['src/__tests__/**/*.test.js', 'server/__tests__/**/*.test.js'],
     coverage: {
       provider: 'v8',
-      include: ['src/utils.js', 'server/rateLimit.js'],
+      include: [
+        'src/utils.js',
+        'src/storageKeys.js',
+        'src/hooks/useProgress.js',
+        'src/hooks/useStudyStats.js',
+        'server/rateLimit.js',
+      ],
       reporter: ['text', 'json-summary'],
       thresholds: {
         lines: 80,

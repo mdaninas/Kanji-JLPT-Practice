@@ -164,7 +164,7 @@
 嬉しい,うれしい,happy
 売れる,うれる,sellable
 噂,うわさ,rumor
-うん,（感）,Yeah
+うん,うん,Yeah
 運,うん,luck
 運転,うんてん,driving
 運動,うんどう,exercise
@@ -687,7 +687,7 @@
 騒ぎ,さわぎ,commotion
 参加,さんか,participation
 参考,さんこう,reference
-賛成,Uӣ[い,agree
+賛成,さんせい,agree
 酸素,さんそ,oxygen
 散歩,さんぽ,walk
 四,し,four
@@ -748,10 +748,10 @@
 支払う,しはらう,to pay
 死亡,しぼう,death
 資本,しほん,capital
-しまい,（終わり）,end
+しまい,しまい,end
 姉妹,しまい,sisters
-しまう,（終わる）,to become cloudy; to become misty; to become hazy
-しまった,（感）,done
+しまう,しまう,to become cloudy; to become misty; to become hazy
+しまった,しまった,done
 自慢,じまん,pride
 事務,じむ,office work
 示す,しめす,to indicate
@@ -918,12 +918,12 @@
 すてき,すてき,wonderful
 既に,すでに,already
 すなわち,すなわち,namely
-素晴らし,すばらしい,wonderful
+素晴らしい,すばらしい,wonderful
 スピーチ,スピーチ,speech
 全て,すべて,all
 済ませる,すませる,"to finish, to complete, to settle"
 角,すみ,corner
-すみませ,（感）,excuse me
+すみませ,すみません,excuse me
 為る,する,to do
 すると,すると,Then
 鋭い,するどい,sharp
@@ -1015,7 +1015,7 @@
 側,そば,side
 ソファー,ソファー,sofa
 粗末,そまつ,"disrespect, rudeness, carelessness, neglect"
-それ,（接。感）,that
+それ,それ,that
 それぞれ,それぞれ,each
 それでも,それでも,Still
 それと,それと,And also
@@ -1075,7 +1075,7 @@
 戦う,たたかう,to fight
 叩く,たたく,to hit
 直ちに,ただちに,immediately
-立ち上が,たちあがる,stand up
+立ち上がる,たちあがる,stand up
 立場,たちば,"position, status, role"
 経つ,たつ,to be late
 達する,たっする,"to reach, to achieve, to attain"
@@ -1204,9 +1204,9 @@
 適切,てきせつ,appropriate
 適度,てきど,moderate
 適用,てきよう,applicable
-できる,（可能。出現。,can do
-発生）,発生）,occurrence
-出来るだ,できるだけ,possible
+できる,できる,can do
+発生,はっせい,occurrence
+できるだけ,できるだけ,possible
 できれば,できれば,if possible
 手品,てじな,magic tricks
 ですから,ですから,Therefore
@@ -1230,7 +1230,7 @@
 問い,とい,question
 党,とう,party
 塔,とう,tower
-どう,（接。副）,how
+どう,どう,how
 答案,とうあん,Answer
 同一,どういつ,same
 どうか,どうか,Please
@@ -1247,7 +1247,7 @@
 十,とお,ten
 通す,とおす,"to pass through, to allow through, to get through"
 通り,とおり,"way, route, passage, manner, style, method"
-通り過ぎ,とおりすぎる,passing by
+通り過ぎる,とおりすぎる,passing by
 都会,とかい,city
 時,とき,time
 解く,とく,to solve
@@ -1285,13 +1285,13 @@
 トラック,トラック,truck
 ドラマ,ドラマ,drama
 トランプ,トランプ,cards
-取り上げ,とりあげる,"to take up, to address, to deal with, to handle, to tackle"
+取り上げる,とりあげる,"to take up, to address, to deal with, to handle, to tackle"
 努力,どりょく,effort
 どれ,どれ,which
 ドレス,ドレス,dress
 取れる,とれる,to be able to get
 泥,どろ,mud
-とん,（1000,ton
+とん,とん,ton
 とんでもない,とんでもない,"extraordinary, incredible, unbelievable, remarkable, amazing"
 どんな,どんな,What
 どんなに,どんなに,no matter how
@@ -1351,7 +1351,7 @@
 抜ける,ぬける,piercing
 布,ぬの,fabric
 濡れる,ぬれる,to get wet
-ね,（感）,huh
+ね,ね,huh
 根,ね,root
 値,ね,value
 願い,ねがい,wish
@@ -1372,7 +1372,7 @@
 農業,のうぎょう,agriculture
 農民,のうみん,farmer
 能力,のうりょく,ability
-ノー,（no）,No
+ノー,のー,No
 軒,のき,eave
 残す,のこす,to leave behind
 残り,のこり,remainder
@@ -1389,9 +1389,9 @@
 昇る,のぼる,rise
 のんびり,のんびり,"relaxed, leisurely, unhurried"
 場,ば,"place, venue, occasion, scene, situation, field"
-はあ,（感）,Ugh
+はあ,はあ,Ugh
 パーセント,パーセント,percent
-はい,（感）,Yes
+はい,はい,Yes
 灰,はい,ash
 梅雨,ばいう,plum rain season
 バイオリン,バイオリン,violin
@@ -1532,7 +1532,7 @@
 物質,ぶっしつ,matter
 物理,ぶつり,physics
 筆,ふで,pen
-ふと,（副）,suddenly
+ふと,ふと,suddenly
 船,ふね,ship
 部分,ぶぶん,part
 不平,ふへい,complaint
@@ -1700,7 +1700,7 @@
 文字,もじ,character
 文字,もんじ,character
 もしも,もしも,if
-持ち上げ,もちあげる,lifting
+持ち上げる,もちあげる,lifting
 用いる,もちいる,to use
 勿論,もちろん,Of course
 最も,もっとも,most
@@ -1784,7 +1784,7 @@
 よると,よると,to follow
 喜び,よろこび,joy
 宜しい,よろしい,"Okay, good, alright, fine, satisfactory"
-よろしく,（感）,"Please, thank you, I will, I will do my best"
+よろしく,よろしく,"Please, thank you, I will, I will do my best"
 四,よん,four
 来,らい,come
 ライター,ライター,writer

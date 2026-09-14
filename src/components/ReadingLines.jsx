@@ -23,7 +23,9 @@ export function SpeakerButton({ text, label }) {
   );
 }
 
-export function ReadingLines({ kanji, compact = false, maxReadings = 3, speakLabel = '' }) {
+export function ReadingLines({ t, kanji, compact = false, maxReadings = 3, speakLabel = '' }) {
+  const onLabel = t ? t('onReadings') : 'On';
+  const kunLabel = t ? t('kunReadings') : 'Kun';
   const onReadings = kanji.onReadings || [];
   const kunReadings = kanji.kunReadings || [];
 
@@ -40,8 +42,8 @@ export function ReadingLines({ kanji, compact = false, maxReadings = 3, speakLab
     <div className="readingLines">
       {cleanedOn.length > 0 && (
         <span>
-          <strong>On</strong>
-          {formatReadings(onReadings, maxReadings)}
+          <strong>{onLabel}</strong>
+          <span lang="ja">{formatReadings(onReadings, maxReadings)}</span>
           {speakLabel && speakableOn && (
             <SpeakerButton text={speakableOn} label={speakLabel} />
           )}
@@ -49,8 +51,8 @@ export function ReadingLines({ kanji, compact = false, maxReadings = 3, speakLab
       )}
       {cleanedKun.length > 0 && (
         <span>
-          <strong>Kun</strong>
-          {formatReadings(kunReadings, maxReadings)}
+          <strong>{kunLabel}</strong>
+          <span lang="ja">{formatReadings(kunReadings, maxReadings)}</span>
           {speakLabel && speakableKun && (
             <SpeakerButton text={speakableKun} label={speakLabel} />
           )}

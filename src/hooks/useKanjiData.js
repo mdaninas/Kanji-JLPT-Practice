@@ -8,7 +8,8 @@ export function useKanjiData(activeLevelValues, activeLevelLabel, language) {
   const [loadError, setLoadError] = useState('');
 
   useEffect(() => {
-    const missingLevels = activeLevelValues.filter((level) => !kanjiByLevel[level]);
+    const allLevelValues = LEVELS.map((level) => level.value);
+    const missingLevels = allLevelValues.filter((level) => !kanjiByLevel[level]);
 
     if (missingLevels.length === 0) {
       setIsKanjiLoading(false);
@@ -52,5 +53,13 @@ export function useKanjiData(activeLevelValues, activeLevelLabel, language) {
     [activeLevelValues, kanjiByLevel],
   );
 
-  return { currentKanji, isKanjiLoading, loadError };
+  const levelCounts = useMemo(() => {
+    const counts = {};
+    LEVELS.forEach((level) => {
+      counts[level.value] = (kanjiByLevel[level.value] || []).length;
+    });
+    return counts;
+  }, [kanjiByLevel]);
+
+  return { currentKanji, isKanjiLoading, loadError, levelCounts };
 }

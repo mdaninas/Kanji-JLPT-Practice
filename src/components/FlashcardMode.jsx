@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { LEVEL_LABEL_BY_VALUE } from '../constants.js';
 import { useFocusTrap } from '../hooks/useFocusTrap.js';
 import { SpeakerButton } from './ReadingLines.jsx';
@@ -8,7 +8,8 @@ export function FlashcardMode({ t, studySet, onClose, onRecordResult }) {
   const [flipped, setFlipped] = useState(false);
   const [done, setDone] = useState(false);
   const [scores, setScores] = useState({});
-  const modalRef = useFocusTrap();
+  const cardRef = useRef(null);
+  const modalRef = useFocusTrap(true, { initialFocusRef: cardRef });
 
   const current = studySet[index];
   const total = studySet.length;
@@ -41,13 +42,23 @@ export function FlashcardMode({ t, studySet, onClose, onRecordResult }) {
 
   useEffect(() => {
     function onKey(e) {
+      if (e.defaultPrevented) return;
+      const tag = e.target?.tagName;
+      if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
       if (e.key === 'Escape') { onClose(); return; }
       if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
         if (!flipped) { setFlipped(true); return; }
         if (done) { handleRestart(); return; }
       }
-      if (flipped && e.key === 'ArrowRight') handleAnswer(true);
-      if (flipped && e.key === 'ArrowLeft') handleAnswer(false);
+      if (flipped && (e.key === 'ArrowRight' || e.key === '2')) {
+        e.preventDefault();
+        handleAnswer(true);
+      }
+      if (flipped && (e.key === 'ArrowLeft' || e.key === '1')) {
+        e.preventDefault();
+        handleAnswer(false);
+      }
     }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -91,6 +102,7 @@ export function FlashcardMode({ t, studySet, onClose, onRecordResult }) {
           </div>
         ) : (
           <div
+            ref={cardRef}
             className={`flashcard ${flipped ? 'flipped' : ''}`}
             onClick={() => setFlipped((f) => !f)}
             role="button"
@@ -101,13 +113,13 @@ export function FlashcardMode({ t, studySet, onClose, onRecordResult }) {
             <div className="flashcardInner">
               <div className="flashcardFace flashcardFront">
                 <p className="flashcardHint">{t('flashcardFront')}</p>
-                <span className="flashcardGlyph">{current.character}</span>
+                <span className="flashcardGlyph" lang="ja">{current.character}</span>
                 <p className="flashcardFlipHint">{t('flashcardFlip')}</p>
               </div>
 
               <div className="flashcardFace flashcardBack">
                 <p className="flashcardHint">{t('flashcardBack')}</p>
-                <span className="flashcardGlyph">{current.character}</span>
+                <span className="flashcardGlyph" lang="ja">{current.character}</span>
                 <div className="flashcardMeaning">
                   {current.meanings.slice(0, 4).join(', ') || t('fallbackMeaning')}
                 </div>
@@ -115,7 +127,7 @@ export function FlashcardMode({ t, studySet, onClose, onRecordResult }) {
                   {current.onReadings.length > 0 && (
                     <span>
                       <strong>{t('onReadings')}</strong>
-                      {current.onReadings.slice(0, 4).join('、')}
+                      <span lang="ja">{current.onReadings.slice(0, 4).join('、')}</span>
                       <SpeakerButton
                         text={current.onReadings.slice(0, 4).join('、')}
                         label={t('playAudio')}
@@ -125,7 +137,7 @@ export function FlashcardMode({ t, studySet, onClose, onRecordResult }) {
                   {current.kunReadings.length > 0 && (
                     <span>
                       <strong>{t('kunReadings')}</strong>
-                      {current.kunReadings.slice(0, 4).join('、')}
+                      <span lang="ja">{current.kunReadings.slice(0, 4).join('、')}</span>
                       <SpeakerButton
                         text={current.kunReadings.slice(0, 4).join('、')}
                         label={t('playAudio')}
@@ -140,7 +152,7 @@ export function FlashcardMode({ t, studySet, onClose, onRecordResult }) {
                   </p>
                 )}
                 <div className="flashcardMeta">
-                  {LEVEL_LABEL_BY_VALUE[current.jlpt]} · {current.strokeCount || '-'} strokes
+                  {LEVEL_LABEL_BY_VALUE[current.jlpt]} · {current.strokeCount || '-'} {t('strokes')}
                 </div>
               </div>
             </div>
@@ -155,7 +167,7 @@ export function FlashcardMode({ t, studySet, onClose, onRecordResult }) {
               onClick={() => handleAnswer(false)}
             >
               <span>{t('flashcardPractice')}</span>
-              <span style={{ fontSize: 9, opacity: 0.7, letterSpacing: 2 }}>← AGAIN · 1</span>
+              <span style={{ fontSize: 9, opacity: 0.7, letterSpacing: 2 }}>{t('flashcardKeyAgain')}</span>
             </button>
             <button
               type="button"
@@ -163,16 +175,20 @@ export function FlashcardMode({ t, studySet, onClose, onRecordResult }) {
               onClick={() => handleAnswer(true)}
             >
               <span>{t('flashcardGotIt')}</span>
-              <span style={{ fontSize: 9, opacity: 0.7, letterSpacing: 2 }}>GOOD · 2 →</span>
+              <span style={{ fontSize: 9, opacity: 0.7, letterSpacing: 2 }}>{t('flashcardKeyGood')}</span>
             </button>
           </div>
         )}
 
         {!flipped && !done && (
-          <p className="flashcardKeyHint">Space / Enter {t('flashcardFlip')}</p>
+          <p className="flashcardKeyHint">
+            {t('flashcardKeyFlip', { action: t('flashcardFlip') })}
+          </p>
         )}
         {flipped && !done && (
-          <p className="flashcardKeyHint">← {t('flashcardPractice')} &nbsp;·&nbsp; {t('flashcardGotIt')} →</p>
+          <p className="flashcardKeyHint">
+            {t('flashcardKeyAnswer', { practice: t('flashcardPractice'), got: t('flashcardGotIt') })}
+          </p>
         )}
       </div>
     </div>

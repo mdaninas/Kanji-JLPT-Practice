@@ -76,7 +76,7 @@
 一応,いちおう,"Initially, at least"
 一段と,いちだんと,more and more
 一流,いちりゅう,top-tier
-佚,いつ,佚
+佚,いつ,lost; missing
 一昨日,いっさくじつ,The day before yesterday
 一昨年,いっさくねん,Last year
 一斉,いっせい,"mass, all at once, simultaneously"
@@ -202,7 +202,7 @@
 落着く,おちつく,"to settle down, to come to rest, to be grounded"
 御手洗,おてあらい,Wash hands
 お出掛け,おでかけ,going out
-お手伝いさ,おてつだいさん,Please help
+お手伝いさん,おてつだいさん,Please help
 おどかす,おどかす,"to annoy, to irritate, to bother"
 落し物,おとしもの,lost and found
 おととい,おととい,the day before yesterday
@@ -220,7 +220,7 @@
 おまちください,おまちください,Please wait
 おまちどおさま,おまちどおさま,Looking forward to it
 おめでたい,おめでたい,Congratulations
-思い掛けな,おもいがけない,unintentional
+思いがけない,おもいがけない,unintentional
 思い込む,おもいこむ,"to believe, to take to heart, to instill"
 思いっ切り,おもいっきり,to one's heart's content
 思い付く,おもいつく,to come to mind
@@ -394,7 +394,7 @@
 基礎,きそ,Fundamentals
 気体,きたい,gas
 基地,きち,base
-きっかけ,きっかけ,きっかけ
+きっかけ,きっかけ,trigger; opportunity
 ぎっしり,ぎっしり,"packed, densely"
 基盤,きばん,foundation
 客席,きゃくせき,audience
@@ -664,7 +664,7 @@
 シーズン,シーズン,season
 シーツ,シーツ,sheets
 寺院,じいん,temple
-しいんと,（する）,shii-nto
+しいんと,しいんと,silent
 自衛,じえい,self-defense
 塩辛い,しおからい,"salty, briny"
 司会,しかい,"MC, host, chairperson"
@@ -742,7 +742,7 @@
 習字,しゅうじ,calligraphy
 修繕,しゅうぜん,repair
 重体,じゅうたい,heavy burden
-じゅうたん,（カーペット）,carpet
+じゅうたん,じゅうたん,carpet
 終点,しゅうてん,end point
 重点,じゅうてん,focus
 就任,しゅうにん,taking office
@@ -988,7 +988,7 @@
 存ずる,ぞんずる,exists
 損得,そんとく,profit and loss
 田ぼ,たんぼ,field
-だいいち,（副）,first
+だいいち,だいいち,first
 退院,たいいん,discharge
 大学院,だいがくいん,Graduate school
 大工,だいく,carpenter
@@ -1039,809 +1039,809 @@
 溜まる,たまる,"to accumulate, to pile up, to build up"
 ダム,ダム,Dam
 溜息,ためいき,sigh
-ためらう,ためらう,
-溜める,ためる,
-だらしない,だらしない,
-足る,たる,
-段階,だんかい,
-短期,たんき,
-炭鉱,たんこう,
-短所,たんしょ,
-たんす,たんす,
-淡水,たんすい,
-断水,だんすい,
-単数,たんすう,
-団地,だんち,
-断定,だんてい,
-短編,たんぺん,
-誓う,ちかう,
-地下水,ちかすい,
-近々,ちかぢか,
-近付ける,ちかづける,
-近寄る,ちかよる,
-力強い,ちからづよい,
-ちぎる,ちぎる,
-地質,ちしつ,
-知人,ちじん,
-地帯,ちたい,
-縮む,ちぢむ,
-縮める,ちぢめる,
-縮れる,ちぢれる,
-チップ,チップ,
-地点,ちてん,
-地名,ちめい,
-茶色い,ちゃいろい,
-着々,ちゃくちゃく,
-茶碗,ちゃわん,
-中間,ちゅうかん,
-中旬,ちゅうじゅん,
-抽象,ちゅうしょう,
-中世,ちゅうせい,
-中性,ちゅうせい,
-中途,ちゅうと,
-中年,ちゅうねん,
-超過,ちょうか,
-彫刻,ちょうこく,
-長所,ちょうしょ,
-長女,ちょうじょ,
-調整,ちょうせい,
-調節,ちょうせつ,
-長短,ちょうたん,
-頂点,ちょうてん,
-長男,ちょうなん,
-長方形,ちょうほうけい,
-調味料,ちょうみりょう,
-チョーク,チョーク,
-直後,ちょくご,
-直線,ちょくせん,
-直前,ちょくぜん,
-直通,ちょくつう,
-直流,ちょくりゅう,
-貯蔵,ちょぞう,
-直角,ちょっかく,
-直径,ちょっけい,
-散らかす,ちらかす,
-散らかる,ちらかる,
-散らす,ちらす,
-塵紙,ちりがみ,
-散る,ちる,
-追加,ついか,
-ついで,ついで,
-通貨,つうか,
-通勤,つうきん,
-通ずる,つうずる,
-通知,つうち,
-通帳,つうちょう,
-通訳,つうやく,
-通用,つうよう,
-通路,つうろ,
-付合う,つきあう,
-突き当たり,つきあたり,
-突き当たる,つきあたる,
-月日,つきひ,
-点く,つく,
-突く,つく,
-次ぐ,つぐ,
-作る,つくる,
-造る,つくる,
-着ける,つける,
-点ける,つける,
-浸ける,つける,
-伝わる,つたわる,
-突っ込む,つっこむ,
-務める,つとめる,
-努める,つとめる,
-綱,つな,
-繋がり,つながり,
-繋がる,つながる,
-繋げる,つなげる,
-粒,つぶ,
-潰す,つぶす,
-潰れる,つぶれる,
-つまずく,つまずく,
-詰まる,つまる,
-積む,つむ,
-爪,つめ,
-艶,つや,
-強気,つよき,
-釣り合う,つりあう,
-吊る,つる,
-吊す,つるす,
-出合い,であい,
-手洗い,てあらい,
-定員,ていいん,
-定価,ていか,
-低下,ていか,
-定期券,ていきけん,
-定休日,ていきゅうび,
-停止,ていし,
-停車,ていしゃ,
-停電,ていでん,
-出入り,でいり,
-出入口,でいりぐち,
-手入れ,ていれ,
-テーマ,テーマ,
-出掛ける,でかける,
-出来上がり,できあがり,
-出来上がる,できあがる,
-的確,てきかく,
-適確,てきかく,
-手首,てくび,
-凸凹,でこぼこ,
-手頃,てごろ,
-でたらめ,でたらめ,
-手帳,てちょう,
-鉄橋,てっきょう,
-手続き,てつづき,
-鉄砲,てっぽう,
-テニスコート,テニスコート,
-手拭い,てぬぐい,
-手前,てまえ,
-出迎え,でむかえ,
-出迎える,でむかえる,
-照らす,てらす,
-照る,てる,
-展開,てんかい,
-伝記,でんき,
-電球,でんきゅう,
-点数,てんすう,
-伝染,でんせん,
-電池,でんち,
-点々,てんてん,
-転々,てんてん,
-電柱,でんちゅう,
-天皇,てんのう,
-電波,でんぱ,
-テンポ,テンポ,
-電流,でんりゅう,
-電力,でんりょく,
-問い合わせ,といあわせ,
-銅,どう,
-統一,とういつ,
-同格,どうかく,
-峠,とうげ,
-統計,とうけい,
-動作,どうさ,
-東西,とうざい,
-当日,とうじつ,
-投書,とうしょ,
-登場,とうじょう,
-どうせ,どうせ,
-どうぞよろしく,どうぞよろしく,
-灯台,とうだい,
-盗難,とうなん,
-当番,とうばん,
-等分,とうぶん,
-透明,とうめい,
-灯油,とうゆ,
-東洋,とうよう,
-童話,どうわ,
-通り掛かる,とおりかかる,
-溶かす,とかす,
-尖る,とがる,
-どきどき,どきどき,
-溶く,とく,
-退く,どく,
-特殊,とくしゅ,
-特色,とくしょく,
-特長,とくちょう,
-特定,とくてい,
-特売,とくばい,
-溶け込む,とけこむ,
-溶ける,とける,
-退ける,どける,
-床の間,とこのま,
-床屋,とこや,
-所々,ところどころ,
-都心,としん,
-戸棚,とだな,
-とっくに,とっくに,
-どっと,どっと,
-整う,ととのう,
-留まる,とどまる,
-どなる,どなる,
-飛び込む,とびこむ,
-跳ぶ,とぶ,
-留まる,とまる,
-泊める,とめる,
-ともかく,ともかく,
-捕える,とらえる,
-取り入れる,とりいれる,
-取り消す,とりけす,
-取り出す,とりだす,
-採る,とる,
-捕る,とる,
-トレーニング,トレーニング,
-丼,どんぶり,
-内科,ないか,
-内線,ないせん,
-ナイロン,ナイロン,
-治す,なおす,
-永い,ながい,
-仲直り,なかなおり,
-長引く,ながびく,
-中身,なかみ,
-中味,なかみ,
-中指,なかゆび,
-仲良し,なかよし,
-慰める,なぐさめる,
-亡くす,なくす,
-なぐる,なぐる,
-為す,なす,
-謎謎,なぞなぞ,
-傾らか,なだらか,
-懐かしい,なつかしい,
-撫でる,なでる,
-斜め,ななめ,
-なにしろ,なにしろ,
-何々,なになに,
-何分,なにぶん,
-生意気,なまいき,
-並木,なみき,
-倣う,ならう,
-鳴らす,ならす,
-生る,なる,
-馴れる,なれる,
-南極,なんきょく,
-なんとなく,なんとなく,
-なんとも,なんとも,
-ナンバー,ナンバー,
-南米,なんべい,
-南北,なんぼく,
-煮える,にえる,
-匂う,におう,
-逃がす,にがす,
-憎い,にくい,
-憎む,にくむ,
-憎らしい,にくらしい,
-にこにこ,にこにこ,
-濁る,にごる,
-虹,にじ,
-日時,にちじ,
-日用品,にちようひん,
-日課,にっか,
-日程,にってい,
-鈍い,にぶい,
-入社,にゅうしゃ,
-女房,にょうぼう,
-睨む,にらむ,
-煮る,にる,
-俄,にわか,
-縫う,ぬう,
-濡らす,ぬらす,
-ねじ,ねじ,
-捩る,ねじる,
-ネックレス,ネックレス,
-熱する,ねっする,
-寝間着,ねまき,
-寝巻,ねまき,
-狙い,ねらい,
-狙う,ねらう,
-年度,ねんど,
-農産物,のうさんぶつ,
-農村,のうそん,
-濃度,のうど,
-農薬,のうやく,
-能率,のうりつ,
-のこぎり,のこぎり,
-残らず,のこらず,
-載せる,のせる,
-覗く,のぞく,
-延ばす,のばす,
-延びる,のびる,
-上り,のぼり,
-上る,のぼる,
-糊,のり,
-乗換,のりかえ,
-載る,のる,
-鈍い,のろい,
-のろのろ,のろのろ,
-呑気,のんき,
-灰色,はいいろ,
-俳句,はいく,
-拝見,はいけん,
-売店,ばいてん,
-バイバイ,バイバイ,
-売買,ばいばい,
-這う,はう,
-生える,はえる,
-剥す,はがす,
-ばからしい,ばからしい,
-秤,はかり,
-量る,はかる,
-測る,はかる,
-吐き気,はきけ,
-はきはき,はきはき,
-掃く,はく,
-歯車,はぐるま,
-バケツ,バケツ,
-挟まる,はさまる,
-挟む,はさむ,
-箸,はし,
-梯子,はしご,
-始めに,はじめに,
-初めに,はじめに,
-はじめまして,はじめまして,
-斜,はす,
-外れる,はずれる,
-パターン,パターン,
-肌着,はだぎ,
-果して,はたして,
-鉢,はち,
-×,ばつ,
-発揮,はっき,
-バック,バック,
-発射,はっしゃ,
-発想,はっそう,
-発電,はつでん,
-発売,はつばい,
-派手,はで,
-話合い,はなしあい,
-話し掛ける,はなしかける,
-話中,はなしちゅう,
-甚だしい,はなはだしい,
-花火,はなび,
-花嫁,はなよめ,
-放れる,はなれる,
-羽根,はね,
-ばね,ばね,
-跳ねる,はねる,
-破片,はへん,
-歯磨き,はみがき,
-はめる,はめる,
-早口,はやくち,
-流行る,はやる,
-払い込む,はらいこむ,
-払い戻す,はらいもどす,
-バランス,バランス,
-針金,はりがね,
-張り切る,はりきる,
-反映,はんえい,
-半径,はんけい,
-判子,はんこ,
-万歳,ばんざい,
-判事,はんじ,
-反省,はんせい,
-番地,ばんち,
-パンツ,パンツ,
-バンド,バンド,
-半島,はんとう,
-ハンドル,ハンドル,
-日当たり,ひあたり,
-日帰り,ひがえり,
-比較的,ひかくてき,
-日陰,ひかげ,
-ぴかぴか,ぴかぴか,
-引受る,ひきうける,
-引返す,ひきかえす,
-引算,ひきざん,
-引出す,ひきだす,
-引き止める,ひきとめる,
-卑怯,ひきょう,
-引分け,ひきわけ,
-髭,ひげ,
-陽射,ひざし,
-肘,ひじ,
-ピストル,ピストル,
-ビタミン,ビタミン,
-ぴたり,ぴたり,
-引っ掛かる,ひっかかる,
-筆記,ひっき,
-引っ繰り返,ひっくりかえす,
-引っ繰り返,ひっくりかえる,
-引越し,ひっこし,
-引っ込む,ひっこむ,
-筆者,ひっしゃ,
-必需品,ひつじゅひん,
-人差指,ひとさしゆび,
-一通り,ひととおり,
-人通り,ひとどおり,
-ひとまず,ひとまず,
-瞳,ひとみ,
-一休み,ひとやすみ,
-独り言,ひとりごと,
-ひとりでに,ひとりでに,
-ビニール,ビニール,
-皮肉,ひにく,
-日日,ひにち,
-捻る,ひねる,
-日の入り,ひのいり,
-日の出,ひので,
-響き,ひびき,
-響く,ひびく,
-皮膚,ひふ,
-冷やす,ひやす,
-ひゃっかじてん,ひゃっかじてん,
-美容,びよう,
-表紙,ひょうし,
-標識,ひょうしき,
-標準,ひょうじゅん,
-標本,ひょうほん,
-評論,ひょうろん,
-平仮名,ひらがな,
-ビルディング,ビルディング,
-昼寝,ひるね,
-広げる,ひろげる,
-広さ,ひろさ,
-広場,ひろば,
-広々,ひろびろ,
-広める,ひろめる,
-ピンク,ピンク,
-便箋,びんせん,
-瓶詰,びんづめ,
-ファスナー,ファスナー,
-風船,ふうせん,
-不運,ふうん,
-殖える,ふえる,
-深まる,ふかまる,
-不規則,ふきそく,
-普及,ふきゅう,
-付近,ふきん,
-拭く,ふく,
-副詞,ふくし,
-複写,ふくしゃ,
-複数,ふくすう,
-含める,ふくめる,
-膨らます,ふくらます,
-膨らむ,ふくらむ,
-不潔,ふけつ,
-更ける,ふける,
-符号,ふごう,
-夫妻,ふさい,
-塞がる,ふさがる,
-塞ぐ,ふさぐ,
-ふざける,ふざける,
-無沙汰,ぶさた,
-武士,ぶし,
-部首,ぶしゅ,
-襖,ふすま,
-附属,ふぞく,
-蓋,ふた,
-不通,ふつう,
-ぶつかる,ぶつかる,
-ぶつける,ぶつける,
-物騒,ぶっそう,
-ぶつぶつ,ぶつぶつ,
-船便,ふなびん,
-部品,ぶひん,
-吹雪,ふぶき,
-父母,ふぼ,
-踏切,ふみきり,
-麓,ふもと,
-増やす,ふやす,
-殖やす,ふやす,
-フライパン,フライパン,
-ブラウス,ブラウス,
-ぶらさげる,ぶらさげる,
-ブラシ,ブラシ,
-プラスチック,プラスチック,
-プラットホーム,プラットホーム,
-フリー,フリー,
-振り仮名,ふりがな,
-プリント,プリント,
-振舞う,ふるまう,
-ブローチ,ブローチ,
-プログラム,プログラム,
-風呂敷,ふろしき,
-ふわふわ,ふわふわ,
-噴火,ふんか,
-分解,ぶんかい,
-文芸,ぶんげい,
-文献,ぶんけん,
-噴水,ふんすい,
-分数,ぶんすう,
-文体,ぶんたい,
-分布,ぶんぷ,
-文房具,ぶんぼうぐ,
-文脈,ぶんみゃく,
-分量,ぶんりょう,
-分類,ぶんるい,
-閉会,へいかい,
-平気,へいき,
-並行,へいこう,
-平日,へいじつ,
-兵隊,へいたい,
-平凡,へいぼん,
-平野,へいや,
-凹む,へこむ,
-へそ,へそ,
-隔てる,へだてる,
-別荘,べっそう,
-別々,べつべつ,
-ベテラン,ベテラン,
-ヘリコプター,ヘリコプター,
-へる,へる,
-ぺん,ぺん,
-編集,へんしゅう,
-便所,べんじょ,
-ペンチ,ペンチ,
-望遠鏡,ぼうえんきょう,
-方角,ほうがく,
-箒,ほうき,
-方言,ほうげん,
-坊さん,ぼうさん,
-防止,ぼうし,
-方針,ほうしん,
-包装,ほうそう,
-法則,ほうそく,
-包帯,ほうたい,
-膨大,ぼうだい,
-庖丁,ほうちょう,
-方程式,ほうていしき,
-防犯,ぼうはん,
-方面,ほうめん,
-坊や,ぼうや,
-放る,ほうる,
-ボーナス,ボーナス,
-朗らか,ほがらか,
-牧場,ぼくじょう,
-牧畜,ぼくちく,
-保健,ほけん,
-募集,ぼしゅう,
-干す,ほす,
-ポスター,ポスター,
-北極,ほっきょく,
-坊っちゃん,ぼっちゃん,
-ほどく,ほどく,
-堀,ほり,
-掘る,ほる,
-彫る,ほる,
-ぼろ,ぼろ,
-盆,ぼん,
-盆地,ぼんち,
-本部,ほんぶ,
-本来,ほんらい,
-まあまあ,まあまあ,
-枚数,まいすう,
-毎度,まいど,
-マイナス,マイナス,
-巻く,まく,
-蒔く,まく,
-撒く,まく,
-枕,まくら,
-曲げる,まげる,
-まごまご,まごまご,
-摩擦,まさつ,
-混ざる,まざる,
-交ざる,まざる,
-混じる,まじる,
-交じる,まじる,
-マスク,マスク,
-混ぜる,まぜる,
-交ぜる,まぜる,
-またぐ,またぐ,
-又は,または,
-待合室,まちあいしつ,
-待ち合わせ,まちあわせる,
-街角,まちかど,
-真っ暗,まっくら,
-真っ黒,まっくろ,
-真っ青,まっさお,
-真っ先,まっさき,
-真っ白,まっしろ,
-祭る,まつる,
-窓口,まどぐち,
-纏まる,まとまる,
-纏める,まとめる,
-真似る,まねる,
-まぶしい,まぶしい,
-まぶた,まぶた,
-マフラー,マフラー,
-間も無く,まもなく,
-マラソン,マラソン,
-円い,まるい,
-稀,まれ,
-回り道,まわりみち,
-満員,まんいん,
-マンション,マンション,
-満点,まんてん,
-見送る,みおくる,
-見下ろす,みおろす,
-見掛け,みかけ,
-三日月,みかづき,
-岬,みさき,
-みじめ,みじめ,
-ミシン,ミシン,
-店屋,みせや,
-見出し,みだし,
-道順,みちじゅん,
-見付かる,みつかる,
-見付ける,みつける,
-みっともない,みっともない,
-見直す,みなおす,
-見慣れる,みなれる,
-醜い,みにくい,
-実る,みのる,
-身分,みぶん,
-見本,みほん,
-見舞う,みまう,
-未満,みまん,
-名字,みょうじ,
-ミリ,（メートル）,
-診る,みる,
-民間,みんかん,
-民謡,みんよう,
-向う,むかう,
-剥く,むく,
-無限,むげん,
-無地,むじ,
-蒸し暑い,むしあつい,
-矛盾,むじゅん,
-蒸す,むす,
-無数,むすう,
-紫,むらさき,
-群れ,むれ,
-姪,めい,
-名作,めいさく,
-名刺,めいし,
-名詞,めいし,
-名所,めいしょ,
-命ずる,めいずる,
-迷信,めいしん,
-名物,めいぶつ,
-銘々,めいめい,
-目上,めうえ,
-メーター,メーター,
-恵まれる,めぐまれる,
-巡る,めぐる,
-目指す,めざす,
-目覚し,めざまし,
-目下,めした,
-目印,めじるし,
-目立つ,めだつ,
-めちゃくちゃ,めちゃくちゃ,
-めっきり,めっきり,
-めでたい,めでたい,
-メニュー,メニュー,
-めまい,めまい,
-目安,めやす,
-免税,めんぜい,
-面積,めんせき,
-面接,めんせつ,
-面倒臭い,めんどうくさい,
-儲かる,もうかる,
-儲ける,もうける,
-申し訳ない,もうしわけない,
-モーター,モーター,
-木材,もくざい,
-目次,もくじ,
-潜る,もぐる,
-もしかしたら,もしかしたら,
-もしかすると,もしかすると,
-もたれる,もたれる,
-モダン,モダン,
-餅,もち,
-もったいない,もったいない,
-モデル,モデル,
-元々,もともと,
-物置,ものおき,
-物語る,ものがたる,
-物差し,ものさし,
-物凄い,ものすごい,
-モノレール,モノレール,
-紅葉,もみじ,
-揉む,もむ,
-燃やす,もやす,
-催し,もよおし,
-盛る,もる,
-問答,もんどう,
-やかましい,やかましい,
-夜間,やかん,
-薬缶,やかん,
-役者,やくしゃ,
-役所,やくしょ,
-訳す,やくす,
-役人,やくにん,
-薬品,やくひん,
-役目,やくめ,
-火傷,やけど,
-夜行,やこう,
-矢印,やじるし,
-やたらに,やたらに,
-薬局,やっきょく,
-やっつける,やっつける,
-家主,やぬし,
-やっぱり,やっぱり,
-破く,やぶく,
-破れる,やぶれる,
-やむをえない,やむをえない,
-軟らかい,やわらかい,
-遊園地,ゆうえんち,
-夕刊,ゆうかん,
-友好,ゆうこう,
-郵送,ゆうそう,
-夕立,ゆうだち,
-夕日,ゆうひ,
-悠々,ゆうゆう,
-有料,ゆうりょう,
-浴衣,ゆかた,
-湯気,ゆげ,
-輸血,ゆけつ,
-輸送,ゆそう,
-油断,ゆだん,
-ゆでる,ゆでる,
-湯飲み,ゆのみ,
-緩い,ゆるい,
-溶岩,ようがん,
-容器,ようき,
-用語,ようご,
-要旨,ようし,
-幼児,ようじ,
-容積,ようせき,
-幼稚,ようち,
-幼稚園,ようちえん,
-用途,ようと,
-洋品店,ようひんてん,
-養分,ようぶん,
-羊毛,ようもう,
-漸く,ようやく,
-要領,ようりょう,
-欲張り,よくばり,
-余計,よけい,
-よこす,よこす,
-汚す,よごす,
-寄せる,よせる,
-余所,よそ,
-四つ角,よつかど,
-酔っ払い,よっぱらい,
-予備,よび,
-呼び掛ける,よびかける,
-呼び出す,よびだす,
-蘇る,よみがえる,
-因る,よる,
-慶び,よろこび,
-慶ぶ,よろこぶ,
-来日,らいにち,
-落第,らくだい,
-ラッシュアワー,ラッシュアワー,
-欄,らん,
-ランチ,ランチ,
-ランニング,ランニング,
-乱暴,らんぼう,
-理科,りか,
-利害,りがい,
-リズム,リズム,
-リットル,リットル,
-リボン,リボン,
-略す,りゃくす,
-流域,りゅういき,
-寮,りょう,
-両側,りょうがわ,
-漁師,りょうし,
-領事,りょうじ,
-領収,りょうしゅう,
-臨時,りんじ,
-留守番,るすばん,
-例外,れいがい,
-零点,れいてん,
-冷凍,れいとう,
-レインコート,レインコート,
-レクリェーショ,レクリェーショ,
-ン,ン,
-レジャー,レジャー,
-列島,れっとう,
-レベル,レベル,
-リポート,リポート,
-煉瓦,れんが,
-連合,れんごう,
-レンズ,レンズ,
-蝋燭,ろうそく,
-ローマじ,ローマじ,
-録音,ろくおん,
-ロッカー,ロッカー,
-ロビー,ロビー,
-論ずる,ろんずる,
-和英,わえい,
-分る,わかる,
-分かれる,わかれる,
-若々しい,わかわかしい,
-湧く,わく,
-詫びる,わびる,
-和服,わふく,
-わりあいに,わりあいに,
-割算,わりざん,
-割と,わりと,
-割引,わりびき,
-椀,わん,
-碗,わん,
-ワンピース,ワンピース,
+ためらう,ためらう,to hesitate; to waver
+溜める,ためる,to amass; to accumulate; to store
+だらしない,だらしない,"slovenly (appearance, work, etc.); sloppy; untidy; undisciplined; careless; loose; slack"
+足る,たる,to be sufficient; to be enough
+段階,だんかい,stage; step; phase
+短期,たんき,short-term
+炭鉱,たんこう,coal mine; (coal) pit; colliery
+短所,たんしょ,defect; demerit; weak point; disadvantage
+たんす,たんす,chest of drawers; bureau; cabinet; tansu; dresser
+淡水,たんすい,fresh water (i.e. not salt water)
+断水,だんすい,suspension of water supply; water outage
+単数,たんすう,single; one
+団地,だんち,multi-unit apartments; apartment complex
+断定,だんてい,conclusion; decision; judgement; declaration
+短編,たんぺん,short story; short film; short poem
+誓う,ちかう,to swear; to vow; to take an oath; to pledge
+地下水,ちかすい,groundwater; underground water
+近々,ちかぢか,soon; before long; shortly; in the near future
+近付ける,ちかづける,to bring near; to bring close; to let go near
+近寄る,ちかよる,to approach; to draw near
+力強い,ちからづよい,powerful; strong; forceful; vigorous
+ちぎる,ちぎる,to tear to pieces; to tear to shreds; to tear up
+地質,ちしつ,geological features
+知人,ちじん,friend; acquaintance
+地帯,ちたい,zone; area; belt; region
+縮む,ちぢむ,to shrink; to contract; to diminish (in size)
+縮める,ちぢめる,to shorten; to reduce; to condense; to shrink
+縮れる,ちぢれる,to be wavy; to be curled; to be frizzled
+チップ,チップ,tip; gratuity
+地点,ちてん,spot; point; place; position
+地名,ちめい,place name; toponym
+茶色い,ちゃいろい,brown
+着々,ちゃくちゃく,steadily
+茶碗,ちゃわん,rice bowl; tea cup; teacup
+中間,ちゅうかん,middle; midway; halfway; centre; center
+中旬,ちゅうじゅん,middle ten days of a month; 11th to 20th day of a month
+抽象,ちゅうしょう,abstraction
+中世,ちゅうせい,Middle Ages (in Japan esp. the Kamakura and Muromachi periods); medieval times; mediaeval times
+中性,ちゅうせい,"neutrality (incl. chemical, electrical, etc.); indifference"
+中途,ちゅうと,halfway; midway; partway; mid-course
+中年,ちゅうねん,middle-age; middle age; midlife; one's middle years
+超過,ちょうか,"excess; surplus; exceeding (a limit, estimate, etc.); going over"
+彫刻,ちょうこく,carving; engraving; sculpture
+長所,ちょうしょ,strong point; merit; virtue; advantage
+長女,ちょうじょ,eldest daughter; first-born daughter
+調整,ちょうせい,adjustment; regulation; coordination; reconciliation; tuning; fixing; tailoring
+調節,ちょうせつ,regulation; adjustment; control
+長短,ちょうたん,(relative) length
+頂点,ちょうてん,vertex; apex
+長男,ちょうなん,eldest son (may be the only son); first-born son
+長方形,ちょうほうけい,rectangle; oblong
+調味料,ちょうみりょう,seasoning; flavoring; flavouring; condiment
+チョーク,チョーク,chalk
+直後,ちょくご,immediately following
+直線,ちょくせん,straight line
+直前,ちょくぜん,just before; just prior to
+直通,ちょくつう,direct line; direct communication; connecting directly; through service; nonstop service
+直流,ちょくりゅう,direct current
+貯蔵,ちょぞう,storage; preservation; stocking; stockpiling
+直角,ちょっかく,right angle
+直径,ちょっけい,diameter
+散らかす,ちらかす,to scatter around; to leave untidy; to make a mess
+散らかる,ちらかる,to be in disorder; to lie scattered around
+散らす,ちらす,to scatter; to cause a shower of
+塵紙,ちりがみ,tissue paper; toilet paper
+散る,ちる,"to fall (e.g. blossoms, leaves)"
+追加,ついか,addition; supplement; appending; appendix
+ついで,ついで,opportunity; occasion; chance
+通貨,つうか,currency
+通勤,つうきん,commuting to work
+通ずる,つうずる,to communicate; to connect
+通知,つうち,notice; notification; report; posting
+通帳,つうちょう,passbook; bankbook
+通訳,つうやく,interpretation (i.e. oral translation)
+通用,つうよう,"(common) use (of a language, currency, etc.); current use; circulation; currency; validity (e.g. of a ticket)"
+通路,つうろ,passage; pathway; roadway; avenue; aisle
+付合う,つきあう,to associate with; to keep company with; to go out with; to go steady with; to get on with
+突き当たり,つきあたり,"end (of a street, hallway, etc.)"
+突き当たる,つきあたる,to run into; to collide with; to crash into; to bump against
+月日,つきひ,time; years; days; (one's) life
+点く,つく,"to be lit (of a lamp, burner, etc.); to catch fire; to ignite; to start burning"
+突く,つく,to prick; to stab
+次ぐ,つぐ,to follow; to come after; to come next (to); to rank next (to); to rank second (to)
+作る,つくる,to make; to produce; to manufacture; to build; to construct
+造る,つくる,to make; to produce; to manufacture; to build; to construct
+着ける,つける,to attach; to join; to connect; to add; to append; to affix; to stick; to glue; to fasten; to sew on; to apply (ointment
+点ける,つける,to turn on; to switch on; to light up
+浸ける,つける,to soak (in); to steep; to dip; to dunk
+伝わる,つたわる,"to spread (of a rumour, news, etc.); to travel; to circulate; to go around; to be passed around; to become known"
+突っ込む,つっこむ,to thrust (something) into (something); to cram; to stuff; to shove
+務める,つとめる,to work (for); to be employed (at); to serve (in)
+努める,つとめる,to endeavor (to do); to endeavour; to try hard; to work hard; to strive; to make an effort; to exert oneself; to devote 
+綱,つな,rope; cord; line
+繋がり,つながり,connection; link; relationship
+繋がる,つながる,to be tied together; to be connected to; to be linked to
+繋げる,つなげる,to connect; to link
+粒,つぶ,grain; bead; drop
+潰す,つぶす,to smash; to crush; to flatten
+潰れる,つぶれる,to be crushed; to be squashed; to be smashed; to be destroyed; to be broken; to collapse
+つまずく,つまずく,to trip (over); to stumble
+詰まる,つまる,to be packed (with); to be filled; to be full (e.g. of a schedule)
+積む,つむ,to pile up; to stack
+爪,つめ,"nail (e.g. fingernail, toenail); claw; talon; hoof"
+艶,つや,gloss; luster; lustre; shine; sheen; polish
+強気,つよき,confident; assured; self-assured; firm; strong; cocksure
+釣り合う,つりあう,to balance; to be in harmony; to be in equilibrium
+吊る,つる,to hang; to suspend; to sling; to wear (e.g. a sword); to put up (e.g. a shelf)
+吊す,つるす,to hang; to hang up
+出合い,であい,meeting; rendezvous; encounter
+手洗い,てあらい,"washing one's hands; water (or basin, etc.) for washing one's hands"
+定員,ていいん,"fixed number (of people); prescribed number (of regular personnel, students, etc.); quota; numerical limit; complement"
+定価,ていか,list price; regular price; established price
+低下,ていか,fall; decline; lowering; deterioration; degradation
+定期券,ていきけん,commuter pass; season ticket
+定休日,ていきゅうび,regular holiday; fixed day off; regular closing day
+停止,ていし,stoppage; coming to a stop; halt; standstill
+停車,ていしゃ,"stopping (of a train, car, etc.); stop"
+停電,ていでん,power outage; power failure; power cut; blackout
+出入り,でいり,going in and out; entering and exiting
+出入口,でいりぐち,exit and entrance
+手入れ,ていれ,care; looking after; repair; maintenance; tending; trimming; grooming
+テーマ,テーマ,theme; topic; subject matter; motif; project; slogan
+出掛ける,でかける,to go out (e.g. on an excursion or outing); to leave; to depart; to start; to set out
+出来上がり,できあがり,completion; finish
+出来上がる,できあがる,to be completed; to be finished; to be ready (e.g. to serve or eat)
+的確,てきかく,accurate; precise; exact; appropriate; apt; right
+適確,てきかく,accurate; precise; exact; appropriate; apt; right
+手首,てくび,wrist
+凸凹,でこぼこ,unevenness; roughness; ruggedness; bumpiness
+手頃,てごろ,handy; convenient
+でたらめ,でたらめ,nonsense; irresponsible remark; codswallop; hogwash; rubbish
+手帳,てちょう,notebook; memo pad; (pocket) diary
+鉄橋,てっきょう,railway bridge; iron bridge
+手続き,てつづき,procedure; process; proceedings; formalities
+鉄砲,てっぽう,gun; firearm
+テニスコート,テニスコート,tennis court
+手拭い,てぬぐい,tenugui; (hand) towel (usu. thin cotton cloth)
+手前,てまえ,before oneself; in front of one; nearby
+出迎え,でむかえ,meeting; reception
+出迎える,でむかえる,to meet; to greet
+照らす,てらす,to shine on; to illuminate
+照る,てる,to shine
+展開,てんかい,development; evolution; progression; unfolding; (plot) twist
+伝記,でんき,biography; life story
+電球,でんきゅう,light bulb
+点数,てんすう,marks; points; score; grade; runs (baseball)
+伝染,でんせん,contagion; infection
+電池,でんち,battery; cell
+点々,てんてん,moving from place to place; being passed around repeatedly
+転々,てんてん,moving from place to place; being passed around repeatedly
+電柱,でんちゅう,utility pole; power pole; telephone pole; telegraph pole
+天皇,てんのう,Emperor of Japan
+電波,でんぱ,radio wave; reception; signal
+テンポ,テンポ,tempo
+電流,でんりゅう,electric current
+電力,でんりょく,electric power
+問い合わせ,といあわせ,inquiry; query; enquiry
+銅,どう,copper (Cu)
+統一,とういつ,unity; consolidation; uniformity; unification; compatible
+同格,どうかく,equal rank; equivalent
+峠,とうげ,(mountain) pass; highest point on a mountain road; ridge
+統計,とうけい,statistics
+動作,どうさ,movement (of the body); action; motion; gesture
+東西,とうざい,east and west
+当日,とうじつ,"day in question; appointed day; that very day; the day (of issue, publication, etc.)"
+投書,とうしょ,letter (e.g. of complaint); letter to the editor; letter from a reader
+登場,とうじょう,"entrance (on the stage); appearance (in a book, film, etc.)"
+どうせ,どうせ,in any case; regardless; either way; after all; no matter what; anyway
+どうぞよろしく,どうぞよろしく,pleased to meet you; please treat me well
+灯台,とうだい,lighthouse
+盗難,とうなん,theft; robbery
+当番,とうばん,being on duty; person on duty; one's turn
+等分,とうぶん,division into equal parts; equal parts
+透明,とうめい,transparent; clear
+灯油,とうゆ,kerosene; paraffin; lamp oil
+東洋,とうよう,the East; the Orient; (East) Asia
+童話,どうわ,children's story; fairy tale
+通り掛かる,とおりかかる,to happen to pass by
+溶かす,とかす,to melt; to liquefy; to thaw
+尖る,とがる,to taper to a point; to become pointed; to become sharp
+どきどき,どきどき,thump-thump; bang-bang; pit-a-pat; pitapat; pitter-patter
+溶く,とく,"to mix (e.g. water with flour); to dissolve (salt in water, paint, etc.); to mix in"
+退く,どく,to step aside; to move (out of the way); to make way
+特殊,とくしゅ,special; particular; peculiar; unique
+特色,とくしょく,characteristic; (distinctive) feature; peculiarity; distinguishing quality; special character
+特長,とくちょう,strong point; forte; merit; strength
+特定,とくてい,specific; particular; designated; special
+特売,とくばい,special sale; bargain sale
+溶け込む,とけこむ,to melt into; to dissolve into; to merge into
+溶ける,とける,to melt; to liquefy; to soften (e.g. through heat); to thaw
+退ける,どける,"to put something out of the way; to move (something, someone) aside"
+床の間,とこのま,tokonoma; alcove where art or flowers are displayed
+床屋,とこや,barbershop; barber shop; barber
+所々,ところどころ,here and there; in places
+都心,としん,city centre (esp. of Tokyo); heart of a city; downtown area
+戸棚,とだな,cupboard; locker; closet; wardrobe; cabinet
+とっくに,とっくに,long ago; a long time ago; already
+どっと,どっと,bursting out (laughter); breaking out (applause); roaring; whooping
+整う,ととのう,to be ready; to be prepared; to be arranged
+留まる,とどまる,to remain; to abide; to stay (in the one place)
+どなる,どなる,to shout (in anger); to yell
+飛び込む,とびこむ,to jump in; to leap in; to plunge into; to dive
+跳ぶ,とぶ,to fly; to soar
+留まる,とまる,to stop (moving); to come to a stop
+泊める,とめる,to give shelter to; to lodge; to put up; to accommodate
+ともかく,ともかく,anyhow; anyway; somehow or other; generally speaking; in any case; be that as it may
+捕える,とらえる,to catch; to capture; to seize; to arrest; to grab; to catch hold of
+取り入れる,とりいれる,to take in; to gather in
+取り消す,とりけす,"to cancel; to withdraw; to retract; to take back (words, etc.); to revoke"
+取り出す,とりだす,to take out; to produce; to pick out
+採る,とる,"to adopt (a method, proposal, etc.); to take (a measure, course of action, etc.); to decide on"
+捕る,とる,"to catch (a wild animal, fish, insect, baseball, etc.); to capture"
+トレーニング,トレーニング,"training (for a skill, job, sport, etc.); practice"
+丼,どんぶり,porcelain bowl
+内科,ないか,internal medicine
+内線,ないせん,phone extension; indoor wiring; inner line
+ナイロン,ナイロン,nylon
+治す,なおす,to cure; to heal
+永い,ながい,"long (distance, length)"
+仲直り,なかなおり,reconciliation; making up (with); making peace (with); being friends again; patching up a quarrel
+長引く,ながびく,to be prolonged; to drag on; to take a long time; to persist; to linger
+中身,なかみ,contents; interior; filling
+中味,なかみ,contents; interior; filling
+中指,なかゆび,middle finger; long finger; second finger; tall finger
+仲良し,なかよし,close friendship; close friend; good friend; bosom buddy; chum; pal
+慰める,なぐさめる,to comfort; to console; to amuse
+亡くす,なくす,"to lose (through death; e.g. a wife, child)"
+なぐる,なぐる,to strike; to hit; to beat; to punch
+為す,なす,to do; to commit; to carry out; to bring about
+謎謎,なぞなぞ,riddle; puzzle; enigma
+傾らか,なだらか,gentle slope; gradual
+懐かしい,なつかしい,dear (old); fondly remembered; beloved; missed; nostalgic
+撫でる,なでる,to stroke; to caress; to brush gently; to pat; to rub
+斜め,ななめ,slanting; tilted; sloping; diagonal; oblique
+なにしろ,なにしろ,in any case; at any rate; anyhow; anyway; as you know; for you see; particularly
+何々,なになに,such and such; what was it
+何分,なにぶん,some; any; (a) little; of some kind; of some sort
+生意気,なまいき,impertinent; saucy; cheeky; impudent; audacious; cocky; pert; brash
+並木,なみき,roadside trees; row of trees
+倣う,ならう,to imitate; to follow; to copy; to emulate
+鳴らす,ならす,to ring; to sound; to chime; to beat; to snort (nose); to snap (fingers); to crack (joints)
+生る,なる,to bear fruit
+馴れる,なれる,to get used to; to grow accustomed to; to become familiar with
+南極,なんきょく,South Pole
+なんとなく,なんとなく,somehow; for some reason (or other); without knowing why
+なんとも,なんとも,really; very; extremely; terribly; awfully
+ナンバー,ナンバー,number
+南米,なんべい,South America
+南北,なんぼく,north and south; north to south
+煮える,にえる,to be boiled; to be cooked
+匂う,におう,to be fragrant; to smell (good)
+逃がす,にがす,to set free; to let go; to release
+憎い,にくい,hateful; detestable; abominable; vexing; provoking
+憎む,にくむ,to hate; to detest
+憎らしい,にくらしい,odious; hateful; detestable; horrible
+にこにこ,にこにこ,with a friendly grin; smilingly
+濁る,にごる,to become muddy; to become cloudy; to become turbid; to become impure (of a liquid or gas)
+虹,にじ,rainbow
+日時,にちじ,"date and time (of a meeting, departure, etc.)"
+日用品,にちようひん,daily necessities; everyday item
+日課,にっか,daily routine; daily work; daily lesson
+日程,にってい,schedule; program; programme; agenda
+鈍い,にぶい,dull (e.g. a knife); blunt
+入社,にゅうしゃ,joining a company; getting a job with a company; starting work at a company
+女房,にょうぼう,wife (esp. one's own wife)
+睨む,にらむ,to glare at; to scowl at; to glower at
+煮る,にる,to boil; to simmer; to stew; to seethe
+俄,にわか,sudden; abrupt; unexpected; immediate; hasty; improvised; impromptu; offhand
+縫う,ぬう,to sew; to stitch
+濡らす,ぬらす,to wet; to moisten; to dampen; to soak; to dip
+ねじ,ねじ,screw
+捩る,ねじる,to twist
+ネックレス,ネックレス,necklace
+熱する,ねっする,to heat; to heat up
+寝間着,ねまき,nightclothes; nightwear; sleepwear; pyjamas; pajamas; nightgown; nightdress
+寝巻,ねまき,nightclothes; nightwear; sleepwear; pyjamas; pajamas; nightgown; nightdress
+狙い,ねらい,"aim (of a gun, bow, etc.)"
+狙う,ねらう,"to aim at (with a weapon, etc.)"
+年度,ねんど,fiscal year (usu. April 1 to March 31 in Japan); financial year
+農産物,のうさんぶつ,agricultural produce
+農村,のうそん,agricultural community; farm village
+濃度,のうど,concentration; density
+農薬,のうやく,agricultural chemical; agrochemical; agrichemical
+能率,のうりつ,efficiency
+のこぎり,のこぎり,saw
+残らず,のこらず,all; entirely; completely; without exception
+載せる,のせる,to place on (something)
+覗く,のぞく,"to peek (through a keyhole, gap, etc.)"
+延ばす,のばす,"to grow long (e.g. hair, nails)"
+延びる,のびる,"to stretch; to extend; to lengthen; to grow (of hair, height, grass, etc.)"
+上り,のぼり,ascent; climbing; ascending (path); climb
+上る,のぼる,to ascend; to go up; to climb
+糊,のり,paste; glue
+乗換,のりかえ,"transfer (trains, buses, etc.); change; connection"
+載る,のる,to be placed on; to be set on; to be piled on; to be loaded on
+鈍い,のろい,thickheaded; obtuse; stupid
+のろのろ,のろのろ,slowly; sluggishly
+呑気,のんき,easy; easygoing; carefree; happy-go-lucky; optimistic; leisurely; careless; thoughtless
+灰色,はいいろ,grey; gray; ashen
+俳句,はいく,"haiku; 17-mora poem, usu. in 3 lines of 5, 7 and 5 morae"
+拝見,はいけん,seeing; looking at
+売店,ばいてん,stand; stall; booth; kiosk; store
+バイバイ,バイバイ,bye-bye
+売買,ばいばい,"trade; buying and selling; trafficking (e.g. of humans, arms, drugs); dealing"
+這う,はう,to crawl; to creep; to go on all fours
+生える,はえる,to grow; to spring up; to sprout
+剥す,はがす,to tear off; to peel off; to rip off; to strip off; to skin; to flay; to disrobe; to deprive of; to detach; to disconnec
+ばからしい,ばからしい,absurd; foolish; stupid; silly; nonsense; ludicrous; preposterous; laughable; ridiculous
+秤,はかり,scales; weighing machine
+量る,はかる,"to measure; to weigh; to survey; to time (sound, gauge, estimate)"
+測る,はかる,"to measure; to weigh; to survey; to time (sound, gauge, estimate)"
+吐き気,はきけ,nausea; feeling like throwing up; feeling sick
+はきはき,はきはき,clearly; crisply
+掃く,はく,to sweep; to brush; to clean
+歯車,はぐるま,gear; cogwheel
+バケツ,バケツ,bucket; pail
+挟まる,はさまる,to get between; to be caught in
+挟む,はさむ,"to hold between (e.g. one's fingers, chopsticks); to grip (from both sides)"
+箸,はし,chopsticks
+梯子,はしご,ladder
+始めに,はじめに,first; firstly; first of all; to begin with; in the beginning; at the beginning
+初めに,はじめに,first; firstly; first of all; to begin with; in the beginning; at the beginning
+はじめまして,はじめまして,nice to meet you; I'm glad to make your acquaintance; how do you do?
+斜,はす,slanting; tilted; sloping; diagonal; oblique
+外れる,はずれる,to be disconnected; to get out of place; to be off; to be out (e.g. of gear)
+パターン,パターン,pattern
+肌着,はだぎ,underwear; underclothes; lingerie; chemise; singlet
+果して,はたして,as was expected; just as one thought; sure enough
+鉢,はち,bowl; pot; basin
+×,ばつ,clique; clan; faction
+発揮,はっき,"show (of power, ability, etc.); exhibition; demonstration; display; manifestation"
+バック,バック,bag
+発射,はっしゃ,firing (esp. a rocket or missile); launching; shooting; discharge; catapult
+発想,はっそう,idea; conception
+発電,はつでん,generation of electricity; power generation
+発売,はつばい,sale; offering for sale; putting on sale; putting on the market; release (for sale)
+派手,はで,showy; loud; flashy; gaudy
+話合い,はなしあい,discussion; talk; tête-à-tête; conference
+話し掛ける,はなしかける,to address (someone); to accost a person; to talk (to someone)
+話中,はなしちゅう,on the phone; in the middle of a call
+甚だしい,はなはだしい,extreme; excessive; terrible; intense; severe; serious; tremendous; heavy (damage)
+花火,はなび,fireworks
+花嫁,はなよめ,bride
+放れる,はなれる,to get free (from); to be freed; to be released
+羽根,はね,feather; plume; down
+ばね,ばね,spring (device)
+跳ねる,はねる,to jump; to leap; to prance; to spring up; to bound; to hop
+破片,はへん,fragment; broken piece; splinter; chip; shard
+歯磨き,はみがき,dental brushing; brushing one's teeth
+はめる,はめる,to fit (e.g. a pane into a frame); to insert (e.g. a cork); to fasten (a button)
+早口,はやくち,fast-talking; rapid talking
+流行る,はやる,to be popular; to come into fashion
+払い込む,はらいこむ,to deposit; to pay in
+払い戻す,はらいもどす,to repay; to pay back; to refund; to reimburse
+バランス,バランス,balance
+針金,はりがね,wire
+張り切る,はりきる,to be in high spirits; to be full of vigor (vigour); to be enthusiastic; to be eager; to stretch to breaking point
+反映,はんえい,reflection (of light)
+半径,はんけい,radius
+判子,はんこ,seal (used in lieu of a signature); stamp; chop
+万歳,ばんざい,banzai; hurray; hurrah; hooray
+判事,はんじ,judge; judiciary
+反省,はんせい,reflection; reconsideration; introspection; meditation; contemplation
+番地,ばんち,house number; address
+パンツ,パンツ,underpants; pants; briefs; panties; shorts; knickers
+バンド,バンド,band (group of musicians)
+半島,はんとう,peninsula
+ハンドル,ハンドル,handle
+日当たり,ひあたり,exposure to the sun; sunny place
+日帰り,ひがえり,day trip
+比較的,ひかくてき,comparatively; relatively
+日陰,ひかげ,shade; shadow
+ぴかぴか,ぴかぴか,with a glitter; with a sparkle
+引受る,ひきうける,to take on; to undertake; to accept; to take charge of; to assume responsibility for
+引返す,ひきかえす,to turn back; to go back; to come back; to return; to retrace one's steps
+引算,ひきざん,subtraction
+引出す,ひきだす,to pull out; to take out; to draw out
+引き止める,ひきとめる,to detain; to check; to restrain; to stop
+卑怯,ひきょう,cowardly; craven
+引分け,ひきわけ,draw (in competition); tie game
+髭,ひげ,moustache; mustache; beard; whiskers; sideburns; facial hair
+陽射,ひざし,sunlight; rays of the Sun
+肘,ひじ,elbow
+ピストル,ピストル,pistol
+ビタミン,ビタミン,vitamin
+ぴたり,ぴたり,tightly; closely
+引っ掛かる,ひっかかる,to be caught in; to be stuck in
+筆記,ひっき,(taking) notes; copying
+引っ繰り返,ひっくりかえす,to turn over; to flip
+引っ繰り返,ひっくりかえる,to be overturned; to be reversed; to turn over; to capsize
+引越し,ひっこし,"moving (dwelling, office, etc.); changing residence"
+引っ込む,ひっこむ,to draw back; to sink; to cave in
+筆者,ひっしゃ,writer; author
+必需品,ひつじゅひん,necessities; necessary article; requisite; essentials
+人差指,ひとさしゆび,index finger; forefinger; first (occ. second) finger
+一通り,ひととおり,"generally; in the main; briefly (look over, explain, etc.); roughly; more or less"
+人通り,ひとどおり,pedestrian traffic
+ひとまず,ひとまず,for now; for the time being; for the present
+瞳,ひとみ,pupil (of the eye)
+一休み,ひとやすみ,(short) rest; breather; break
+独り言,ひとりごと,soliloquy; monologue; speaking to oneself
+ひとりでに,ひとりでに,by itself; automatically; naturally
+ビニール,ビニール,vinyl; plastic
+皮肉,ひにく,irony; sarcasm; cynicism; satire
+日日,ひにち,"date (of a planned event, act, etc.); day"
+捻る,ひねる,"to twist; to wrench; to turn (a tap, switch, etc.)"
+日の入り,ひのいり,sunset
+日の出,ひので,sunrise
+響き,ひびき,echo; reverberation
+響く,ひびく,to resound; to be heard far away
+皮膚,ひふ,skin
+冷やす,ひやす,to cool; to chill; to refrigerate
+ひゃっかじてん,ひゃっかじてん,encyclopedia; encyclopaedia
+美容,びよう,beauty; good figure; (beautiful) appearance; (beautiful) features
+表紙,ひょうし,"cover (of a book, magazine, etc.); binding"
+標識,ひょうしき,sign; mark; marker; beacon
+標準,ひょうじゅん,standard; criterion; norm; model; mark
+標本,ひょうほん,specimen; sample
+評論,ひょうろん,criticism; critique; review; comment; critical essay
+平仮名,ひらがな,"hiragana; cursive Japanese syllabary used primarily for native Japanese words (esp. function words, inflections, etc.)"
+ビルディング,ビルディング,multi-floor building; multi-storey building; tall building
+昼寝,ひるね,(afternoon) nap; sleeping during the day; siesta
+広げる,ひろげる,to spread; to extend; to expand; to enlarge; to widen; to broaden
+広さ,ひろさ,area; extent; dimensions; size
+広場,ひろば,public square; square; plaza; piazza; forum
+広々,ひろびろ,extensive; spacious
+広める,ひろめる,to spread; to propagate; to popularize; to disseminate
+ピンク,ピンク,pink
+便箋,びんせん,writing paper; stationery; notepaper
+瓶詰,びんづめ,bottling
+ファスナー,ファスナー,zip fastener; zipper; zip
+風船,ふうせん,balloon (toy or decoration)
+不運,ふうん,misfortune; bad luck; ill luck; ill fortune
+殖える,ふえる,to increase; to multiply
+深まる,ふかまる,to deepen; to heighten; to intensify
+不規則,ふきそく,irregular; unsystematic; unsteady; disorderly
+普及,ふきゅう,diffusion; spread; popularization; promulgation; familiarization
+付近,ふきん,neighborhood; neighbourhood; vicinity; environs; surrounding area; district
+拭く,ふく,to wipe; to dry
+副詞,ふくし,adverb
+複写,ふくしゃ,copying; duplication; reproduction; copy
+複数,ふくすう,plural; multiple
+含める,ふくめる,to include (in a group or scope)
+膨らます,ふくらます,to swell; to expand; to inflate; to bulge
+膨らむ,ふくらむ,to expand; to swell (out); to get big; to become inflated
+不潔,ふけつ,unclean; dirty; unsanitary; filthy
+更ける,ふける,to get late; to advance; to wear on
+符号,ふごう,sign; mark; symbol; code
+夫妻,ふさい,husband and wife; married couple
+塞がる,ふさがる,to be closed; to be blocked; to be healed (e.g. wound); to be shut up
+塞ぐ,ふさぐ,"to stop up; to close up; to block (up); to plug up; to shut up; to cover (ears, eyes, etc.); to close (eyes, mouth)"
+ふざける,ふざける,to joke; to jest; to kid; to josh
+無沙汰,ぶさた,neglecting to visit or contact
+武士,ぶし,samurai; warrior
+部首,ぶしゅ,radical (of a kanji character)
+襖,ふすま,fusuma; Japanese sliding screen
+附属,ふぞく,being attached (to); being affiliated (to); belonging (to); going with
+蓋,ふた,cover; lid; cap
+不通,ふつう,suspension; interruption; stoppage; tie-up; cessation
+ぶつかる,ぶつかる,to bump into; to run into; to collide with; to hit; to strike
+ぶつける,ぶつける,to hit (e.g. one's head); to strike; to knock; to run (into); to crash (into)
+物騒,ぶっそう,dangerous; unsettled; troubled; disturbed; insecure
+ぶつぶつ,ぶつぶつ,grunt; grumble; complaint; mutter
+船便,ふなびん,surface mail (by ship); sea mail
+部品,ぶひん,parts; accessories; components
+吹雪,ふぶき,snow storm; blizzard
+父母,ふぼ,father and mother; parents
+踏切,ふみきり,railway crossing; railroad crossing; train crossing; level crossing
+麓,ふもと,foot (of a mountain or hill); bottom; base
+増やす,ふやす,to increase; to add to; to augment
+殖やす,ふやす,to increase; to add to; to augment
+フライパン,フライパン,fry pan; frying pan
+ブラウス,ブラウス,blouse
+ぶらさげる,ぶらさげる,to hang; to suspend; to dangle; to swing; to carry
+ブラシ,ブラシ,brush
+プラスチック,プラスチック,plastic
+プラットホーム,プラットホーム,platform
+フリー,フリー,"free (of restraint, controls, etc.)"
+振り仮名,ふりがな,furigana; kana printed above or next to kanji to indicate pronunciation
+プリント,プリント,print; printing; (printed) copy
+振舞う,ふるまう,to behave; to conduct oneself; to act
+ブローチ,ブローチ,brooch
+プログラム,プログラム,"program (of events, music, etc.); programme"
+風呂敷,ふろしき,furoshiki; wrapping cloth; cloth wrapper
+ふわふわ,ふわふわ,"lightly (floating, drifting, etc.); buoyantly"
+噴火,ふんか,eruption; volcanic eruption
+分解,ぶんかい,disassembly; dismantling; disaggregating; taking apart; breaking up; analysis; parsing
+文芸,ぶんげい,literature
+文献,ぶんけん,literature; books (reference); document
+噴水,ふんすい,water fountain
+分数,ぶんすう,fraction
+文体,ぶんたい,literary style
+分布,ぶんぷ,distribution
+文房具,ぶんぼうぐ,stationery
+文脈,ぶんみゃく,context (of a passage); line of thought
+分量,ぶんりょう,amount; quantity
+分類,ぶんるい,classification; categorization; sorting
+閉会,へいかい,"closure (of a ceremony, event, meeting, etc.)"
+平気,へいき,cool; calm; composed; unconcerned; nonchalant; unmoved; indifferent
+並行,へいこう,going side-by-side; going abreast
+平日,へいじつ,weekday; ordinary days (i.e. non-holiday)
+兵隊,へいたい,armed forces; military; troops
+平凡,へいぼん,ordinary; common; commonplace; mediocre; unremarkable; undistinguished; uneventful
+平野,へいや,plain; open field
+凹む,へこむ,to be dented; to be indented; to yield; to give; to sink; to collapse; to cave in
+へそ,へそ,navel; belly button
+隔てる,へだてる,"to separate (by distance, time, etc.); to isolate; to partition; to divide"
+別荘,べっそう,holiday house; vacation home; villa
+別々,べつべつ,separate; respective; different
+ベテラン,ベテラン,veteran (in a particular field); person with a lot of experience; old hand
+ヘリコプター,ヘリコプター,helicopter
+へる,へる,to decrease (in size or number); to diminish; to abate
+ぺん,ぺん,pen
+編集,へんしゅう,editing; compilation
+便所,べんじょ,toilet; lavatory; water closet; restroom; bathroom
+ペンチ,ペンチ,cutting pliers; lineman's pliers; combination pliers
+望遠鏡,ぼうえんきょう,telescope
+方角,ほうがく,direction; way
+箒,ほうき,broom
+方言,ほうげん,dialect; provincialism
+坊さん,ぼうさん,Buddhist priest; monk
+防止,ぼうし,prevention; check
+方針,ほうしん,policy; course; plan (of action); principle
+包装,ほうそう,packing; wrapping
+法則,ほうそく,law; rule
+包帯,ほうたい,bandage; dressing
+膨大,ぼうだい,huge; vast; enormous; colossal; extensive; large
+庖丁,ほうちょう,kitchen knife
+方程式,ほうていしき,equation; formula
+防犯,ぼうはん,prevention of crime
+方面,ほうめん,direction; district; area
+坊や,ぼうや,boy; young fellow
+放る,ほうる,to throw; to fling; to hurl; to toss
+ボーナス,ボーナス,bonus
+朗らか,ほがらか,cheerful; merry; sunny; melodious
+牧場,ぼくじょう,farm (livestock); stock farm; ranch; station
+牧畜,ぼくちく,stock-farming; livestock farming; cattle breeding
+保健,ほけん,preservation of health; hygiene; sanitation
+募集,ぼしゅう,recruitment; invitation; selection; advertisement; taking applications
+干す,ほす,to air; to dry; to desiccate
+ポスター,ポスター,poster
+北極,ほっきょく,North Pole
+坊っちゃん,ぼっちゃん,(another's) son; boy; young master
+ほどく,ほどく,to undo; to untie; to unfasten; to unlace; to unravel; to loosen; to unpack
+堀,ほり,moat; fosse
+掘る,ほる,to dig; to excavate; to hollow
+彫る,ほる,to carve; to engrave; to sculpt; to chisel
+ぼろ,ぼろ,rag; worn-out cloth
+盆,ぼん,tray
+盆地,ぼんち,basin (e.g. between mountains)
+本部,ほんぶ,headquarters; head office; main office
+本来,ほんらい,originally; primarily
+まあまあ,まあまあ,so-so; passable; not (so) bad; reasonable
+枚数,まいすう,the number of flat things
+毎度,まいど,each time; every time; always; often
+マイナス,マイナス,minus; subtraction; taking away
+巻く,まく,"to wind; to coil; to roll; to wear (e.g. turban, scarf)"
+蒔く,まく,to sow; to plant; to seed
+撒く,まく,to scatter; to sprinkle; to strew
+枕,まくら,pillow; bolster
+曲げる,まげる,to bend; to crook; to bow; to curve; to curl
+まごまご,まごまご,confused; flustered; at a loss
+摩擦,まさつ,friction
+混ざる,まざる,to be mixed; to be blended with; to associate with; to mingle with; to join
+交ざる,まざる,to be mixed; to be blended with; to associate with; to mingle with; to join
+混じる,まじる,to be mixed; to be blended with; to be combined
+交じる,まじる,to be mixed; to be blended with; to be combined
+マスク,マスク,(face) mask
+混ぜる,まぜる,to mix; to stir; to blend
+交ぜる,まぜる,to mix; to stir; to blend
+またぐ,またぐ,to step over; to step across; to stride over; to stride across; to cross
+又は,または,or; either ... or ...
+待合室,まちあいしつ,waiting room
+待ち合わせ,まちあわせ,meeting
+街角,まちかど,street corner
+真っ暗,まっくら,pitch-dark; pitch-black; completely dark
+真っ黒,まっくろ,pitch black
+真っ青,まっさお,deep blue; bright blue
+真っ先,まっさき,the head; the foremost; beginning; the very front
+真っ白,まっしろ,pure white
+祭る,まつる,to deify; to enshrine
+窓口,まどぐち,counter; window; teller window; ticket window
+纏まる,まとまる,to find resolution; to be settled; to be agreed on; to be completed
+纏める,まとめる,to collect; to put (it all) together; to integrate; to consolidate; to unify
+真似る,まねる,to mimic; to imitate
+まぶしい,まぶしい,dazzling; radiant
+まぶた,まぶた,eyelid
+マフラー,マフラー,(thick) scarf; muffler
+間も無く,まもなく,soon; shortly; before long; in a short time; in a little while
+マラソン,マラソン,marathon
+円い,まるい,round; circular; spherical
+稀,まれ,rare; seldom
+回り道,まわりみち,detour; circuitous route; diversion
+満員,まんいん,full house; no vacancy; sold out; standing room only; full (of people); crowded
+マンション,マンション,condominium (usu. mid or high-rise); apartment building; apartment house; block of flats; apartment; flat
+満点,まんてん,perfect score; full marks
+見送る,みおくる,to see (someone) off; to escort
+見下ろす,みおろす,to overlook; to command a view of; to look down on
+見掛け,みかけ,outward appearance
+三日月,みかづき,crescent moon; young moon
+岬,みさき,cape (on coast)
+みじめ,みじめ,miserable; wretched; unhappy; sad; pitiable
+ミシン,ミシン,sewing machine
+店屋,みせや,shop; store
+見出し,みだし,heading; headline; title; caption
+道順,みちじゅん,route; way; course; directions
+見付かる,みつかる,to be found; to be discovered
+見付ける,みつける,to find; to discover; to come across; to spot; to catch (someone doing)
+みっともない,みっともない,shameful; disgraceful; unsightly; indecent; unseemly; unbecoming; improper
+見直す,みなおす,to look at again
+見慣れる,みなれる,to get used to seeing; to become accustomed to seeing; to be familiar with
+醜い,みにくい,ugly; unattractive; bad-looking
+実る,みのる,to bear fruit; to ripen
+身分,みぶん,(social) standing; status; position; rank
+見本,みほん,sample; specimen; pattern
+見舞う,みまう,to visit and comfort or console; to go to see (e.g. someone in hospital); to ask after (e.g. someone's health); to inqui
+未満,みまん,less than; under; below
+名字,みょうじ,surname; family name; last name
+ミリ,ミリ,milli- (meter)
+診る,みる,to examine (medically); to have a look at; to check (a patient's pulse)
+民間,みんかん,private; non-governmental; non-official; civilian; civil
+民謡,みんよう,folk song; popular song
+向う,むかう,to face
+剥く,むく,to peel; to skin; to pare; to hull; to strip
+無限,むげん,infinity; infinitude; eternity
+無地,むじ,plain; unfigured; patternless; solid (color)
+蒸し暑い,むしあつい,humid; sultry
+矛盾,むじゅん,contradiction; inconsistency
+蒸す,むす,"to steam (food, towel, etc.)"
+無数,むすう,innumerable; countless; numberless
+紫,むらさき,purple; violet
+群れ,むれ,group; crowd; flock; herd; bevy; school; swarm; cluster (e.g. of stars); clump; pack (e.g. of dogs)
+姪,めい,niece
+名作,めいさく,masterpiece; masterwork
+名刺,めいし,business card
+名詞,めいし,noun
+名所,めいしょ,famous place; noted place; place of (scenic or historical) interest; sights (to see)
+命ずる,めいずる,to order; to command
+迷信,めいしん,superstition; superstitious belief
+名物,めいぶつ,famous product; special product; speciality; specialty
+銘々,めいめい,each; individual
+目上,めうえ,superior; superiors; senior
+メーター,メーター,meter; gauge
+恵まれる,めぐまれる,to be blessed with; to be rich in; to abound in
+巡る,めぐる,to go around; to make a circle around
+目指す,めざす,"to aim at (for, to do, to become); to try for; to have an eye on"
+目覚し,めざまし,alarm clock
+目下,めした,subordinate; subordinates; inferior; inferiors; junior
+目印,めじるし,mark (for quick identification or recognition); sign
+目立つ,めだつ,to be conspicuous; to stand out
+めちゃくちゃ,めちゃくちゃ,absurd; unreasonable; nonsensical; preposterous; incoherent
+めっきり,めっきり,remarkably; noticeably; visibly; considerably; perceptibly; appreciably; very much
+めでたい,めでたい,happy; auspicious; propitious; joyous
+メニュー,メニュー,menu
+めまい,めまい,dizziness; giddiness; vertigo
+目安,めやす,criterion; standard; yardstick; reference; aim
+免税,めんぜい,tax exemption; duty exemption
+面積,めんせき,area (measurement); square measure; size (of land); floor space
+面接,めんせつ,interview (e.g. for a job)
+面倒臭い,めんどうくさい,bothersome; tiresome; bother to do
+儲かる,もうかる,to be profitable; to yield a profit
+儲ける,もうける,to profit; to get; to earn; to gain
+申し訳ない,もうしわけない,I'm sorry; (it's) inexcusable; I feel regretful; I feel guilty
+モーター,モーター,motor; engine
+木材,もくざい,lumber; timber; wood
+目次,もくじ,table of contents; contents
+潜る,もぐる,to go under; to pass under; to go through; to pass through
+もしかしたら,もしかしたら,perhaps; maybe; perchance; by some chance; by any chance
+もしかすると,もしかすると,perhaps; possibly; maybe; by some chance
+もたれる,もたれる,to lean against; to lean on; to recline on
+モダン,モダン,modern
+餅,もち,mochi; small rice cake made from glutinous rice
+もったいない,もったいない,wasteful; a waste
+モデル,モデル,model; dummy; mock-up
+元々,もともと,originally; from the start; from the beginning; from the outset; by nature
+物置,ものおき,storage room; storeroom; lumber room
+物語る,ものがたる,"to tell (a story); to give an account of (an event, experience, etc.); to relate; to recount"
+物差し,ものさし,ruler; measure; measuring stick
+物凄い,ものすごい,terrific; staggering; tremendous; incredible; extreme
+モノレール,モノレール,monorail
+紅葉,もみじ,maple (tree)
+揉む,もむ,to rub; to crumple
+燃やす,もやす,to burn
+催し,もよおし,event; festivities; function; social gathering; auspices; opening; holding (a meeting)
+盛る,もる,"to serve (in a bowl, on a plate, etc.); to dish out; to dish up; to fill (a bowl) with"
+問答,もんどう,questions and answers; dialogue
+やかましい,やかましい,noisy; loud; clamorous; boisterous
+夜間,やかん,night; nighttime
+薬缶,やかん,kettle
+役者,やくしゃ,actor; actress
+役所,やくしょ,government office; public office
+訳す,やくす,to translate; to interpret
+役人,やくにん,government official
+薬品,やくひん,medicine; drug
+役目,やくめ,duty; role; function
+火傷,やけど,burn; scald
+夜行,やこう,night travel; walking around at night
+矢印,やじるし,arrow (symbol)
+やたらに,やたらに,excessively; indiscriminately
+薬局,やっきょく,pharmacy; drugstore; chemist's (shop)
+やっつける,やっつける,to beat; to defeat
+家主,やぬし,landlord; landlady
+やっぱり,やっぱり,as expected; sure enough; just as one thought
+破く,やぶく,to tear; to rip
+破れる,やぶれる,to get torn; to tear; to rip; to break; to wear out
+やむをえない,やむをえない,cannot be helped; unavoidable
+軟らかい,やわらかい,soft; tender; supple; flexible; limber; limp
+遊園地,ゆうえんち,amusement park
+夕刊,ゆうかん,evening edition (of a daily newspaper); evening paper
+友好,ゆうこう,friendship
+郵送,ゆうそう,mailing; posting
+夕立,ゆうだち,"(sudden, heavy) shower (on a summer afternoon or evening); evening shower"
+夕日,ゆうひ,evening sun; setting sun
+悠々,ゆうゆう,quiet; calm; leisurely; composed
+有料,ゆうりょう,fee-charging; paid; not free
+浴衣,ゆかた,yukata; light cotton kimono worn in the summer or used as a bathrobe
+湯気,ゆげ,steam; vapour; vapor
+輸血,ゆけつ,blood transfusion
+輸送,ゆそう,transport; transportation; transit; conveyance
+油断,ゆだん,negligence; carelessness; inattention; unpreparedness
+ゆでる,ゆでる,to boil (something in hot water)
+湯飲み,ゆのみ,teacup
+緩い,ゆるい,loose
+溶岩,ようがん,lava
+容器,ようき,container; receptacle; vessel; packaging
+用語,ようご,term; terminology
+要旨,ようし,(main) point; gist; key points; essentials; substance; summary; outline; abstract
+幼児,ようじ,young child; toddler
+容積,ようせき,capacity; volume
+幼稚,ようち,infancy
+幼稚園,ようちえん,"kindergarten (in Japan, non-compulsory education from age 3 until primary school); preschool"
+用途,ようと,use; service; purpose
+洋品店,ようひんてん,Western goods store
+養分,ようぶん,nutrient
+羊毛,ようもう,wool
+漸く,ようやく,finally; at last
+要領,ようりょう,point; gist; essentials; tenets; outline
+欲張り,よくばり,greed; avarice; covetousness; greedy person
+余計,よけい,extra; more; too much; too many; excessive; superfluous; spare; surplus
+よこす,よこす,to send; to forward
+汚す,よごす,to pollute; to contaminate; to soil; to make dirty; to stain
+寄せる,よせる,to come near; to let someone approach
+余所,よそ,another place; somewhere else; strange parts
+四つ角,よつかど,four corners
+酔っ払い,よっぱらい,drunkard
+予備,よび,reserve; spare
+呼び掛ける,よびかける,to call out to; to hail; to address
+呼び出す,よびだす,"to call (someone) to (the door, phone, etc.); to tell (someone) to come; to call up (on the phone); to summon; to page; "
+蘇る,よみがえる,to be resurrected; to be resuscitated; to be rehabilitated; to be revived; to be refreshed; to be restored
+因る,よる,to be due to; to be caused by
+慶び,よろこび,joy; delight; rapture; pleasure; gratification; rejoicing; congratulations; felicitations
+慶ぶ,よろこぶ,to be delighted; to be glad; to be pleased; to rejoice
+来日,らいにち,coming to Japan; visit to Japan; arrival in Japan
+落第,らくだい,failure (in an examination); failing to advance (to the next year)
+ラッシュアワー,ラッシュアワー,rush hour
+欄,らん,section (e.g. in a newspaper); column; page
+ランチ,ランチ,lunch
+ランニング,ランニング,running
+乱暴,らんぼう,violence; assault; rowdiness; wildness; running riot
+理科,りか,"science (natural sciences and related fields, incl. mathematics, engineering, medicine, etc.)"
+利害,りがい,advantages and disadvantages; interests (of parties)
+リズム,リズム,rhythm
+リットル,リットル,litre; liter
+リボン,リボン,ribbon
+略す,りゃくす,to abbreviate; to abridge; to shorten
+流域,りゅういき,drainage basin; catchment basin; river basin; watershed; valley
+寮,りょう,hostel; dormitory
+両側,りょうがわ,both sides
+漁師,りょうし,fisherman
+領事,りょうじ,consul
+領収,りょうしゅう,receipt (of money); receiving
+臨時,りんじ,temporary; provisional; interim
+留守番,るすばん,care-taking; house-sitting; house-watching; staying at home
+例外,れいがい,exception
+零点,れいてん,"zero (points, marks); no marks"
+冷凍,れいとう,freezing; cold storage; refrigeration
+レインコート,レインコート,raincoat; mackintosh; macintosh; trench coat
+レクリェーショ,レクリェーショ,recreation
+ン,ン,syllable n
+レジャー,レジャー,leisure
+列島,れっとう,archipelago; chain of islands
+レベル,レベル,level; standard; grade; class; rank
+リポート,リポート,report; paper
+煉瓦,れんが,brick
+連合,れんごう,union; combination; alliance; confederation; coalition
+レンズ,レンズ,lens
+蝋燭,ろうそく,candle
+ローマじ,ローマじ,Latin alphabet; Roman alphabet
+録音,ろくおん,(audio) recording
+ロッカー,ロッカー,locker
+ロビー,ロビー,lobby; lounge
+論ずる,ろんずる,to discuss; to talk about; to deal with (a topic)
+和英,わえい,Japanese-English
+分る,わかる,to understand; to comprehend; to grasp; to see; to get; to follow
+分かれる,わかれる,to branch; to fork; to diverge
+若々しい,わかわかしい,youthful; young; young-looking
+湧く,わく,to well (up); to gush out (of water); to spring out; to surge
+詫びる,わびる,to apologize; to apologise; to make an apology
+和服,わふく,Japanese clothes
+わりあいに,わりあいに,comparatively
+割算,わりざん,division
+割と,わりと,comparatively; relatively; fairly; rather; pretty; unexpectedly
+割引,わりびき,discount; reduction; rebate
+椀,わん,bowl (wooden)
+碗,わん,bay; gulf; inlet
+ワンピース,ワンピース,dress

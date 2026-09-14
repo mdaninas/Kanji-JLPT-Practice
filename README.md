@@ -2,7 +2,7 @@
 
 Web app sederhana buat belajar kanji JLPT. Pilih level, pilih kanji, ambil vocab, lalu generate soal reading pakai Claude.
 
-**Live demo:** https://kanji-jlpt-practice.vercel.app
+**Live demo:** deployment saat ini tidak tersedia (404 per 14 Sep 2026). Jalankan lokal atau deploy ulang ke Vercel.
 
 ![React](https://img.shields.io/badge/React-19-149ECA?style=flat-square&logo=react&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=flat-square&logo=vite&logoColor=white)
@@ -15,7 +15,7 @@ Web app sederhana buat belajar kanji JLPT. Pilih level, pilih kanji, ambil vocab
 
 Awalnya saya bikin ini karena kesel — aplikasi belajar kanji yang ada biasanya cuma kasih daftar, atau quiz acak yang nggak nyambung sama kanji yang lagi dipelajari. Akhirnya saya bikin sendiri: pilih kanji sendiri, ambil vocab yang relevan, lalu Claude bantu bikin soal reading dari konteks kalimat.
 
-Dataset: 2.211 kanji dari N5 sampai N1, sekitar 8.500 vocab per bahasa (Indonesia & English).
+Dataset: 2.211 kanji dari N5 sampai N1, sekitar 8.500 vocab per bahasa (Indonesia & English). Sekitar 443 kanji belum punya entri vocab di dataset saat ini.
 
 ### Apa yang bisa dilakukan
 
@@ -30,7 +30,7 @@ Dataset: 2.211 kanji dari N5 sampai N1, sekitar 8.500 vocab per bahasa (Indonesi
 
 ### Pakai langsung
 
-Tinggal buka https://kanji-jlpt-practice.vercel.app. Quota quiz dibatasi 10 per menit per IP biar budget Claude saya nggak jebol.
+Demo live saat ini mati (404). Untuk pakai app, jalankan lokal atau deploy sendiri. Quota quiz dibatasi 10 per menit per IP biar budget Claude nggak jebol.
 
 ### Jalanin lokal
 
@@ -40,7 +40,13 @@ Butuh Node.js 20.19+ atau 22.12+.
 npm install
 ```
 
-Bikin file `.env` di root:
+Salin env contoh lalu isi API key:
+
+```bash
+cp .env.example .env
+```
+
+Isi minimal:
 
 ```
 ANTHROPIC_API_KEY=sk-ant-...
@@ -67,10 +73,15 @@ Buka `http://127.0.0.1:5173`. Selesai.
 | `APP_ORIGIN` | Tidak | `http://127.0.0.1:5173` | CORS whitelist untuk frontend |
 | `HOST` | Tidak | `127.0.0.1` | Host API server lokal |
 | `PORT` | Tidak | `8787` | Port API server lokal |
-| `UPSTASH_REDIS_REST_URL` | Tidak | — | Rate limit di production (Upstash Redis) |
-| `UPSTASH_REDIS_REST_TOKEN` | Tidak | — | Token Upstash |
+| `UPSTASH_REDIS_REST_URL` | **Wajib di production** | — | Rate limit di production (Upstash Redis) |
+| `UPSTASH_REDIS_REST_TOKEN` | **Wajib di production** | — | Token Upstash |
+| `ALLOWED_MODELS` | Tidak | semua model didukung | Batasi model yang boleh dipilih klien (mis. `claude-sonnet-4-6,claude-haiku-4-5-20251001`) |
 
-Kalau env Upstash kosong, rate limit fallback ke in-memory — cukup buat dev.
+Di production (Vercel), set Upstash — limiter in-memory tidak efektif di serverless. Untuk dev lokal, fallback in-memory cukup.
+
+### Arsitektur singkat
+
+Browser (React) → API Hono (`/api/generate-reading-quiz`) → Anthropic Claude → respons divalidasi server sebelum dikirim ke klien. Dev lokal mem-proxy `/api` lewat Vite ke `npm run api`; quiz tidak bergantung pada `APP_ORIGIN` untuk same-origin.
 
 ### Stack
 
@@ -109,11 +120,12 @@ npm test
 **Quiz gagal generate**
 - Pastikan `npm run api` jalan dan `.env` punya API key valid.
 - Cek tab Network di browser — kalau 429, kena rate limit, tunggu 1 menit.
-- Kalau di prod gagal terus, kemungkinan `APP_ORIGIN` salah di Vercel.
+- Dev lokal: Vite mem-proxy `/api` ke server lokal; `APP_ORIGIN` tidak memengaruhi quiz same-origin ini.
+- Production: frontend dan API same-origin di Vercel; `APP_ORIGIN` hanya untuk klien cross-origin. Cek `ANTHROPIC_API_KEY`, Upstash, dan log Vercel.
 
 **Vocab nggak ikut bahasa**
 - Cek file CSV di `Data/Vocabulary/English/` dan `Data/Vocabulary/Indonesian/`.
-- Pastikan ada kolom `Kanji`, `Reading`, dan kolom terjemahan.
+- Parser memakai **posisi kolom** (kanji, reading, terjemahan), bukan nama header.
 
 **Build error di Vercel**
 - Biasanya path import case-sensitive. Windows nggak peka case, Linux peka. Cek import path.
@@ -124,7 +136,7 @@ npm test
 
 I built this because most kanji study apps either dump a long list at you or throw random quiz questions that don't connect to what you're currently studying. So I made one where you pick the kanji yourself, pull relevant vocab, and Claude generates reading questions from sentence context.
 
-Dataset: 2,211 kanji from N5 to N1, about 8,500 vocab entries per language (Indonesian & English).
+Dataset: 2,211 kanji from N5 to N1, about 8,500 vocab entries per language (Indonesian & English). Roughly 443 kanji currently have no vocab entries in the dataset.
 
 ### What it does
 
@@ -139,7 +151,7 @@ Dataset: 2,211 kanji from N5 to N1, about 8,500 vocab entries per language (Indo
 
 ### Just use it
 
-Go to https://kanji-jlpt-practice.vercel.app. Quiz endpoint is capped at 10 requests per minute per IP so I don't blow my Claude budget.
+The live demo is currently unavailable (404 as of 14 Sep 2026). Run locally or redeploy. Quiz endpoint is capped at 10 requests per minute per IP so I don't blow my Claude budget.
 
 ### Run locally
 
@@ -149,7 +161,13 @@ Requires Node.js 20.19+ or 22.12+.
 npm install
 ```
 
-Create `.env` in project root:
+Copy the example env file and fill in your API key:
+
+```bash
+cp .env.example .env
+```
+
+Minimum:
 
 ```
 ANTHROPIC_API_KEY=sk-ant-...
@@ -176,10 +194,15 @@ Open `http://127.0.0.1:5173`. Done.
 | `APP_ORIGIN` | No | `http://127.0.0.1:5173` | CORS whitelist |
 | `HOST` | No | `127.0.0.1` | Local API host |
 | `PORT` | No | `8787` | Local API port |
-| `UPSTASH_REDIS_REST_URL` | No | — | Production rate limiting (Upstash Redis) |
-| `UPSTASH_REDIS_REST_TOKEN` | No | — | Upstash token |
+| `UPSTASH_REDIS_REST_URL` | **Required in production** | — | Production rate limiting (Upstash Redis) |
+| `UPSTASH_REDIS_REST_TOKEN` | **Required in production** | — | Upstash token |
+| `ALLOWED_MODELS` | No | all supported models | Restrict client-selectable models |
 
-If Upstash env vars are missing, rate limit falls back to in-memory. Fine for dev.
+In production (Vercel), configure Upstash — in-memory limiting is ineffective on serverless. In-memory fallback is fine for local dev.
+
+### Architecture (short)
+
+Browser (React) → Hono API (`/api/generate-reading-quiz`) → Anthropic Claude → server validates the response before returning it to the client. Local dev proxies `/api` through Vite to `npm run api`; quizzes do not depend on `APP_ORIGIN` for same-origin use.
 
 ### Stack
 
@@ -218,11 +241,12 @@ npm test
 **Quiz generation fails**
 - Make sure `npm run api` is running and `.env` has a valid API key.
 - Check the Network tab — if it's 429, you hit the rate limit, wait a minute.
-- If it consistently fails in production, `APP_ORIGIN` is probably misconfigured in Vercel.
+- Local dev: Vite proxies `/api` to the local server; `APP_ORIGIN` does not affect this same-origin quiz path.
+- Production: frontend and API are same-origin on Vercel; `APP_ORIGIN` is only for cross-origin clients. Check `ANTHROPIC_API_KEY`, Upstash, and Vercel logs.
 
 **Vocab not following selected language**
 - Check `Data/Vocabulary/English/` and `Data/Vocabulary/Indonesian/`.
-- CSV files need `Kanji`, `Reading`, and a translation column.
+- The parser uses **column position** (kanji, reading, translation), not header names.
 
 **Vercel build fails**
 - Usually an import path case sensitivity issue. Windows is case-insensitive, Linux isn't.

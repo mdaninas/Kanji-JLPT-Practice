@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   DEFAULT_QUIZ_MODEL,
@@ -32,23 +32,53 @@ import { VocabPreviewModal } from './components/VocabPreviewModal.jsx';
 import { StatsDashboard } from './components/StatsDashboard.jsx';
 import { StrokeOrder } from './components/StrokeOrder.jsx';
 
+const VALID_LEVEL_VALUES = new Set(LEVELS.map((level) => level.value));
+
+function validateLanguage(value) {
+  return SUPPORTED_LANGUAGES.some((item) => item.value === value) ? value : 'id';
+}
+
+function validateSelectedLevels(value) {
+  if (!Array.isArray(value)) return [];
+  return value.filter((level) => VALID_LEVEL_VALUES.has(level));
+}
+
+function validateSelectedKanji(value) {
+  if (!Array.isArray(value)) return [];
+  return value.filter((character) => typeof character === 'string').slice(0, MAX_SELECTED_KANJI);
+}
+
+function validateOnlyWithVocab(value) {
+  return typeof value === 'boolean' ? value : true;
+}
+
+function validateSortMode(value) {
+  return Object.values(KANJI_SORT_MODES).includes(value) ? value : KANJI_SORT_MODES.default;
+}
+
+function validateQuizModel(value) {
+  return isSupportedQuizModel(value) ? value : DEFAULT_QUIZ_MODEL;
+}
+
 export default function App() {
-  const [language, setLanguage] = usePersistedState('kanjiApp:language', 'id');
-  const [selectedLevels, setSelectedLevels] = usePersistedState('kanjiApp:selectedLevels', []);
-  const [selectedKanji, setSelectedKanji] = useState([]);
+  const [language, setLanguage] = usePersistedState('kanjiApp:language', 'id', validateLanguage);
+  const [selectedLevels, setSelectedLevels] = usePersistedState('kanjiApp:selectedLevels', [], validateSelectedLevels);
+  const [selectedKanji, setSelectedKanji] = usePersistedState('kanjiApp:selectedKanji', [], validateSelectedKanji);
+  const [onlyWithVocab, setOnlyWithVocab] = usePersistedState('kanjiApp:onlyWithVocab', true, validateOnlyWithVocab);
+  const [debouncedQuery, setDebouncedQuery] = useState('');
   const [preferredVocabLevels, setPreferredVocabLevels] = usePersistedState('kanjiApp:preferredVocabLevels', []);
-  const [quizModel, setQuizModel] = usePersistedState('kanjiApp:quizModel', DEFAULT_QUIZ_MODEL);
+  const [quizModel, setQuizModel] = usePersistedState('kanjiApp:quizModel', DEFAULT_QUIZ_MODEL, validateQuizModel);
   const [isVocabModalOpen, setIsVocabModalOpen] = useState(false);
   const [previewKanjiCharacter, setPreviewKanjiCharacter] = useState('');
   const [isFlashcardOpen, setIsFlashcardOpen] = useState(false);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [strokeOrderKanji, setStrokeOrderKanji] = useState('');
   const [breakdownKanji, setBreakdownKanji] = useState('');
-  const [sortMode, setSortMode] = usePersistedState('kanjiApp:sortMode', KANJI_SORT_MODES.default);
+  const [sortMode, setSortMode] = usePersistedState('kanjiApp:sortMode', KANJI_SORT_MODES.default, validateSortMode);
   const [query, setQuery] = useState('');
   const { theme, toggleTheme } = useTheme();
 
-  const t = (key, params) => formatText(language, key, params);
+  const t = useCallback((key, params) => formatText(language, key, params), [language]);
 
   const activeLevelValues = useMemo(
     () => (selectedLevels.length > 0 ? selectedLevels : LEVELS.map((l) => l.value)),
@@ -59,27 +89,33 @@ export default function App() {
       ? selectedLevels.map((l) => LEVEL_LABEL_BY_VALUE[l]).join(', ')
       : t('allLevels');
 
-  const { currentKanji, isKanjiLoading, loadError: kanjiError } = useKanjiData(
+  const { currentKanji, isKanjiLoading, loadError: kanjiError, levelCounts } = useKanjiData(
     activeLevelValues,
     activeLevelLabel,
     language,
   );
-  const { vocabByCharacter, isVocabLoading, vocabError } = useVocabData(language);
+  const { vocabByCharacter, isVocabLoading, vocabError } = useVocabData(language, activeLevelValues);
   const {
     progress,
     recordResult,
     recordQuizResults,
     getProgressStats,
     getKanjiStatus,
+    getDueKanji,
     replaceProgress,
   } = useProgress();
   const { stats, recordSession, reset: resetStats, replaceStats } = useStudyStats();
   const quizCache = useQuizCache();
 
   useEffect(() => {
-    document.documentElement.lang = language;
+    document.documentElement.lang = language === 'en' ? 'en' : 'id';
     document.title = t('documentTitle');
-  }, [language]);
+  }, [language, t]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedQuery(query.trim().toLowerCase()), 180);
+    return () => clearTimeout(timer);
+  }, [query]);
 
   useEffect(() => {
     if (!isSupportedQuizModel(quizModel)) {
@@ -142,18 +178,25 @@ export default function App() {
     .filter(Boolean)
     .map((kanji) => ({ ...kanji, vocab: getVocabForKanji(kanji.character) }));
 
+  const searchableKanji = useMemo(
+    () => currentKanji.map((item) => ({
+      item,
+      searchText: [item.character, ...item.meanings, ...item.kunReadings, ...item.onReadings]
+        .join(' ')
+        .toLowerCase(),
+    })),
+    [currentKanji],
+  );
+
   const filteredKanji = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
-    const matched = !normalizedQuery
-      ? currentKanji
-      : currentKanji.filter((item) =>
-          [item.character, ...item.meanings, ...item.kunReadings, ...item.onReadings]
-            .join(' ')
-            .toLowerCase()
-            .includes(normalizedQuery),
-        );
+    const matched = searchableKanji
+      .filter(({ item, searchText }) => {
+        if (onlyWithVocab && getVocabForKanji(item.character).length === 0) return false;
+        return !debouncedQuery || searchText.includes(debouncedQuery);
+      })
+      .map(({ item }) => item);
     return sortKanjiList(matched, sortMode);
-  }, [currentKanji, query, sortMode]);
+  }, [searchableKanji, debouncedQuery, sortMode, onlyWithVocab, vocabOptionsByKanji]);
 
   const selectedSet = new Set(selectedKanji);
   const canPickMore = selectedKanji.length < MAX_SELECTED_KANJI;
@@ -177,39 +220,35 @@ export default function App() {
   }
 
   function pickRandomKanji() {
-    const eligibleKanji = currentKanji.filter((k) => getVocabForKanji(k.character).length > 0);
-    const basePool = eligibleKanji.length >= MAX_SELECTED_KANJI ? eligibleKanji : currentKanji;
-    setSelectedKanji(sampleItems(basePool, MAX_SELECTED_KANJI).map((k) => k.character));
+    const pool = filteredKanji.filter((k) => getVocabForKanji(k.character).length > 0);
+    if (pool.length === 0) return;
+    setSelectedKanji(sampleItems(pool, MAX_SELECTED_KANJI).map((k) => k.character));
+  }
+
+  function loadDueReviewQueue() {
+    const due = getDueKanji(currentKanji.map((k) => k.character));
+    if (due.length === 0) return;
+    setSelectedKanji(due.slice(0, MAX_SELECTED_KANJI));
   }
 
   const loadError = kanjiError || vocabError;
 
-  const levelCounts = useMemo(() => {
-    const counts = {};
-    LEVELS.forEach((lv) => { counts[lv.value] = 0; });
-    currentKanji.forEach((k) => {
-      if (counts[k.jlpt] != null) counts[k.jlpt] += 1;
-    });
-    return counts;
-  }, [currentKanji]);
-
   return (
-    <main className="appShell">
-      <header className="topBar">
+    <>
+      <header className="topBar appShell">
         <div className="brandBlock">
           <span className="brandMark">漢字</span>
-          <p className="eyebrow">KANJI · JLPT STUDY</p>
+          <p className="eyebrow">{t('brandEyebrow')}</p>
           <h1>{t('title')}</h1>
         </div>
         <nav className="topNav" aria-label={t('primaryNav')}>
           <button
             type="button"
-            className="topNavItem active"
+            className="topNavItem"
             onClick={() => {
               const target = document.getElementById('kanjiShelfSection');
               target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }}
-            aria-current="page"
           >
             {t('shelfTitle')}
           </button>
@@ -236,7 +275,7 @@ export default function App() {
           </button>
           <button
             type="button"
-            className="topNavItem"
+            className="topNavItem topNavStats"
             onClick={() => setIsStatsOpen(true)}
           >
             {t('statsButton')}
@@ -277,8 +316,9 @@ export default function App() {
         </div>
       </header>
 
+      <main className="appShell">
       <section className="levelRow" aria-label={t('levelTitle')}>
-        <p className="levelRowLabel">LEVEL ↓</p>
+        <p className="levelRowLabel">{t('levelRowLabel')}</p>
         <div className="levelButtons">
           {LEVELS.map((level) => (
             <button
@@ -297,7 +337,7 @@ export default function App() {
         </div>
         <div className="levelMeta">
           <span>
-            Sort <b>
+            {t('sortPrefix')} <b>
               {sortMode === KANJI_SORT_MODES.freq ? t('sortFreq')
                 : sortMode === KANJI_SORT_MODES.grade ? t('sortGrade')
                 : t('sortDefault')}
@@ -305,7 +345,7 @@ export default function App() {
           </span>
           <span className="dividerDot" />
           <span className="deckCounter">
-            <b>{selectedKanji.length} / {MAX_SELECTED_KANJI}</b> in deck
+            {t('deckCounterLabel', { current: selectedKanji.length, max: MAX_SELECTED_KANJI })}
           </span>
         </div>
       </section>
@@ -326,9 +366,14 @@ export default function App() {
           onQueryChange={setQuery}
           onToggleKanji={toggleKanji}
           onPickRandom={pickRandomKanji}
+          onLoadDueReview={loadDueReviewQueue}
           onReset={() => setSelectedKanji([])}
+          onlyWithVocab={onlyWithVocab}
+          onToggleOnlyWithVocab={() => setOnlyWithVocab((v) => !v)}
           getVocabForKanji={getVocabForKanji}
           getKanjiStatus={getKanjiStatus}
+          getDueKanji={getDueKanji}
+          allKanjiCharacters={currentKanji.map((k) => k.character)}
         />
 
         <DeckPanel
@@ -349,8 +394,14 @@ export default function App() {
           onOpenStrokeOrder={(character) => setStrokeOrderKanji(character)}
           onOpenBreakdown={(character) => setBreakdownKanji(character)}
           getProgressStats={getProgressStats}
+          getKanjiStatus={getKanjiStatus}
         />
       </section>
+      </main>
+
+      <footer className="appFooter appShell">
+        <small>{t('dataAttribution')}</small>
+      </footer>
 
       {isVocabModalOpen && (
         <QuizModal
@@ -360,6 +411,7 @@ export default function App() {
           selectedKanji={selectedKanji}
           isVocabLoading={isVocabLoading}
           preferredVocabLevels={preferredVocabLevels}
+          onPreferredVocabLevelsChange={setPreferredVocabLevels}
           quizModel={quizModel}
           onQuizModelChange={setQuizModel}
           onClose={() => setIsVocabModalOpen(false)}
@@ -375,6 +427,8 @@ export default function App() {
           stats={stats}
           onReset={() => {
             resetStats();
+            replaceProgress({});
+            quizCache.clear();
             setIsStatsOpen(false);
           }}
           onClearQuizCache={() => quizCache.clear()}
@@ -389,7 +443,9 @@ export default function App() {
               type: 'application/json',
             });
             const url = URL.createObjectURL(blob);
-            const date = new Date().toISOString().slice(0, 10);
+            const pad = (n) => String(n).padStart(2, '0');
+            const now = new Date();
+            const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
             const link = document.createElement('a');
             link.href = url;
             link.download = `kanji-progress-${date}.json`;
@@ -438,6 +494,6 @@ export default function App() {
           onRecordResult={recordResult}
         />
       )}
-    </main>
+    </>
   );
 }

@@ -10,8 +10,6 @@ const FOCUSABLE_SELECTOR = [
 ].join(',');
 
 function isVisible(element) {
-  // offsetParent is null for display:none AND position:fixed elements,
-  // so combine with getClientRects() to keep fixed children focusable.
   return !!(
     element.offsetWidth
     || element.offsetHeight
@@ -19,7 +17,7 @@ function isVisible(element) {
   );
 }
 
-export function useFocusTrap(isActive = true) {
+export function useFocusTrap(isActive = true, { initialFocusRef } = {}) {
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -33,12 +31,17 @@ export function useFocusTrap(isActive = true) {
       return Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR)).filter(isVisible);
     }
 
-    const initial = getFocusables();
-    if (initial.length > 0) {
-      initial[0].focus();
+    const preferredFocus = initialFocusRef?.current;
+    if (preferredFocus instanceof HTMLElement && container.contains(preferredFocus)) {
+      preferredFocus.focus();
     } else {
-      if (!container.hasAttribute('tabindex')) container.setAttribute('tabindex', '-1');
-      container.focus();
+      const initial = getFocusables();
+      if (initial.length > 0) {
+        initial[0].focus();
+      } else {
+        if (!container.hasAttribute('tabindex')) container.setAttribute('tabindex', '-1');
+        container.focus();
+      }
     }
 
     function handleKeyDown(event) {
@@ -72,7 +75,7 @@ export function useFocusTrap(isActive = true) {
         previousFocus.focus();
       }
     };
-  }, [isActive]);
+  }, [isActive, initialFocusRef]);
 
   return containerRef;
 }

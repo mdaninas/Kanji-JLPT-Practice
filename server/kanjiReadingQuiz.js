@@ -1,4 +1,11 @@
 import Anthropic from '@anthropic-ai/sdk';
+import { jsonSchemaOutputFormat } from '@anthropic-ai/sdk/helpers/json-schema';
+import { sanitizeDeckWithServerData } from './vocabLookup.js';
+
+const anthropicClient = new Anthropic({
+  timeout: 60_000,
+  maxRetries: 1,
+});
 
 export const SUPPORTED_MODELS = Object.freeze([
   'claude-sonnet-4-6',
@@ -8,21 +15,35 @@ export const SUPPORTED_MODELS = Object.freeze([
 
 export const DEFAULT_MODEL = 'claude-sonnet-4-6';
 
+function getAllowedModels() {
+  const envList = process.env.ALLOWED_MODELS?.split(',').map((item) => item.trim()).filter(Boolean);
+  if (envList?.length) {
+    return SUPPORTED_MODELS.filter((model) => envList.includes(model));
+  }
+  return SUPPORTED_MODELS;
+}
+
 export function resolveModel(requestedModel) {
-  if (SUPPORTED_MODELS.includes(requestedModel)) {
-    return requestedModel;
-  }
+  const pool = getAllowedModels();
+  if (pool.length === 0) return DEFAULT_MODEL;
+  if (pool.includes(requestedModel)) return requestedModel;
   const envModel = process.env.ANTHROPIC_MODEL;
-  if (SUPPORTED_MODELS.includes(envModel)) {
-    return envModel;
-  }
-  return DEFAULT_MODEL;
+  if (pool.includes(envModel)) return envModel;
+  return pool[0] || DEFAULT_MODEL;
 }
 
 const MAX_KANJI_ITEMS = 10;
 const MAX_VOCAB_PER_KANJI = 10;
-const MAX_QUESTIONS = 30;
+const MAX_QUESTIONS = 10;
 const MIN_SENTENCE_VOCAB = 3;
+const MIN_VALID_RATIO = 0.6;
+const HIRAGANA_RE = /^[ぁ-ゖー]+$/;
+const FIELD_LIMITS = {
+  word: 16,
+  reading: 32,
+  translation: 80,
+  meaning: 40,
+};
 const CHOICE_LABELS = ['A', 'B', 'C', 'D'];
 const FALLBACK_DISTRACTOR_READINGS = [
   'あい',
@@ -47,6 +68,34 @@ const FALLBACK_DISTRACTOR_READINGS = [
   'みず',
   'やま',
 ];
+const QUIZ_OUTPUT_SCHEMA = {
+  type: 'object',
+  properties: {
+    quiz_title: { type: 'string' },
+    questions: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          target_vocab: { type: 'string' },
+          sentence_before: { type: 'string' },
+          sentence_after: { type: 'string' },
+          sentence_translation: { type: 'string' },
+          distractors: {
+            type: 'array',
+            items: { type: 'string' },
+          },
+          short_explanation: { type: 'string' },
+        },
+        required: ['target_vocab', 'distractors'],
+        additionalProperties: false,
+      },
+    },
+  },
+  required: ['quiz_title', 'questions'],
+  additionalProperties: false,
+};
+
 const EXPLANATION_LANGUAGES = {
   id: {
     name: 'Indonesian',
@@ -62,6 +111,24 @@ function asString(value) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
+function truncateField(value, max) {
+  const text = asString(value);
+  return text.length > max ? text.slice(0, max) : text;
+}
+
+function isHiraganaReading(value) {
+  return HIRAGANA_RE.test(asString(value));
+}
+
+function shuffleArray(items) {
+  const copy = [...items];
+  for (let index = copy.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
+  }
+  return copy;
+}
+
 function normalizeDeck(deck) {
   return deck.slice(0, MAX_KANJI_ITEMS).map((kanjiItem) => {
     const kanji = asString(kanjiItem.kanji);
@@ -70,7 +137,7 @@ function normalizeDeck(deck) {
       kanji,
       jlpt: asString(kanjiItem.jlpt),
       meanings: Array.isArray(kanjiItem.meanings)
-        ? kanjiItem.meanings.map(asString).filter(Boolean).slice(0, 4)
+        ? kanjiItem.meanings.map((item) => truncateField(item, FIELD_LIMITS.meaning)).filter(Boolean).slice(0, 4)
         : [],
       kun_readings: Array.isArray(kanjiItem.kun_readings)
         ? kanjiItem.kun_readings.map(asString).filter(Boolean).slice(0, 8)
@@ -82,9 +149,9 @@ function normalizeDeck(deck) {
         ? kanjiItem.vocab
             .map((vocabItem) => ({
               jlpt: asString(vocabItem.jlpt),
-              word: asString(vocabItem.word),
-              reading: asString(vocabItem.reading),
-              translation: asString(vocabItem.translation),
+              word: truncateField(vocabItem.word, FIELD_LIMITS.word),
+              reading: truncateField(vocabItem.reading, FIELD_LIMITS.reading),
+              translation: truncateField(vocabItem.translation, FIELD_LIMITS.translation),
             }))
             .filter((vocabItem) =>
               vocabItem.word &&
@@ -112,12 +179,15 @@ function buildAllowedReadingMap(deck) {
 
   deck.forEach((kanjiItem) => {
     kanjiItem.vocab.forEach((vocabItem) => {
-      allowed.set(`${kanjiItem.kanji}\u0000${vocabItem.word}`, {
-        kanji: kanjiItem.kanji,
-        translation: vocabItem.translation,
-        word: vocabItem.word,
-        reading: vocabItem.reading,
-      });
+      if (!allowed.has(vocabItem.word)) {
+        allowed.set(vocabItem.word, {
+          kanji: kanjiItem.kanji,
+          jlpt: kanjiItem.jlpt,
+          translation: vocabItem.translation,
+          word: vocabItem.word,
+          reading: vocabItem.reading,
+        });
+      }
     });
   });
 
@@ -134,19 +204,17 @@ function fallbackSentenceParts(word) {
 
 function normalizeSentenceParts(question, allowed) {
   const before = asString(question.sentence_before);
-  const target = asString(question.sentence_target);
+  const target = asString(question.sentence_target) || allowed.word;
   const after = asString(question.sentence_after);
-  const shouldFallback =
-    target !== allowed.word ||
-    !before && !after;
+  const sentenceText = `${before}${target}${after}`;
 
-  if (shouldFallback) {
+  if (!sentenceText.includes(allowed.word)) {
     Object.assign(question, fallbackSentenceParts(allowed.word));
     return true;
   }
 
   question.sentence_before = before;
-  question.sentence_target = target;
+  question.sentence_target = allowed.word;
   question.sentence_after = after;
   return false;
 }
@@ -224,7 +292,7 @@ function normalizeReadingChoices(question, allowed, deck) {
   const candidateReadings = [
     ...CHOICE_LABELS.map((label) => asString(incomingChoices[label])),
     ...collectReadingCandidates(deck, allowed.reading),
-  ];
+  ].filter((reading) => isHiraganaReading(reading));
   const usedReadings = new Set([allowed.reading]);
   const normalizedChoices = {
     [correctLabel]: allowed.reading,
@@ -251,67 +319,103 @@ function normalizeReadingChoices(question, allowed, deck) {
   question.choices = normalizedChoices;
 }
 
-function validateQuiz(quiz, deck) {
-  const allowedReadings = buildAllowedReadingMap(deck);
+function shuffleAnswerPositions(question) {
+  const entries = CHOICE_LABELS.map((label) => ({
+    label,
+    reading: question.choices[label],
+  }));
+  const shuffled = shuffleArray(entries);
+  const newChoices = {};
+  let correctLabel = 'A';
+
+  shuffled.forEach(({ reading }, index) => {
+    const newLabel = CHOICE_LABELS[index];
+    newChoices[newLabel] = reading;
+    if (reading === question.answer_reading) correctLabel = newLabel;
+  });
+
+  question.choices = newChoices;
+  question.answer = correctLabel;
+}
+
+function finalizeQuestion(question, allowed, deck) {
+  const usedFallbackSentence = normalizeSentenceParts(question, allowed);
+  const usedVocabFallback = normalizeSentenceVocabWords(question, allowed, deck);
+  normalizeReadingChoices(question, allowed, deck);
+
+  const choices = question.choices || {};
+  if (choices[question.answer] !== allowed.reading) return null;
+  if (new Set(CHOICE_LABELS.map((label) => choices[label])).size !== 4) return null;
+  if (!CHOICE_LABELS.every((label) => isHiraganaReading(choices[label]))) return null;
+
+  question.target_kanji = allowed.kanji;
+  question.target_vocab = allowed.word;
+  question.jlpt = allowed.jlpt || question.jlpt || '';
+  question.target_vocab_reading = allowed.reading;
+  question.answer_reading = allowed.reading;
+
+  if (allowed.translation) {
+    question.target_vocab_translation = allowed.translation;
+  } else if (typeof question.target_vocab_translation !== 'string') {
+    question.target_vocab_translation = allowed.translation || '';
+  }
+
+  if (typeof question.short_explanation !== 'string') {
+    question.short_explanation = '';
+  }
+
+  if (
+    typeof question.sentence_translation !== 'string'
+    || usedFallbackSentence
+    || usedVocabFallback
+  ) {
+    question.sentence_translation = '';
+  }
+
+  if (typeof question.question !== 'string' || !question.question.trim()) {
+    question.question = '\u304d\u3044\u308d\u306e\u3053\u3068\u3070\u306e\u3088\u307f\u304b\u305f\u306f\u3069\u308c\u3067\u3059\u304b\u3002';
+  }
+
+  shuffleAnswerPositions(question);
+  return question;
+}
+
+function validateQuiz(quiz, deck, requestedCount) {
+  const allowedByWord = buildAllowedReadingMap(deck);
 
   if (!quiz || quiz.question_type !== 'kanji_reading' || !Array.isArray(quiz.questions)) {
     throw new Error('Invalid quiz shape.');
   }
 
-  quiz.questions.forEach((question, index) => {
-    const allowed = allowedReadings.get(`${question.target_kanji}\u0000${question.target_vocab}`);
+  const seenVocab = new Set();
+  const validQuestions = [];
 
-    if (!allowed) {
-      throw new Error(`Question ${index + 1} uses vocabulary outside the selected deck.`);
-    }
+  quiz.questions.forEach((rawQuestion) => {
+    const targetVocab = asString(rawQuestion.target_vocab);
+    if (!targetVocab || seenVocab.has(targetVocab)) return;
 
-    if (question.target_kanji !== allowed.kanji) {
-      throw new Error(`Question ${index + 1} uses the wrong target kanji.`);
-    }
+    const allowed = allowedByWord.get(targetVocab);
+    if (!allowed) return;
 
-    const usedFallbackSentence = normalizeSentenceParts(question, allowed);
-    const usedVocabFallback = normalizeSentenceVocabWords(question, allowed, deck);
-    normalizeReadingChoices(question, allowed, deck);
+    const processed = finalizeQuestion({ ...rawQuestion }, allowed, deck);
+    if (!processed) return;
 
-    if (!CHOICE_LABELS.includes(question.answer)) {
-      throw new Error(`Question ${index + 1} has an invalid answer label.`);
-    }
-
-    const choices = question.choices || {};
-
-    if (choices[question.answer] !== allowed.reading) {
-      throw new Error(`Question ${index + 1} answer does not match the source reading.`);
-    }
-
-    if (new Set(CHOICE_LABELS.map((label) => choices[label])).size !== 4) {
-      throw new Error(`Question ${index + 1} choices must be unique.`);
-    }
-
-    if (allowed.translation) {
-      question.target_vocab_translation = allowed.translation;
-    } else if (typeof question.target_vocab_translation !== 'string') {
-      question.target_vocab_translation = allowed.translation || '';
-    }
-
-    if (typeof question.short_explanation !== 'string') {
-      question.short_explanation = '';
-    }
-
-    if (
-      typeof question.sentence_translation !== 'string' ||
-      usedFallbackSentence ||
-      usedVocabFallback
-    ) {
-      question.sentence_translation = '';
-    }
-
-    if (
-      typeof question.question !== 'string' ||
-      !question.question.trim()
-    ) {
-      question.question = '\u304d\u3044\u308d\u306e\u3053\u3068\u3070\u306e\u3088\u307f\u304b\u305f\u306f\u3069\u308c\u3067\u3059\u304b\u3002';
-    }
+    seenVocab.add(targetVocab);
+    validQuestions.push(processed);
   });
+
+  const minRequired = Math.max(1, Math.ceil(requestedCount * MIN_VALID_RATIO));
+  if (validQuestions.length === 0) {
+    throw new Error('No valid questions could be built from the model output.');
+  }
+  if (validQuestions.length < minRequired) {
+    throw new Error(`Only ${validQuestions.length} of ${requestedCount} questions passed validation.`);
+  }
+
+  quiz.questions = validQuestions.slice(0, requestedCount).map((question, index) => ({
+    ...question,
+    id: `q${index + 1}`,
+  }));
 
   return quiz;
 }
@@ -404,50 +508,13 @@ Question selection rules:
 - If there are fewer valid vocab items than ${questionCount}, generate fewer questions.
 
 Output rules:
-- Return valid JSON only.
-- Do not wrap the JSON in Markdown.
-- Do not add commentary before or after the JSON.
-- Do not include trailing commas.
-- All quiz content values except target_vocab_translation, sentence_translation, and short_explanation must be Japanese.
-- target_vocab_translation must be a concise natural translation in ${explanationLanguageName}, not English unless the selected language is English.
-- sentence_translation must translate sentence_before + sentence_target + sentence_after into ${explanationLanguageName}.
-- sentence_translation is required and must not be empty.
+- Return structured JSON matching the schema.
+- sentence_translation must translate sentence_before + target_vocab + sentence_after into ${explanationLanguageName}.
 - short_explanation must be natural ${explanationLanguageName}, based on the provided target kanji and exact vocab reading.
-- If the selected explanation language is not Japanese, do not write short_explanation as a Japanese sentence.
-
-Required JSON schema:
-{
-  "quiz_title": "string in Japanese",
-  "question_type": "kanji_reading",
-  "questions": [
-    {
-      "id": "q1",
-      "target_kanji": "string",
-      "target_vocab": "string",
-      "target_vocab_reading": "string",
-      "target_vocab_translation": "string in ${explanationLanguageName}",
-      "jlpt": "N5 | N4 | N3 | N2 | N1",
-      "question": "Japanese string",
-      "sentence_before": "Japanese string before the highlighted target",
-      "sentence_target": "must exactly equal target_vocab",
-      "sentence_after": "Japanese string after the highlighted target",
-      "sentence_vocab_words": ["target_vocab and at least two other input vocab.word values when available"],
-      "sentence_translation": "translation of the full sentence in ${explanationLanguageName}",
-      "choices": {
-        "A": "hiragana string",
-        "B": "hiragana string",
-        "C": "hiragana string",
-        "D": "hiragana string"
-      },
-      "answer": "A | B | C | D",
-      "answer_reading": "hiragana string",
-      "short_explanation": "string in ${explanationLanguageName}"
-    }
-  ]
-}
+- distractors must be exactly three plausible hiragana wrong readings.
 
 Input data:
-${JSON.stringify(deck, null, 2)}
+${JSON.stringify(deck)}
 `.trim();
 }
 
@@ -515,13 +582,40 @@ function parseQuizJson(text) {
   return JSON.parse(extractJsonObjectText(text));
 }
 
+function mapParsedQuiz(parsed) {
+  return {
+    quiz_title: asString(parsed?.quiz_title) || '\u8aad\u307f\u65b9\u30af\u30a4\u30ba',
+    question_type: 'kanji_reading',
+    questions: (parsed?.questions || []).map((question) => {
+      const distractors = Array.isArray(question.distractors)
+        ? question.distractors.map(asString).filter(Boolean)
+        : [];
+      const choices = {};
+      CHOICE_LABELS.forEach((label, index) => {
+        if (distractors[index]) choices[label] = distractors[index];
+      });
+      return {
+        target_vocab: asString(question.target_vocab),
+        sentence_before: asString(question.sentence_before),
+        sentence_target: asString(question.target_vocab),
+        sentence_after: asString(question.sentence_after),
+        sentence_translation: asString(question.sentence_translation),
+        short_explanation: asString(question.short_explanation),
+        choices,
+        answer: 'A',
+      };
+    }),
+  };
+}
+
 export async function generateKanjiReadingQuiz({
   deck,
   questionCount = 10,
   explanationLanguage = 'id',
   model,
 }) {
-  const safeDeck = normalizeDeck(deck);
+  const trustedDeck = sanitizeDeckWithServerData(deck, explanationLanguage);
+  const safeDeck = normalizeDeck(trustedDeck);
   const resolvedModel = resolveModel(model);
   const safeQuestionCount = Math.min(
     clampQuestionCount(questionCount),
@@ -532,7 +626,6 @@ export async function generateKanjiReadingQuiz({
     throw new Error('No valid kanji vocabulary was provided.');
   }
 
-  const client = new Anthropic();
   const prompt = buildKanjiReadingPrompt({
     deck: safeDeck,
     questionCount: safeQuestionCount,
@@ -540,42 +633,63 @@ export async function generateKanjiReadingQuiz({
     explanationLanguage,
   });
 
-  // Opus 4.7 removed `temperature` (sending it returns 400). Sonnet 4.6 and
-  // Haiku 4.5 still accept it, and a low value helps keep JSON output
-  // deterministic on those models. If you add another Opus 4.7+ model (e.g.
-  // claude-opus-4-8) to SUPPORTED_MODELS, add it to NO_TEMPERATURE_MODELS too.
-  const NO_TEMPERATURE_MODELS = new Set(['claude-opus-4-7']);
   const requestParams = {
     model: resolvedModel,
-    max_tokens: 4096,
-    system: `
+    max_tokens: 16_000,
+    system: [
+      {
+        type: 'text',
+        text: `
 You are a careful JLPT Japanese quiz generator.
 
 Follow the user's prompt exactly.
 Use only the provided input data.
 Never invent target vocabulary.
 Never invent target readings.
-Return valid JSON only.
-The quiz title, questions, target vocabulary, and answer choices must be in Japanese.
-The short_explanation field must follow the requested explanation language.
+The quiz title and sentence parts must be in Japanese.
+The short_explanation and sentence_translation fields must follow the requested explanation language.
 `.trim(),
+        cache_control: { type: 'ephemeral' },
+      },
+    ],
     messages: [
       {
         role: 'user',
         content: prompt,
       },
     ],
+    output_config: {
+      format: jsonSchemaOutputFormat(QUIZ_OUTPUT_SCHEMA),
+    },
   };
-  if (!NO_TEMPERATURE_MODELS.has(resolvedModel)) {
-    requestParams.temperature = 0.3;
+
+  const message = await anthropicClient.messages.parse(requestParams);
+
+  if (message.usage) {
+    console.log('[quiz] token usage', JSON.stringify(message.usage));
   }
 
-  const message = await client.messages.create(requestParams);
+  if (message.stop_reason === 'max_tokens') {
+    throw new Error('Claude response was truncated (max_tokens). Try fewer questions.');
+  }
+  if (message.stop_reason === 'refusal') {
+    throw new Error('Claude refused to generate the quiz.');
+  }
+  if (message.stop_reason && message.stop_reason !== 'end_turn') {
+    throw new Error(`Quiz generation stopped: ${message.stop_reason}`);
+  }
 
-  const text = extractText(message);
+  if (!message.parsed_output) {
+    try {
+      const fallback = mapParsedQuiz(parseQuizJson(extractText(message)));
+      return validateQuiz(fallback, safeDeck, safeQuestionCount);
+    } catch (error) {
+      throw new Error(`Claude returned an invalid quiz: ${error.message}`);
+    }
+  }
 
   try {
-    return validateQuiz(parseQuizJson(text), safeDeck);
+    return validateQuiz(mapParsedQuiz(message.parsed_output), safeDeck, safeQuestionCount);
   } catch (error) {
     throw new Error(`Claude returned an invalid quiz: ${error.message}`);
   }

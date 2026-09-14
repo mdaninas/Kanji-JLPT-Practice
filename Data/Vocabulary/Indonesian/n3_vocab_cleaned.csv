@@ -164,7 +164,7 @@
 嬉しい,うれしい,Senang
 売れる,うれる,Laku
 噂,うわさ,Gosip
-うん,（感）,Oke
+うん,うん,Oke
 運,うん,Keberuntungan
 運転,うんてん,Mengemudi
 運動,うんどう,Olahraga
@@ -687,7 +687,7 @@
 騒ぎ,さわぎ,Kebisingan
 参加,さんか,Berpartisipasi
 参考,さんこう,Referensi
-賛成,Uӣ[い,Setuju
+賛成,さんせい,Setuju
 酸素,さんそ,Oksigen
 散歩,さんぽ,Jalan-jalan
 四,し,Empat
@@ -748,10 +748,10 @@
 支払う,しはらう,Membayar
 死亡,しぼう,Kematian
 資本,しほん,Modal
-しまい,（終わり）,Akhir
+しまい,しまい,Akhir
 姉妹,しまい,Saudara perempuan
-しまう,（終わる）,Menjadi
-しまった,（感）,Selesai
+しまう,しまう,Menjadi
+しまった,しまった,Selesai
 自慢,じまん,Kebanggaan
 事務,じむ,Administrasi
 示す,しめす,Menunjukkan
@@ -918,12 +918,12 @@
 すてき,すてき,Menyenangkan
 既に,すでに,Sudah
 すなわち,すなわち,Dengan kata lain
-素晴らし,すばらしい,Luar biasa
+素晴らしい,すばらしい,Luar biasa
 スピーチ,スピーチ,Pidato
 全て,すべて,Semua
 済ませる,すませる,Menyelesaikan
 角,すみ,Sudut
-すみませ,（感）,Permisi
+すみませ,すみません,Permisi
 為る,する,Untuk
 すると,すると,Maka
 鋭い,するどい,Tajam
@@ -1015,7 +1015,7 @@
 側,そば,Sisi
 ソファー,ソファー,Sofa
 粗末,そまつ,Tidak sopan
-それ,（接。感）,Itu
+それ,それ,Itu
 それぞれ,それぞれ,masing-masing
 それでも,それでも,Meskipun demikian
 それと,それと,Selain itu
@@ -1063,7 +1063,7 @@
 だが,だが,Namun
 互い,たがい,Saling
 宝,たから,Harta
-だから,だから,Karena
+だから,だから,Jadi / oleh karena itu
 宅,たく,Rumah
 だけど,だけど,Namun
 確かめる,たしかめる,Memastikan
@@ -1075,7 +1075,7 @@
 戦う,たたかう,Melawan
 叩く,たたく,Memukul
 直ちに,ただちに,Segera
-立ち上が,たちあがる,Bangun
+立ち上がる,たちあがる,Bangun
 立場,たちば,Posisi
 経つ,たつ,Menunggu
 達する,たっする,Mencapai
@@ -1204,9 +1204,9 @@
 適切,てきせつ,Tepat
 適度,てきど,Proporsional
 適用,てきよう,Penerapan
-できる,（可能。出現。,Bisa
-発生）,発生）,Terjadi
-出来るだ,できるだけ,Mungkin saja
+できる,できる,Bisa
+発生,はっせい,Terjadi
+できるだけ,できるだけ,Mungkin saja
 できれば,できれば,Jika memungkinkan
 手品,てじな,Ilusi
 ですから,ですから,Karena itu
@@ -1215,7 +1215,7 @@
 手伝い,てつだい,Bantuan
 徹底,てってい,Sempurna
 鉄道,てつどう,Kereta api
-徹夜,てつや,Kerjanya hingga larut malam
+徹夜,てつや,Begadang semalaman
 では,では,Baiklah
 手間,てま,Usaha
 でも,でも,Namun
@@ -1230,7 +1230,7 @@
 問い,とい,Pertanyaan
 党,とう,Partai
 塔,とう,Menara
-どう,（接。副）,Bagaimana?
+どう,どう,Bagaimana?
 答案,とうあん,Jawaban
 同一,どういつ,Sama
 どうか,どうか,Tolong
@@ -1247,7 +1247,7 @@
 十,とお,Sepuluh
 通す,とおす,Melewati
 通り,とおり,Jalan
-通り過ぎ,とおりすぎる,Lewat
+通り過ぎる,とおりすぎる,Lewat
 都会,とかい,Kota
 時,とき,Waktu
 解く,とく,Memecahkan
@@ -1285,13 +1285,13 @@
 トラック,トラック,Truck
 ドラマ,ドラマ,Drama
 トランプ,トランプ,Trump
-取り上げ,とりあげる,Pengambilan
+取り上げる,とりあげる,Pengambilan
 努力,どりょく,Usaha
 どれ,どれ,Berapa
 ドレス,ドレス,Gaun
 取れる,とれる,Dapat diambil
 泥,どろ,Lumpur
-とん,（1000,Tono
+とん,とん,Tono
 とんでもない,とんでもない,Sangat luar biasa
 どんな,どんな,Seperti apa
 どんなに,どんなに,Seberapa
@@ -1351,7 +1351,7 @@
 抜ける,ぬける,Jelas
 布,ぬの,Kain
 濡れる,ぬれる,Basah
-ね,（感）,Ya
+ね,ね,Ya
 根,ね,Akar
 値,ね,Nilai
 願い,ねがい,Permohonan
@@ -1372,7 +1372,7 @@
 農業,のうぎょう,Pertanian
 農民,のうみん,Petani
 能力,のうりょく,Kemampuan
-ノー,（no）,Tidak
+ノー,のー,Tidak
 軒,のき,Atap
 残す,のこす,Menjaga
 残り,のこり,Sisa
@@ -1389,9 +1389,9 @@
 昇る,のぼる,Meningkat
 のんびり,のんびり,Santai
 場,ば,Tempat
-はあ,（感）,Haa
+はあ,はあ,Haa
 パーセント,パーセント,Persen
-はい,（感）,Ya
+はい,はい,Ya
 灰,はい,Abu
 梅雨,ばいう,Musin hujan
 バイオリン,バイオリン,Biola
@@ -1532,7 +1532,7 @@
 物質,ぶっしつ,Bahan
 物理,ぶつり,Fisika
 筆,ふで,Pensil
-ふと,（副）,Tiba-tiba
+ふと,ふと,Tiba-tiba
 船,ふね,Kapal
 部分,ぶぶん,Sebagian
 不平,ふへい,Keluhan
@@ -1700,7 +1700,7 @@
 文字,もじ,Huruf
 文字,もんじ,Huruf
 もしも,もしも,Jika
-持ち上げ,もちあげる,Mengangkat
+持ち上げる,もちあげる,Mengangkat
 用いる,もちいる,Penggunaan
 勿論,もちろん,Tentu saja
 最も,もっとも,Paling
@@ -1784,7 +1784,7 @@
 よると,よると,Baiklah
 喜び,よろこび,Kebahagiaan
 宜しい,よろしい,Baik
-よろしく,（感）,Terima kasih
+よろしく,よろしく,Terima kasih
 四,よん,Empat
 来,らい,Datang
 ライター,ライター,Penulis

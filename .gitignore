@@ -3,4 +3,12 @@ dist/
 coverage/
 *.log
 .env
+.env.*
+!.env.example
+.vercel/
+.ipynb_checkpoints/
+__pycache__/
+.DS_Store
+Thumbs.db
 .claude/
+scripts/.cache/

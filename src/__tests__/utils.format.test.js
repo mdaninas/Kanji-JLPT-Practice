@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { classifyQuizError, formatReadings, formatText } from '../utils.js';
+import {
+  classifyQuizError,
+  formatQuizExplanation,
+  formatReadings,
+  formatText,
+  resolveQuizErrorKey,
+} from '../utils.js';
 
 describe('formatText', () => {
   it('substitutes named placeholders with params', () => {
@@ -10,8 +16,8 @@ describe('formatText', () => {
     expect(formatText('xx', 'reset')).toBe('Clear');
   });
 
-  it('falls back to the English template when the key is not in the active language', () => {
-    expect(formatText('ja', 'appInstall')).toBe('Install app');
+  it('falls back to English when the language is unsupported', () => {
+    expect(formatText('xx', 'appInstall')).toBe('Install app');
   });
 
   it('returns the raw key when neither active nor English have it', () => {
@@ -28,6 +34,24 @@ describe('formatText', () => {
 
   it('supports Indonesian as the active language', () => {
     expect(formatText('id', 'reset')).toBe('Kosongkan');
+  });
+});
+
+describe('formatQuizExplanation', () => {
+  it('returns short_explanation when present', () => {
+    expect(formatQuizExplanation('en', {
+      short_explanation: 'Custom note from the model.',
+      target_vocab: '日本',
+      answer_reading: 'にほん',
+    })).toBe('Custom note from the model.');
+  });
+
+  it('falls back to the template when short_explanation is empty', () => {
+    expect(formatQuizExplanation('en', {
+      short_explanation: '   ',
+      target_vocab: '日本',
+      answer_reading: 'にほん',
+    })).toBe('"日本" is read as "にほん".');
   });
 });
 
@@ -58,17 +82,43 @@ describe('formatReadings', () => {
 });
 
 describe('classifyQuizError', () => {
-  it('returns quizErrorNoServer when data is missing', () => {
+  it('returns quizErrorNoServer when data is missing and no HTTP status', () => {
     expect(classifyQuizError(new Error('boom'), null)).toBe('quizErrorNoServer');
     expect(classifyQuizError(new Error('boom'), undefined)).toBe('quizErrorNoServer');
+  });
+
+  it('returns quizError when the server responded but the body was not JSON', () => {
+    expect(classifyQuizError(new Error('invalid json'), null, 502)).toBe('quizError');
+  });
+
+  it('returns quizErrorTimeout for AbortError without response data', () => {
+    expect(classifyQuizError({ name: 'AbortError' }, null)).toBe('quizErrorTimeout');
   });
 
   it('returns quizErrorNoApiKey when the server reports a missing_api_key code', () => {
     expect(classifyQuizError(null, { code: 'missing_api_key' })).toBe('quizErrorNoApiKey');
   });
 
-  it('returns quizErrorRateLimit when the server returns status 429', () => {
-    expect(classifyQuizError(null, { status: 429 })).toBe('quizErrorRateLimit');
+  it('returns quizErrorOverloaded when the server reports anthropic_overloaded', () => {
+    expect(classifyQuizError(null, { code: 'anthropic_overloaded' }, 503)).toBe('quizErrorOverloaded');
+  });
+
+  it('returns anthropic-specific keys for auth, permission, and model errors', () => {
+    expect(classifyQuizError(null, { code: 'anthropic_auth_error' })).toBe('quizErrorAnthropicAuth');
+    expect(classifyQuizError(null, { code: 'anthropic_permission_error' })).toBe('quizErrorAnthropicPermission');
+    expect(classifyQuizError(null, { code: 'anthropic_model_error' })).toBe('quizErrorAnthropicModel');
+  });
+
+  it('returns quizError for body_too_large responses', () => {
+    expect(classifyQuizError(null, { code: 'body_too_large' })).toBe('quizError');
+  });
+
+  it('returns quizErrorRateLimit when the server returns HTTP 429', () => {
+    expect(classifyQuizError(null, { code: 'rate_limited', retryAfter: 60 }, 429)).toBe('quizErrorRateLimit');
+  });
+
+  it('returns quizErrorRateLimit when the server body uses rate_limited code', () => {
+    expect(classifyQuizError(null, { code: 'rate_limited', retryAfter: 42 })).toBe('quizErrorRateLimit');
   });
 
   it('returns quizErrorRateLimit when the error message mentions 429', () => {
@@ -82,5 +132,12 @@ describe('classifyQuizError', () => {
 
   it('handles a null error without crashing', () => {
     expect(classifyQuizError(null, {})).toBe('quizError');
+  });
+});
+
+describe('resolveQuizErrorKey', () => {
+  it('returns dev-only keys unchanged while running tests', () => {
+    expect(resolveQuizErrorKey('quizErrorNoServer')).toBe('quizErrorNoServer');
+    expect(resolveQuizErrorKey('quizErrorOverloaded')).toBe('quizErrorOverloaded');
   });
 });

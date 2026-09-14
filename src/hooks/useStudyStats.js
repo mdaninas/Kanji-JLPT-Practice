@@ -1,29 +1,89 @@
 import { useCallback, useEffect, useState } from 'react';
+import { LEGACY_KEYS, migrateStorageKey, STORAGE_KEYS } from '../storageKeys.js';
 
-const STATS_KEY = 'studyStats';
+const STATS_KEY = STORAGE_KEYS.stats;
 const CURRENT_SCHEMA_VERSION = 1;
 
 const defaultStats = {
   totalCorrect: 0,
   totalAnswered: 0,
-  byLevel: {},        // { 5: { correct, answered }, ... }
-  lastStudyDate: '',  // YYYY-MM-DD
-  streak: 0,          // current daily streak
+  byLevel: {},
+  lastStudyDate: '',
+  streak: 0,
   longestStreak: 0,
-  sessions: [],       // [{ date, correct, answered }] up to 30
+  sessions: [],
 };
+
+export function todayKey(date = new Date()) {
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
+function diffDays(a, b) {
+  if (!a || !b) return Infinity;
+  const ma = Date.parse(a);
+  const mb = Date.parse(b);
+  return Math.round((mb - ma) / 86_400_000);
+}
+
+function normalizeLevelStats(value) {
+  if (!value || typeof value !== 'object') return {};
+  const normalized = {};
+  Object.entries(value).forEach(([level, entry]) => {
+    if (!entry || typeof entry !== 'object') return;
+    normalized[level] = {
+      correct: Number(entry.correct) || 0,
+      answered: Number(entry.answered) || 0,
+    };
+  });
+  return normalized;
+}
+
+function normalizeSessions(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter((session) => session && typeof session === 'object')
+    .map((session) => ({
+      date: typeof session.date === 'string' ? session.date : '',
+      correct: Number(session.correct) || 0,
+      answered: Number(session.answered) || 0,
+    }))
+    .slice(0, 30);
+}
+
+export function normalizeStats(raw) {
+  if (!raw || typeof raw !== 'object') return { ...defaultStats };
+  return {
+    totalCorrect: Number(raw.totalCorrect) || 0,
+    totalAnswered: Number(raw.totalAnswered) || 0,
+    byLevel: normalizeLevelStats(raw.byLevel),
+    lastStudyDate: typeof raw.lastStudyDate === 'string' ? raw.lastStudyDate : '',
+    streak: Number(raw.streak) || 0,
+    longestStreak: Number(raw.longestStreak) || 0,
+    sessions: normalizeSessions(raw.sessions),
+  };
+}
+
+export function getDisplayStreak(stats) {
+  if (!stats?.lastStudyDate) return 0;
+  return diffDays(stats.lastStudyDate, todayKey()) <= 1 ? stats.streak : 0;
+}
+
+function parseStats(raw) {
+  if (!raw || typeof raw !== 'object') return { ...defaultStats };
+  if (raw.schemaVersion === CURRENT_SCHEMA_VERSION) {
+    return normalizeStats(raw.data);
+  }
+  return normalizeStats(raw);
+}
 
 function loadStats() {
   try {
+    migrateStorageKey(STATS_KEY, LEGACY_KEYS.stats);
     const raw = JSON.parse(localStorage.getItem(STATS_KEY) || '{}');
-    if (!raw || typeof raw !== 'object') return defaultStats;
-    if (raw.schemaVersion === CURRENT_SCHEMA_VERSION) {
-      return { ...defaultStats, ...(raw.data || {}) };
-    }
-    // legacy: stats object stored at top level
-    return { ...defaultStats, ...raw };
+    return parseStats(raw);
   } catch {
-    return defaultStats;
+    return { ...defaultStats };
   }
 }
 
@@ -38,23 +98,29 @@ function saveStats(stats) {
   }
 }
 
-function todayKey() {
-  return new Date().toISOString().slice(0, 10);
-}
-
-function diffDays(a, b) {
-  if (!a || !b) return Infinity;
-  const ma = Date.parse(a);
-  const mb = Date.parse(b);
-  return Math.round((mb - ma) / 86_400_000);
-}
-
 export function useStudyStats() {
   const [stats, setStats] = useState(loadStats);
 
   useEffect(() => {
     saveStats(stats);
   }, [stats]);
+
+  useEffect(() => {
+    function onStorage(event) {
+      if (event.key !== STATS_KEY) return;
+      if (event.newValue === null) {
+        setStats({ ...defaultStats });
+        return;
+      }
+      try {
+        setStats(parseStats(JSON.parse(event.newValue)));
+      } catch {
+        /* ignore */
+      }
+    }
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
 
   const recordSession = useCallback((questions, answers) => {
     const today = todayKey();
@@ -111,19 +177,18 @@ export function useStudyStats() {
   }, []);
 
   const reset = useCallback(() => {
-    setStats(defaultStats);
+    setStats({ ...defaultStats });
     try {
       localStorage.removeItem(STATS_KEY);
-      localStorage.removeItem('kanjiProgress');
-      localStorage.removeItem('quizCache');
+      localStorage.removeItem(LEGACY_KEYS.stats);
     } catch {
       /* ignore */
     }
   }, []);
 
   const replaceStats = useCallback((next) => {
-    setStats({ ...defaultStats, ...(next && typeof next === 'object' ? next : {}) });
+    setStats(normalizeStats(next));
   }, []);
 
-  return { stats, recordSession, reset, replaceStats };
+  return { stats, recordSession, reset, replaceStats, getDisplayStreak };
 }

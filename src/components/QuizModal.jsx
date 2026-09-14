@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { LEVEL_LABEL_BY_VALUE } from '../constants.js';
+import { useEffect, useRef, useState } from 'react';
+import { LEVEL_LABEL_BY_VALUE, QUIZ_MODELS } from '../constants.js';
 import { isValidQuizCandidate } from '../utils.js';
 import { useFocusTrap } from '../hooks/useFocusTrap.js';
 import { useQuizState } from '../hooks/useQuizState.js';
@@ -19,6 +19,7 @@ export function QuizModal({
   selectedKanji,
   isVocabLoading,
   preferredVocabLevels,
+  onPreferredVocabLevelsChange,
   quizModel,
   onQuizModelChange,
   onClose,
@@ -52,13 +53,33 @@ export function QuizModal({
     selectedStudySet,
     selectedKanji,
     preferredVocabLevels,
+    onPreferredVocabLevelsChange,
     quizModel,
     onRecordQuizResults,
     onRecordSession,
     quizCache,
   });
 
-  const modalRef = useFocusTrap();
+  const contentRef = useRef(null);
+  const modalRef = useFocusTrap(true, { initialFocusRef: contentRef });
+  const [availableModels, setAvailableModels] = useState(QUIZ_MODELS);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/health')
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (cancelled || !Array.isArray(data?.supportedModels) || data.supportedModels.length === 0) return;
+        setAvailableModels(
+          data.supportedModels.map((value) => {
+            const known = QUIZ_MODELS.find((model) => model.value === value);
+            return known || { value, labelKey: 'modelSonnetLabel' };
+          }),
+        );
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
 
   const llmPayloadVocabCount = randomVocabDeck.reduce(
     (total, kanji) =>
@@ -68,17 +89,26 @@ export function QuizModal({
 
   useEffect(() => {
     function onKey(event) {
+      if (event.defaultPrevented) return;
+      const tag = event.target?.tagName;
+      if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
       if (event.key === 'Escape') { onClose(); return; }
       if (!activeQuestion || quizAnswers[activeQuestion.id]) {
-        if (event.key === 'Enter') handleNext();
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          if (event.key === 'Enter') handleNext();
+        }
         return;
       }
       const label = KEY_MAP[event.key.toLowerCase()];
-      if (label) handleAnswer(activeQuestion.id, label);
+      if (label) {
+        event.preventDefault();
+        handleAnswer(activeQuestion.id, label);
+      }
     }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [activeQuestion, quizAnswers, onClose]);
+  }, [activeQuestion, quizAnswers, handleAnswer, handleNext, onClose]);
 
   const preferredVocabLevelLabel =
     preferredVocabLevelsLocal.length > 0
@@ -105,7 +135,7 @@ export function QuizModal({
           </button>
         </div>
 
-        <p className="modalIntro">{t('vocabPickerSubtitle')}</p>
+        <p ref={contentRef} tabIndex={-1} className="modalIntro">{t('vocabPickerSubtitle')}</p>
 
         <QuizSetupToolbox
           t={t}
@@ -115,6 +145,7 @@ export function QuizModal({
           selectedStudySet={selectedStudySet}
           isVocabLoading={isVocabLoading}
           quizModel={quizModel}
+          availableModels={availableModels}
           onQuizModelChange={onQuizModelChange}
           onToggleLevel={togglePreferredVocabLevel}
           onGenerate={generateRandomVocabDeck}
@@ -131,7 +162,9 @@ export function QuizModal({
                 onClick={generateReadingQuiz}
                 disabled={isQuizLoading || llmPayloadVocabCount === 0}
               >
-                {isQuizLoading ? t('generatingQuiz') : t('generateQuiz')}
+                {isQuizLoading
+                  ? t('generatingQuiz')
+                  : t('generateQuizCount', { count: Math.min(10, llmPayloadVocabCount) })}
               </button>
             </div>
 
@@ -162,6 +195,7 @@ export function QuizModal({
                       }}
                       onNext={handleNext}
                       isActive={qi === activeQuestionIndex}
+                      isLastQuestion={qi === questions.length - 1}
                     />
                   ))}
                 </div>

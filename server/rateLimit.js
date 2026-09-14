@@ -1,23 +1,9 @@
-// Rate limiter for the quiz endpoint.
-//
-// Two backends are supported and chosen lazily on the first call to
-// `checkRateLimit`:
-//   - Upstash Redis sliding window (UPSTASH_REDIS_REST_URL +
-//     UPSTASH_REDIS_REST_TOKEN must both be set). Safe for stateless
-//     serverless deployments where each invocation may hit a fresh
-//     instance.
-//   - In-memory sliding window fallback for local development and unit
-//     tests. Auto-cleans expired entries via a periodic sweep, so the
-//     Map cannot grow without bound.
-//
-// `createRateLimiter` is the pure in-memory implementation and is exported
-// so unit tests can drive it with an injected clock.
-
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 
 export const MAX_REQUESTS = 10;
 export const WINDOW_SECONDS = 60;
+export const DAILY_LIMIT = Number(process.env.QUIZ_DAILY_LIMIT || 300);
 
 const WINDOW_MS = WINDOW_SECONDS * 1000;
 
@@ -32,19 +18,14 @@ export function createRateLimiter({
 
   function pruneIp(ip, cutoff) {
     const timestamps = hits.get(ip);
-    if (!timestamps) {
-      return [];
-    }
+    if (!timestamps) return [];
     let firstFresh = 0;
     while (firstFresh < timestamps.length && timestamps[firstFresh] <= cutoff) {
       firstFresh += 1;
     }
     const fresh = firstFresh === 0 ? timestamps : timestamps.slice(firstFresh);
-    if (fresh.length === 0) {
-      hits.delete(ip);
-    } else if (fresh !== timestamps) {
-      hits.set(ip, fresh);
-    }
+    if (fresh.length === 0) hits.delete(ip);
+    else if (fresh !== timestamps) hits.set(ip, fresh);
     return fresh;
   }
 
@@ -52,13 +33,11 @@ export function createRateLimiter({
     const t = now();
     const cutoff = t - windowMs;
     const fresh = pruneIp(ip, cutoff);
-
     if (fresh.length >= limit) {
       const oldest = fresh[0];
       const retryAfter = Math.max(1, Math.ceil((oldest + windowMs - t) / 1000));
       return { allowed: false, retryAfter, limit, remaining: 0 };
     }
-
     fresh.push(t);
     hits.set(ip, fresh);
     return { allowed: true, retryAfter: 0, limit, remaining: limit - fresh.length };
@@ -66,19 +45,13 @@ export function createRateLimiter({
 
   function sweep() {
     const cutoff = now() - windowMs;
-    for (const ip of hits.keys()) {
-      pruneIp(ip, cutoff);
-    }
+    for (const ip of hits.keys()) pruneIp(ip, cutoff);
   }
 
   function start() {
-    if (sweepTimer) {
-      return;
-    }
+    if (sweepTimer) return;
     sweepTimer = setInterval(sweep, sweepIntervalMs);
-    if (typeof sweepTimer.unref === 'function') {
-      sweepTimer.unref();
-    }
+    if (typeof sweepTimer.unref === 'function') sweepTimer.unref();
   }
 
   function stop() {
@@ -88,39 +61,44 @@ export function createRateLimiter({
     }
   }
 
-  return {
-    check,
-    sweep,
-    start,
-    stop,
-    size: () => hits.size,
-  };
+  return { check, sweep, start, stop, size: () => hits.size };
 }
 
-// Backend is selected once per process. Re-reading env per request would
-// let a stale or partial config win silently between requests.
 let backend = null;
 
 function buildUpstashBackend(url, token) {
   const redis = new Redis({ url, token });
-  const ratelimit = new Ratelimit({
+  const perIp = new Ratelimit({
     redis,
     limiter: Ratelimit.slidingWindow(MAX_REQUESTS, `${WINDOW_SECONDS} s`),
     analytics: false,
     prefix: 'jlpt-kanji-quiz',
   });
+  const globalDaily = new Ratelimit({
+    redis,
+    limiter: Ratelimit.fixedWindow(DAILY_LIMIT, '1 d'),
+    prefix: 'jlpt-kanji-quiz-global',
+  });
 
   return {
     kind: 'upstash',
     async check(identifier) {
-      const result = await ratelimit.limit(identifier);
+      const [ipResult, globalResult] = await Promise.all([
+        perIp.limit(identifier),
+        globalDaily.limit('global'),
+      ]);
+
+      const success = ipResult.success && globalResult.success;
       const out = {
-        success: result.success,
-        limit: result.limit,
-        remaining: Math.max(0, result.remaining),
+        success,
+        limit: ipResult.limit,
+        remaining: Math.max(0, ipResult.remaining),
       };
-      if (!result.success) {
-        out.retryAfter = Math.max(1, Math.ceil((result.reset - Date.now()) / 1000));
+
+      if (!success) {
+        const resetMs = !globalResult.success ? globalResult.reset : ipResult.reset;
+        out.retryAfter = Math.max(1, Math.ceil((resetMs - Date.now()) / 1000));
+        out.code = !globalResult.success ? 'daily_limit_exceeded' : 'rate_limited';
       }
       return out;
     },
@@ -133,32 +111,31 @@ function buildMemoryBackend() {
   );
   const limiter = createRateLimiter({ limit: MAX_REQUESTS, windowMs: WINDOW_MS });
   limiter.start();
-
   return {
     kind: 'memory',
     async check(identifier) {
       const result = limiter.check(identifier);
-      const out = {
+      return {
         success: result.allowed,
         limit: result.limit,
         remaining: result.remaining,
+        retryAfter: result.allowed ? 0 : result.retryAfter,
+        code: result.allowed ? undefined : 'rate_limited',
       };
-      if (!result.allowed) {
-        out.retryAfter = result.retryAfter;
-      }
-      return out;
     },
   };
 }
 
 function getBackend() {
-  if (backend) {
-    return backend;
-  }
+  if (backend) return backend;
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
   backend = url && token ? buildUpstashBackend(url, token) : buildMemoryBackend();
   return backend;
+}
+
+export function isProductionWithoutUpstash() {
+  return Boolean(process.env.VERCEL) && !(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
 }
 
 export async function checkRateLimit(identifier) {

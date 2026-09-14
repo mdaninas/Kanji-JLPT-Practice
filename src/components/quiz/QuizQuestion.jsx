@@ -10,7 +10,16 @@ import { SpeakerButton } from '../ReadingLines.jsx';
 
 const ANSWER_LABELS = ['A', 'B', 'C', 'D'];
 
-export function QuizQuestion({ t, question, language, selectedAnswer, onAnswer, onNext, isActive }) {
+export function QuizQuestion({
+  t,
+  question,
+  language,
+  selectedAnswer,
+  onAnswer,
+  onNext,
+  isActive,
+  isLastQuestion,
+}) {
   const sentenceParts = getQuizSentenceParts(question);
   const sentenceVocabWords = getQuizSentenceVocabWords(question);
   const secondaryHighlightWords = sentenceVocabWords.filter((w) => w !== sentenceParts.target);
@@ -23,7 +32,7 @@ export function QuizQuestion({ t, question, language, selectedAnswer, onAnswer, 
       <p className="quizPrompt">{question.question}</p>
       <div className="contextSentence" lang="ja">
         <span>{renderHighlightedSentenceSegment(sentenceParts.before, secondaryHighlightWords)}</span>
-        <mark>{sentenceParts.target}</mark>
+        <mark lang="ja">{sentenceParts.target}</mark>
         <span>{renderHighlightedSentenceSegment(sentenceParts.after, secondaryHighlightWords)}</span>
       </div>
 
@@ -45,7 +54,7 @@ export function QuizQuestion({ t, question, language, selectedAnswer, onAnswer, 
               disabled={isRevealed && !isCorrect && !isSelected}
             >
               <strong>{label}</strong>
-              {question.choices[label]}
+              <span lang="ja">{question.choices[label]}</span>
             </button>
           );
         })}
@@ -54,7 +63,7 @@ export function QuizQuestion({ t, question, language, selectedAnswer, onAnswer, 
       {isRevealed && (
         <>
           <div className="answerPill">
-            {t('correctAnswer')}: {question.answer} - {question.answer_reading}
+            {t('correctAnswer')}: {question.answer} - <span lang="ja">{question.answer_reading}</span>
             {question.answer_reading && (
               <SpeakerButton text={question.answer_reading} label={t('playAudio')} />
             )}
@@ -63,7 +72,7 @@ export function QuizQuestion({ t, question, language, selectedAnswer, onAnswer, 
             <div className="sentenceVocabList">
               <strong>{t('sentenceVocab')}</strong>
               <div>
-                {sentenceVocabWords.map((word) => <span key={word}>{word}</span>)}
+                {sentenceVocabWords.map((word) => <span key={word} lang="ja">{word}</span>)}
               </div>
             </div>
           )}
@@ -80,9 +89,9 @@ export function QuizQuestion({ t, question, language, selectedAnswer, onAnswer, 
             </div>
           )}
           <small>{formatQuizExplanation(language, question)}</small>
-          {isActive && (
+          {isActive && !isLastQuestion && (
             <button type="button" className="nextQuestionBtn" onClick={onNext}>
-              Enter → {t('close') === 'Tutup' ? 'Soal berikutnya' : 'Next question'}
+              {t('nextQuestionPrefix')} {t('nextQuestion')}
             </button>
           )}
         </>
