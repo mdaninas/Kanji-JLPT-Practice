@@ -28,7 +28,9 @@ export function useFocusTrap(isActive = true, { initialFocusRef } = {}) {
     const previousFocus = document.activeElement;
 
     function getFocusables() {
-      return Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR)).filter(isVisible);
+      return Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR)).filter(
+        (element) => !element.closest('[inert]') && isVisible(element),
+      );
     }
 
     const preferredFocus = initialFocusRef?.current;

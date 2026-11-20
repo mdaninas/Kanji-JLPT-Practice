@@ -25,6 +25,7 @@ import {
 
 import { DeckPanel } from './components/DeckPanel.jsx';
 import { FlashcardMode } from './components/FlashcardMode.jsx';
+import { Icon } from './components/Icon.jsx';
 import { KanjiBreakdown } from './components/KanjiBreakdown.jsx';
 import { KanjiShelf } from './components/KanjiShelf.jsx';
 import { QuizModal } from './components/QuizModal.jsx';
@@ -143,10 +144,13 @@ export default function App() {
 
   // Drop selected kanji that are no longer in the current level set
   useEffect(() => {
-    if (isKanjiLoading || selectedKanji.length === 0) return;
+    if (isKanjiLoading) return;
     const currentKanjiSet = new Set(currentKanji.map((k) => k.character));
-    setSelectedKanji((current) => current.filter((c) => currentKanjiSet.has(c)));
-  }, [currentKanji, isKanjiLoading]);
+    setSelectedKanji((current) => {
+      const available = current.filter((character) => currentKanjiSet.has(character));
+      return available.length === current.length ? current : available;
+    });
+  }, [currentKanji, isKanjiLoading, setSelectedKanji]);
 
   useEffect(() => {
     if (selectedKanji.length === 0) {
@@ -191,7 +195,7 @@ export default function App() {
   const filteredKanji = useMemo(() => {
     const matched = searchableKanji
       .filter(({ item, searchText }) => {
-        if (onlyWithVocab && getVocabForKanji(item.character).length === 0) return false;
+        if (onlyWithVocab && !vocabOptionsByKanji.get(item.character)?.length) return false;
         return !debouncedQuery || searchText.includes(debouncedQuery);
       })
       .map(({ item }) => item);
@@ -202,6 +206,9 @@ export default function App() {
   const canPickMore = selectedKanji.length < MAX_SELECTED_KANJI;
   const canOpenVocabPicker = selectedStudySet.length > 0 && !isVocabLoading;
   const previewKanji = selectedStudySet.find((k) => k.character === previewKanjiCharacter);
+  const randomPool = filteredKanji.filter((kanji) => getVocabForKanji(kanji.character).length > 0);
+  const dueKanji = getDueKanji(currentKanji.map((kanji) => kanji.character));
+  const themeLabel = theme === 'dark' ? t('themeToLight') : t('themeToDark');
 
   function handleLevelToggle(level) {
     setSelectedLevels((current) =>
@@ -220,183 +227,146 @@ export default function App() {
   }
 
   function pickRandomKanji() {
-    const pool = filteredKanji.filter((k) => getVocabForKanji(k.character).length > 0);
-    if (pool.length === 0) return;
-    setSelectedKanji(sampleItems(pool, MAX_SELECTED_KANJI).map((k) => k.character));
+    if (randomPool.length === 0) return;
+    setSelectedKanji(sampleItems(randomPool, MAX_SELECTED_KANJI).map((kanji) => kanji.character));
   }
 
   function loadDueReviewQueue() {
-    const due = getDueKanji(currentKanji.map((k) => k.character));
-    if (due.length === 0) return;
-    setSelectedKanji(due.slice(0, MAX_SELECTED_KANJI));
+    if (dueKanji.length === 0) return;
+    setSelectedKanji(dueKanji.slice(0, MAX_SELECTED_KANJI));
+  }
+
+  function openQuizSetup() {
+    setPreviewKanjiCharacter('');
+    setIsVocabModalOpen(true);
   }
 
   const loadError = kanjiError || vocabError;
 
   return (
     <>
-      <header className="topBar appShell">
-        <div className="brandBlock">
-          <span className="brandMark">漢字</span>
-          <p className="eyebrow">{t('brandEyebrow')}</p>
-          <h1>{t('title')}</h1>
-        </div>
-        <nav className="topNav" aria-label={t('primaryNav')}>
-          <button
-            type="button"
-            className="topNavItem"
-            onClick={() => {
-              const target = document.getElementById('kanjiShelfSection');
-              target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }}
-          >
-            {t('shelfTitle')}
-          </button>
-          <button
-            type="button"
-            className="topNavItem"
-            onClick={() => setIsFlashcardOpen(true)}
-            disabled={selectedStudySet.length === 0}
-            title={selectedStudySet.length === 0 ? t('flashcardNeedsSet') : undefined}
-          >
-            {t('flashcardMode')}
-          </button>
-          <button
-            type="button"
-            className="topNavItem"
-            onClick={() => {
-              setPreviewKanjiCharacter('');
-              setIsVocabModalOpen(true);
-            }}
-            disabled={selectedStudySet.length === 0}
-            title={selectedStudySet.length === 0 ? t('quizNeedsSet') : undefined}
-          >
-            {t('quizSectionTitle')}
-          </button>
-          <button
-            type="button"
-            className="topNavItem topNavStats"
-            onClick={() => setIsStatsOpen(true)}
-          >
-            {t('statsButton')}
-          </button>
-        </nav>
-        <div className="topActions">
-          <label className="languagePicker">
-            <span>{t('language')}</span>
-            <select value={language} onChange={(e) => setLanguage(e.target.value)}>
-              {SUPPORTED_LANGUAGES.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <button
-            type="button"
-            className="themeToggle"
-            onClick={toggleTheme}
-            aria-label={theme === 'dark' ? t('themeToLight') : t('themeToDark')}
-            aria-pressed={theme === 'dark'}
-            title={theme === 'dark' ? t('themeToLight') : t('themeToDark')}
-          >
-            <span aria-hidden="true">{theme === 'dark' ? '☀' : '☾'}</span>
-          </button>
-          <button
-            type="button"
-            className="statsTrigger"
-            onClick={() => setIsStatsOpen(true)}
-          >
-            {t('statsButton')}
-          </button>
-          <div className="scoreBadge">
-            <strong>{selectedKanji.length}</strong>
-            <span>/ {MAX_SELECTED_KANJI} {t('picked')}</span>
+      <header className="siteHeader">
+        <div className="topBar appShell">
+          <a className="brandBlock" href="#study-home">
+            <img className="brandMark" src="/kanji-study-logo.png" width="40" height="40" alt="" />
+            {t('appName')}
+          </a>
+          <nav className="topNav" aria-label={t('primaryNav')}>
+            <a className="topNavItem collectionNav" href="#kanjiShelfSection">
+              <Icon name="grid" size={16} />
+              {t('collectionNav')}
+            </a>
+            <button
+              type="button"
+              className="topNavItem"
+              onClick={() => setIsFlashcardOpen(true)}
+              disabled={selectedStudySet.length === 0}
+              title={selectedStudySet.length === 0 ? t('flashcardNeedsSet') : undefined}
+            >
+              <Icon name="cards" size={16} />
+              {t('flashcards')}
+            </button>
+            <button
+              type="button"
+              className="topNavItem"
+              onClick={openQuizSetup}
+              disabled={!canOpenVocabPicker}
+              title={selectedStudySet.length === 0 ? t('quizNeedsSet') : undefined}
+            >
+              <Icon name="quiz" size={16} />
+              {t('quizNav')}
+            </button>
+            <button type="button" className="topNavItem" onClick={() => setIsStatsOpen(true)}>
+              <Icon name="chart" size={16} />
+              {t('statsButton')}
+            </button>
+          </nav>
+          <div className="topActions">
+            <label className="languagePicker">
+              <Icon name="globe" size={16} />
+              <span className="visuallyHidden">{t('language')}</span>
+              <select value={language} onChange={(event) => setLanguage(event.target.value)}>
+                {SUPPORTED_LANGUAGES.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+              <Icon name="chevronDown" size={13} />
+            </label>
+            <button
+              type="button"
+              className="iconButton themeToggle"
+              onClick={toggleTheme}
+              aria-label={themeLabel}
+              aria-pressed={theme === 'dark'}
+              title={themeLabel}
+            >
+              <Icon name={theme === 'dark' ? 'sun' : 'moon'} />
+            </button>
           </div>
         </div>
       </header>
 
-      <main className="appShell">
-      <section className="levelRow" aria-label={t('levelTitle')}>
-        <p className="levelRowLabel">{t('levelRowLabel')}</p>
-        <div className="levelButtons">
-          {LEVELS.map((level) => (
-            <button
-              type="button"
-              key={level.value}
-              className={selectedLevels.includes(level.value) ? 'active' : ''}
-              onClick={() => handleLevelToggle(level.value)}
-              aria-pressed={selectedLevels.includes(level.value)}
-            >
-              <span>{level.label}</span>
-              {levelCounts[level.value] > 0 && (
-                <span style={{ opacity: 0.6, fontSize: 10 }}>{levelCounts[level.value]}</span>
-              )}
-            </button>
-          ))}
-        </div>
-        <div className="levelMeta">
-          <span>
-            {t('sortPrefix')} <b>
-              {sortMode === KANJI_SORT_MODES.freq ? t('sortFreq')
-                : sortMode === KANJI_SORT_MODES.grade ? t('sortGrade')
-                : t('sortDefault')}
-            </b>
-          </span>
-          <span className="dividerDot" />
-          <span className="deckCounter">
-            {t('deckCounterLabel', { current: selectedKanji.length, max: MAX_SELECTED_KANJI })}
-          </span>
-        </div>
-      </section>
+      <main className="appShell studyPage" id="study-home">
+        <section className="studyHero" aria-labelledby="study-title">
+          <div className="heroContent">
+            <h1 id="study-title">{t('heroTitle')} <span>{t('heroSubject')}</span></h1>
+            <p>{t('subtitle')}</p>
+            <a className="primaryButton heroLink" href="#kanjiShelfSection">
+              {t('browseKanji')}
+              <Icon name="arrowDown" size={17} />
+            </a>
+          </div>
+        </section>
 
-      <section id="kanjiShelfSection" className="questBoard">
-        <KanjiShelf
-          t={t}
-          activeLevelLabel={activeLevelLabel}
-          filteredKanji={filteredKanji}
-          selectedSet={selectedSet}
-          canPickMore={canPickMore}
-          isKanjiLoading={isKanjiLoading}
-          isVocabLoading={isVocabLoading}
-          loadError={loadError}
-          query={query}
-          sortMode={sortMode}
-          onSortChange={setSortMode}
-          onQueryChange={setQuery}
-          onToggleKanji={toggleKanji}
-          onPickRandom={pickRandomKanji}
-          onLoadDueReview={loadDueReviewQueue}
-          onReset={() => setSelectedKanji([])}
-          onlyWithVocab={onlyWithVocab}
-          onToggleOnlyWithVocab={() => setOnlyWithVocab((v) => !v)}
-          getVocabForKanji={getVocabForKanji}
-          getKanjiStatus={getKanjiStatus}
-          getDueKanji={getDueKanji}
-          allKanjiCharacters={currentKanji.map((k) => k.character)}
-        />
+        <div className="questBoard">
+          <KanjiShelf
+            t={t}
+            activeLevelLabel={activeLevelLabel}
+            selectedLevels={selectedLevels}
+            levelCounts={levelCounts}
+            onToggleLevel={handleLevelToggle}
+            onClearLevels={() => setSelectedLevels([])}
+            filteredKanji={filteredKanji}
+            selectedSet={selectedSet}
+            canPickMore={canPickMore}
+            isKanjiLoading={isKanjiLoading}
+            isVocabLoading={isVocabLoading}
+            loadError={loadError}
+            query={query}
+            sortMode={sortMode}
+            onSortChange={setSortMode}
+            onQueryChange={setQuery}
+            onToggleKanji={toggleKanji}
+            randomCount={Math.min(randomPool.length, MAX_SELECTED_KANJI)}
+            onPickRandom={pickRandomKanji}
+            dueCount={dueKanji.length}
+            onLoadDueReview={loadDueReviewQueue}
+            onlyWithVocab={onlyWithVocab}
+            onToggleOnlyWithVocab={() => setOnlyWithVocab((current) => !current)}
+            getVocabForKanji={getVocabForKanji}
+            getKanjiStatus={getKanjiStatus}
+          />
 
-        <DeckPanel
-          t={t}
-          selectedStudySet={selectedStudySet}
-          isVocabLoading={isVocabLoading}
-          canOpenVocabPicker={canOpenVocabPicker}
-          onOpenVocabPicker={() => {
-            setPreviewKanjiCharacter('');
-            setIsVocabModalOpen(true);
-          }}
-          onOpenPreview={(character) => {
-            setIsVocabModalOpen(false);
-            setPreviewKanjiCharacter(character);
-          }}
-          onToggleKanji={toggleKanji}
-          onOpenFlashcard={() => setIsFlashcardOpen(true)}
-          onOpenStrokeOrder={(character) => setStrokeOrderKanji(character)}
-          onOpenBreakdown={(character) => setBreakdownKanji(character)}
-          getProgressStats={getProgressStats}
-          getKanjiStatus={getKanjiStatus}
-        />
-      </section>
+          <DeckPanel
+            t={t}
+            selectedStudySet={selectedStudySet}
+            canOpenVocabPicker={canOpenVocabPicker}
+            onOpenVocabPicker={openQuizSetup}
+            onOpenPreview={(character) => {
+              setIsVocabModalOpen(false);
+              setPreviewKanjiCharacter(character);
+            }}
+            onClearDeck={() => setSelectedKanji([])}
+            onToggleKanji={toggleKanji}
+            onOpenFlashcard={() => setIsFlashcardOpen(true)}
+            onOpenStrokeOrder={(character) => setStrokeOrderKanji(character)}
+            onOpenBreakdown={(character) => setBreakdownKanji(character)}
+            getProgressStats={getProgressStats}
+            getKanjiStatus={getKanjiStatus}
+          />
+        </div>
       </main>
 
       <footer className="appFooter appShell">

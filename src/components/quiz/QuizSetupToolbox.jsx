@@ -17,12 +17,11 @@ export function QuizSetupToolbox({
     <div className="modalToolbox">
       <div>
         <p className="eyebrow">{t('preferredVocabLevel')}</p>
-        <div className="levelButtons modalLevels" aria-label={t('preferredVocabLevel')}>
+        <div className="levelButtons modalLevels" role="group" aria-label={t('preferredVocabLevel')}>
           {LEVELS.map((level) => (
             <button
               type="button"
               key={level.value}
-              className={preferredVocabLevelsLocal.includes(level.value) ? 'active' : ''}
               onClick={() => onToggleLevel(level.value)}
               aria-pressed={preferredVocabLevelsLocal.includes(level.value)}
             >

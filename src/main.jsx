@@ -5,6 +5,7 @@ import { ErrorBoundary } from './components/ErrorBoundary.jsx';
 import { formatText } from './utils.js';
 import './styles/tokens.css';
 import './styles.css';
+import './styles/study.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

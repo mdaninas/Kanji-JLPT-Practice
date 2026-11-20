@@ -1,5 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <rect width="512" height="512" rx="96" fill="#1f7a70"/>
-  <text x="256" y="340" font-family="'Yu Mincho','Hiragino Mincho ProN','Noto Serif JP',serif"
-        font-size="320" font-weight="900" text-anchor="middle" fill="#fff">字</text>
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <circle cx="256" cy="256" r="238" fill="#f9efdc" stroke="#d1ae92" stroke-width="2.5"/>
+  <path fill="#29383e" d="M84 212c51-27 98-77 129-127 4-7 10-11 18-11h50c8 0 14 4 18 11 31 50 78 100 129 127-87 16-257 16-344 0Z"/>
+  <path fill="#f9efdc" d="M179 145c16-19 30-39 42-58 2-4 5-6 10-6h50c5 0 8 2 10 6 12 19 26 39 42 58-15-3-32-12-49-24l-25 23c-2 2-4 2-6 0l-25-23c-17 12-34 21-49 24Z"/>
+  <g fill="#a9412e">
+    <path d="M48 211c65 24 143 30 208 30s143-6 208-30l-11 25c-4 9-11 14-22 17-57 15-117 20-175 20s-118-5-175-20c-11-3-18-8-22-17Z"/>
+    <path d="M86 285h340v25H86Z M117 246h33l-5 173h-35Z M362 246h33l7 173h-35Z M244 264h24v25h-24Z"/>
+  </g>
+  <g fill="#29383e">
+    <path d="M169 328c15 0 28 6 36 14l-11 13c-7-9-17-15-28-20Z M163 363c15 1 28 7 36 15l-11 13c-7-9-17-16-29-21Z M164 432c16-12 31-31 45-59l7 4c-6 23-18 45-33 63-3 3-5 4-8 2l-11-10Z"/>
+    <path d="M219 334h128v12H219Z M243 323h14v32h-14Z M307 323h14v32h-14Z"/>
+    <path fill-rule="evenodd" d="M228 356h111v35H228Z M241 367v13h35v-13Z M290 367v13h36v-13Z"/>
+    <path d="M218 397h130v12H218Z M211 419h144v12H211Z M276 356h14v44c0 25-21 45-70 55l-5-6c43-14 61-28 61-51Z M285 414c13 18 36 28 69 33l-15 12c-29-10-49-23-59-40Z"/>
+  </g>
 </svg>

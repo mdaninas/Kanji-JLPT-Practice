@@ -111,13 +111,13 @@ export function FlashcardMode({ t, studySet, onClose, onRecordResult }) {
             aria-label={flipped ? t('flashcardBack') : t('flashcardFront')}
           >
             <div className="flashcardInner">
-              <div className="flashcardFace flashcardFront">
+              <div className="flashcardFace flashcardFront" inert={flipped}>
                 <p className="flashcardHint">{t('flashcardFront')}</p>
                 <span className="flashcardGlyph" lang="ja">{current.character}</span>
                 <p className="flashcardFlipHint">{t('flashcardFlip')}</p>
               </div>
 
-              <div className="flashcardFace flashcardBack">
+              <div className="flashcardFace flashcardBack" inert={!flipped}>
                 <p className="flashcardHint">{t('flashcardBack')}</p>
                 <span className="flashcardGlyph" lang="ja">{current.character}</span>
                 <div className="flashcardMeaning">

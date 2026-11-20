@@ -1,20 +1,25 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { LEVEL_LABEL_BY_VALUE, LEVELS, MAX_SELECTED_KANJI } from '../constants.js';
 import { FREQ_BADGE_LIMIT, KANJI_SORT_MODES } from '../utils.js';
+import { Icon } from './Icon.jsx';
 import { SkeletonGrid } from './SkeletonTile.jsx';
 
-const TILE_HEIGHT = 120;
+const TILE_HEIGHT = 140;
+const TILE_GAP = 10;
+const ROW_HEIGHT = TILE_HEIGHT + TILE_GAP;
+const MIN_TILE_WIDTH = 98;
+const MAX_COLUMNS = 6;
 const OVERSCAN_ROWS = 2;
-const MOBILE_COLUMNS = 4;
-const DESKTOP_COLUMNS = 5;
-const MOBILE_BREAKPOINT = 640;
 
-function getColumnCount(width) {
-  return width <= MOBILE_BREAKPOINT ? MOBILE_COLUMNS : DESKTOP_COLUMNS;
-}
+const statusLabels = { mastered: 'statusMastered', weak: 'statusWeak', due: 'statusDue' };
 
 export function KanjiShelf({
   t,
   activeLevelLabel,
+  selectedLevels,
+  levelCounts,
+  onToggleLevel,
+  onClearLevels,
   filteredKanji,
   selectedSet,
   canPickMore,
@@ -26,35 +31,31 @@ export function KanjiShelf({
   onSortChange,
   onQueryChange,
   onToggleKanji,
+  randomCount,
   onPickRandom,
+  dueCount,
   onLoadDueReview,
-  onReset,
   onlyWithVocab,
   onToggleOnlyWithVocab,
   getVocabForKanji,
   getKanjiStatus,
-  getDueKanji,
-  allKanjiCharacters,
 }) {
-  const dueCount = getDueKanji(allKanjiCharacters).length;
   const gridRef = useRef(null);
-  const [viewport, setViewport] = useState({ scrollTop: 0, height: 360, width: 800 });
-
-  const updateViewport = useCallback(() => {
-    const element = gridRef.current;
-    if (!element) return;
-    setViewport({
-      scrollTop: element.scrollTop,
-      height: element.clientHeight,
-      width: element.clientWidth,
-    });
-  }, []);
+  const [viewport, setViewport] = useState({ scrollTop: 0, height: 450, width: 0 });
 
   useEffect(() => {
-    updateViewport();
     const element = gridRef.current;
     if (!element) return undefined;
 
+    function updateViewport() {
+      setViewport({
+        scrollTop: element.scrollTop,
+        height: element.clientHeight,
+        width: element.clientWidth,
+      });
+    }
+
+    updateViewport();
     element.addEventListener('scroll', updateViewport, { passive: true });
     const resizeObserver = typeof ResizeObserver !== 'undefined'
       ? new ResizeObserver(updateViewport)
@@ -67,32 +68,21 @@ export function KanjiShelf({
       resizeObserver?.disconnect();
       window.removeEventListener('resize', updateViewport);
     };
-  }, [updateViewport, isKanjiLoading, filteredKanji.length]);
+  }, []);
 
-  const columns = getColumnCount(viewport.width);
-  const rowCount = Math.ceil(filteredKanji.length / columns) || 0;
-  const totalHeight = rowCount * TILE_HEIGHT;
+  useEffect(() => {
+    if (gridRef.current) gridRef.current.scrollTop = 0;
+  }, [activeLevelLabel, onlyWithVocab, query, sortMode]);
 
-  const { startIndex, endIndex, topSpacer, bottomSpacer } = useMemo(() => {
-    if (rowCount === 0) {
-      return { startIndex: 0, endIndex: 0, topSpacer: 0, bottomSpacer: 0 };
-    }
-
-    const startRow = Math.max(0, Math.floor(viewport.scrollTop / TILE_HEIGHT) - OVERSCAN_ROWS);
-    const endRow = Math.min(
-      rowCount,
-      Math.ceil((viewport.scrollTop + viewport.height) / TILE_HEIGHT) + OVERSCAN_ROWS,
-    );
-
-    return {
-      startIndex: startRow * columns,
-      endIndex: Math.min(filteredKanji.length, endRow * columns),
-      topSpacer: startRow * TILE_HEIGHT,
-      bottomSpacer: Math.max(0, (rowCount - endRow) * TILE_HEIGHT),
-    };
-  }, [columns, filteredKanji.length, rowCount, viewport.height, viewport.scrollTop]);
-
-  const visibleKanji = filteredKanji.slice(startIndex, endIndex);
+  const fittingColumns = Math.floor((viewport.width + TILE_GAP) / (MIN_TILE_WIDTH + TILE_GAP));
+  const columns = Math.max(2, Math.min(MAX_COLUMNS, fittingColumns));
+  const rowCount = Math.ceil(filteredKanji.length / columns);
+  const maxScrollTop = Math.max(0, rowCount * ROW_HEIGHT - TILE_GAP - viewport.height);
+  const scrollTop = Math.min(viewport.scrollTop, maxScrollTop);
+  const startRow = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - OVERSCAN_ROWS);
+  const endRow = Math.min(rowCount, Math.ceil((scrollTop + viewport.height) / ROW_HEIGHT) + OVERSCAN_ROWS);
+  const visibleKanji = filteredKanji.slice(startRow * columns, endRow * columns);
+  const isLoading = isKanjiLoading || (onlyWithVocab && isVocabLoading);
 
   function renderTile(kanji) {
     const isSelected = selectedSet.has(kanji.character);
@@ -100,91 +90,82 @@ export function KanjiShelf({
     const vocabCount = getVocabForKanji(kanji.character).length;
     const status = getKanjiStatus(kanji.character);
     const showFreqBadge = kanji.freq <= FREQ_BADGE_LIMIT;
+    const meaning = kanji.meanings[0] || t('fallbackMeaning');
 
     return (
       <button
         type="button"
-        className={`kanjiTile ${isSelected ? 'selected' : ''} ${status !== 'new' ? `status-${status}` : ''}`}
+        className={`kanjiTile${isSelected ? ' selected' : ''}`}
         key={kanji.character}
         onClick={() => onToggleKanji(kanji.character)}
         disabled={isDisabled}
         aria-pressed={isSelected}
       >
-        {status === 'mastered' && (
-          <span className="statusDot dot-mastered">
-            <span className="visuallyHidden">{t('statusMastered')}</span>
+        <span className="tileTop">
+          <span className={`tileLevel level-${kanji.jlpt}`}>
+            {LEVEL_LABEL_BY_VALUE[kanji.jlpt]}
           </span>
-        )}
-        {status === 'weak' && (
-          <span className="statusDot dot-weak">
-            <span className="visuallyHidden">{t('statusWeak')}</span>
+          <span className="tileState">
+            {statusLabels[status] && (
+              <span className={`statusDot dot-${status}`} title={t(statusLabels[status])}>
+                <span className="visuallyHidden">{t(statusLabels[status])}</span>
+              </span>
+            )}
+            <span className="tilePick" aria-hidden="true">
+              <Icon name={isSelected ? 'check' : 'plus'} size={13} />
+            </span>
           </span>
-        )}
-        {status === 'due' && (
-          <span className="statusDot dot-due">
-            <span className="visuallyHidden">{t('statusDue')}</span>
-          </span>
-        )}
+        </span>
         <span className="kanjiGlyph" lang="ja">{kanji.character}</span>
-        <span className="kanjiMeaning">
-          {kanji.meanings[0] || t('fallbackMeaning')}
+        <span className="kanjiMeaning" title={meaning}>{meaning}</span>
+        <span className="vocabBadge">
+          {t('vocabCount', { count: vocabCount })}
         </span>
         {(kanji.grade != null || showFreqBadge) && (
           <span className="kanjiInfoBadges">
             {kanji.grade != null && (
-              <span className="kanjiBadge gradeBadge">
+              <span className="kanjiBadge" title={t('gradeBadge', { grade: kanji.grade })}>
                 {t('gradeBadge', { grade: kanji.grade })}
               </span>
             )}
             {showFreqBadge && (
-              <span className="kanjiBadge freqBadge">
+              <span className="kanjiBadge" title={t('freqBadge', { freq: kanji.freq })}>
                 {t('freqBadge', { freq: kanji.freq })}
               </span>
             )}
           </span>
         )}
-        <span className="vocabBadge">
-          {t('vocabCount', { count: vocabCount })}
-        </span>
       </button>
     );
   }
 
   return (
-    <section className="kanjiShelf" aria-labelledby="shelf-title">
-      <div className="sectionHeading">
-        <div>
-          <p className="eyebrow">{t('collectionEyebrow', { level: activeLevelLabel.toUpperCase() })}</p>
-          <h2 id="shelf-title">{t('shelfTitle')}</h2>
-        </div>
-        <div className="deckActions">
-          <button
-            type="button"
-            className="paperButton"
-            onClick={onReset}
-            disabled={selectedSet.size === 0}
-          >
-            {t('reset')}
-          </button>
+    <section className="kanjiShelf" id="kanjiShelfSection" aria-labelledby="shelf-title">
+      <div className="shelfHeading">
+        <h2 id="shelf-title">{t('shelfTitle')}</h2>
+        <div className="shelfActions">
           {dueCount > 0 && (
             <button type="button" className="paperButton" onClick={onLoadDueReview}>
+              <Icon name="clock" size={16} />
               {t('reviewQueue')} ({dueCount})
             </button>
           )}
           <button
             type="button"
-            className="primaryButton"
+            className="paperButton shuffleButton"
             onClick={onPickRandom}
-            disabled={isKanjiLoading || filteredKanji.length === 0}
+            disabled={isKanjiLoading || isVocabLoading || randomCount === 0}
           >
-            {t('randomCount', { count: 10 })}
+            <Icon name="shuffle" size={16} />
+            {t('randomCount', { count: randomCount || MAX_SELECTED_KANJI })}
           </button>
         </div>
       </div>
 
       <div className="toolRow">
         <label className="searchBox">
-          <span>{t('searchLabel')}</span>
+          <Icon name="search" />
+          <span className="visuallyHidden">{t('searchLabel')}</span>
           <input
             type="search"
             value={query}
@@ -193,7 +174,8 @@ export function KanjiShelf({
           />
         </label>
         <label className="sortBox">
-          <span>{t('sortLabel')}</span>
+          <Icon name="sort" />
+          <span className="visuallyHidden">{t('sortLabel')}</span>
           <select
             value={sortMode}
             onChange={(e) => onSortChange(e.target.value)}
@@ -203,43 +185,81 @@ export function KanjiShelf({
             <option value={KANJI_SORT_MODES.freq}>{t('sortFreq')}</option>
             <option value={KANJI_SORT_MODES.grade}>{t('sortGrade')}</option>
           </select>
-        </label>
-        <label className="vocabFilterToggle">
-          <input
-            type="checkbox"
-            checked={onlyWithVocab}
-            onChange={onToggleOnlyWithVocab}
-          />
-          <span>{t('onlyWithVocab')}</span>
+          <Icon name="chevronDown" size={14} />
         </label>
       </div>
 
-      <div className="statusLine" aria-live="polite">
-        {isKanjiLoading
-          ? t('loadingKanji', { level: activeLevelLabel })
-          : t('available', { count: filteredKanji.length, level: activeLevelLabel })}
-        {isVocabLoading ? ` ${t('loadingVocab')}` : ''}
-      </div>
-
-      {loadError && <div className="loadError">{loadError}</div>}
-
-      {isKanjiLoading ? (
-        <SkeletonGrid count={15} />
-      ) : (
-        <div
-          className="kanjiGrid"
-          ref={gridRef}
-          style={{ '--kanji-grid-height': `${totalHeight}px` }}
-        >
-          {topSpacer > 0 && (
-            <div className="kanjiGridSpacer" style={{ height: topSpacer }} aria-hidden="true" />
-          )}
-          {visibleKanji.map((kanji) => renderTile(kanji))}
-          {bottomSpacer > 0 && (
-            <div className="kanjiGridSpacer" style={{ height: bottomSpacer }} aria-hidden="true" />
-          )}
+      <div className="shelfLevels">
+        <span id="level-filter-label">{t('levelTitle')}</span>
+        <div className="levelButtons" role="group" aria-labelledby="level-filter-label">
+          <button type="button" onClick={onClearLevels} aria-pressed={selectedLevels.length === 0}>
+            {t('allLevelsFilter')}
+          </button>
+          {LEVELS.map((level) => (
+            <button
+              type="button"
+              key={level.value}
+              onClick={() => onToggleLevel(level.value)}
+              aria-pressed={selectedLevels.includes(level.value)}
+            >
+              {level.label}
+              {levelCounts[level.value] > 0 && <small>{levelCounts[level.value]}</small>}
+            </button>
+          ))}
         </div>
-      )}
+      </div>
+
+      <div className="shelfMeta">
+        <div className="statusLine" aria-live="polite">
+          {isKanjiLoading
+            ? t('loadingKanji', { level: activeLevelLabel })
+            : t('collectionCount', { count: filteredKanji.length })}
+          {isVocabLoading && !isKanjiLoading && ` · ${t('loadingVocab')}`}
+        </div>
+        <label className="vocabFilterToggle">
+          <input type="checkbox" checked={onlyWithVocab} onChange={onToggleOnlyWithVocab} />
+          <span className="toggleTrack" aria-hidden="true" />
+          {t('onlyWithVocab')}
+        </label>
+      </div>
+      <a className="mobileDeckLink" href="#studyDeck">
+        <Icon name="cards" size={16} />
+        {t('deckTitle')} ({selectedSet.size})
+        <Icon name="arrowDown" size={14} />
+      </a>
+
+      {loadError && <div className="loadError" role="status">{loadError}</div>}
+
+      <div
+        className="kanjiViewport"
+        ref={gridRef}
+        aria-busy={isLoading}
+        style={{
+          '--kanji-columns': columns,
+          '--kanji-tile-height': `${TILE_HEIGHT}px`,
+          '--kanji-tile-gap': `${TILE_GAP}px`,
+        }}
+      >
+        {isLoading ? (
+          <SkeletonGrid count={columns * 3} />
+        ) : filteredKanji.length > 0 ? (
+          <div
+            className="kanjiGrid"
+            style={{
+              paddingBlockStart: `${startRow * ROW_HEIGHT}px`,
+              paddingBlockEnd: `${(rowCount - endRow) * ROW_HEIGHT}px`,
+            }}
+          >
+            {visibleKanji.map(renderTile)}
+          </div>
+        ) : !loadError && (
+          <div className="quietState shelfEmpty">
+            <Icon name="search" size={24} />
+            <strong>{t('noMatchingKanji')}</strong>
+            <p>{t('noMatchingKanjiHint')}</p>
+          </div>
+        )}
+      </div>
     </section>
   );
 }

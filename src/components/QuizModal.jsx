@@ -3,6 +3,7 @@ import { LEVEL_LABEL_BY_VALUE, QUIZ_MODELS } from '../constants.js';
 import { isValidQuizCandidate } from '../utils.js';
 import { useFocusTrap } from '../hooks/useFocusTrap.js';
 import { useQuizState } from '../hooks/useQuizState.js';
+import { Icon } from './Icon.jsx';
 import { QuizQuestion } from './quiz/QuizQuestion.jsx';
 import { QuizLoading } from './quiz/QuizLoading.jsx';
 import { QuizProgressBar } from './quiz/QuizProgressBar.jsx';
@@ -126,12 +127,9 @@ export function QuizModal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="modalHeader">
-          <div>
-            <p className="eyebrow">{t('selectedKanjiLabel')}</p>
-            <h2 id="vocab-modal-title">{t('vocabPickerTitle')}</h2>
-          </div>
+          <h2 id="vocab-modal-title">{t('vocabPickerTitle')}</h2>
           <button type="button" className="iconButton" onClick={onClose} aria-label={t('close')}>
-            x
+            <Icon name="close" />
           </button>
         </div>
 
@@ -151,9 +149,7 @@ export function QuizModal({
           onGenerate={generateRandomVocabDeck}
         />
 
-        {randomVocabDeck.length === 0 ? (
-          <div className="quietState modalEmpty">{t('noRandomYet')}</div>
-        ) : (
+        {randomVocabDeck.length > 0 && (
           <>
             <div className="quizActions">
               <button
