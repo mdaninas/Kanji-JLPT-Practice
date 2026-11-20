@@ -50,7 +50,7 @@ Open [http://127.0.0.1:5173](http://127.0.0.1:5173).
 | Name | Required | Default | Purpose |
 |---|---|---|---|
 | `ANTHROPIC_API_KEY` | For quiz generation | — | Authenticates requests to Claude |
-| `ANTHROPIC_MODEL` | No | `claude-sonnet-4-6` | Default model for quiz requests |
+| `ANTHROPIC_MODEL` | No | `claude-sonnet-5-5` | Default model for quiz requests |
 | `APP_ORIGIN` | No | `http://127.0.0.1:5173` | Allowed origin for cross-origin API requests |
 | `HOST` | No | `127.0.0.1` | Local API host |
 | `PORT` | No | `8787` | Local API port |
@@ -58,6 +58,8 @@ Open [http://127.0.0.1:5173](http://127.0.0.1:5173).
 | `UPSTASH_REDIS_REST_TOKEN` | On Vercel | — | Upstash Redis access token |
 | `QUIZ_DAILY_LIMIT` | No | `300` | Global daily quiz request limit when using Upstash |
 | `ALLOWED_MODELS` | No | All supported models | Comma-separated list of models clients can select |
+
+The app treats existing `claude-sonnet-4-6` entries in `ANTHROPIC_MODEL` and `ALLOWED_MODELS` as `claude-sonnet-5-5`.
 
 The quiz API allows 10 requests per minute per IP. Local development can use an in-memory limiter. For a Vercel deployment, configure Upstash Redis in the project environment variables.
 

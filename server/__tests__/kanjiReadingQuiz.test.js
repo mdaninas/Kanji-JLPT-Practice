@@ -1,11 +1,29 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { app } from '../app.js';
 import { resolveModel } from '../kanjiReadingQuiz.js';
 import { sanitizeDeckWithServerData } from '../vocabLookup.js';
 
 describe('resolveModel', () => {
-  it('falls back to default for unknown models', () => {
-    expect(resolveModel('unknown-model')).toBe('claude-sonnet-4-6');
+  afterEach(() => vi.unstubAllEnvs());
+
+  it('defaults to Sonnet 5.5 for unknown models', () => {
+    vi.stubEnv('ALLOWED_MODELS', undefined);
+    vi.stubEnv('ANTHROPIC_MODEL', undefined);
+    expect(resolveModel('unknown-model')).toBe('claude-sonnet-5-5');
+  });
+
+  it('upgrades a legacy Sonnet request while honoring other model preferences', () => {
+    vi.stubEnv('ALLOWED_MODELS', undefined);
+    vi.stubEnv('ANTHROPIC_MODEL', 'claude-opus-4-7');
+    expect(resolveModel()).toBe('claude-opus-4-7');
+    expect(resolveModel('claude-sonnet-4-6')).toBe('claude-sonnet-5-5');
+  });
+
+  it('accepts Sonnet 5.5 when an existing allowlist includes Sonnet 4.6', () => {
+    vi.stubEnv('ALLOWED_MODELS', 'claude-sonnet-4-6,claude-haiku-4-5-20251001');
+    vi.stubEnv('ANTHROPIC_MODEL', 'claude-haiku-4-5-20251001');
+    expect(resolveModel('claude-sonnet-5-5')).toBe('claude-sonnet-5-5');
+    expect(resolveModel('claude-opus-4-7')).toBe('claude-haiku-4-5-20251001');
   });
 });
 
@@ -28,7 +46,7 @@ describe('GET /api/health', () => {
     const body = await response.json();
     expect(body.ok).toBe(true);
     expect(Array.isArray(body.supportedModels)).toBe(true);
-    expect(body.supportedModels.length).toBeGreaterThan(0);
+    expect(body.supportedModels).toContain('claude-sonnet-5-5');
     expect(typeof body.model).toBe('string');
     expect(body).not.toHaveProperty('hasApiKey');
   });

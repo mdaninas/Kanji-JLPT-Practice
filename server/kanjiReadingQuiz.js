@@ -1,22 +1,21 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { jsonSchemaOutputFormat } from '@anthropic-ai/sdk/helpers/json-schema';
+import { DEFAULT_QUIZ_MODEL, QUIZ_MODELS } from '../src/quizModels.js';
 import { sanitizeDeckWithServerData } from './vocabLookup.js';
 
-const anthropicClient = new Anthropic({
-  timeout: 60_000,
-  maxRetries: 1,
-});
+let anthropicClient;
 
-export const SUPPORTED_MODELS = Object.freeze([
-  'claude-sonnet-4-6',
-  'claude-opus-4-7',
-  'claude-haiku-4-5-20251001',
-]);
+export const SUPPORTED_MODELS = Object.freeze(QUIZ_MODELS.map(({ value }) => value));
+export const DEFAULT_MODEL = DEFAULT_QUIZ_MODEL;
 
-export const DEFAULT_MODEL = 'claude-sonnet-4-6';
+function upgradeSonnetModel(model) {
+  return model === 'claude-sonnet-4-6' ? DEFAULT_MODEL : model;
+}
 
 function getAllowedModels() {
-  const envList = process.env.ALLOWED_MODELS?.split(',').map((item) => item.trim()).filter(Boolean);
+  const envList = process.env.ALLOWED_MODELS?.split(',')
+    .map((item) => upgradeSonnetModel(item.trim()))
+    .filter(Boolean);
   if (envList?.length) {
     return SUPPORTED_MODELS.filter((model) => envList.includes(model));
   }
@@ -25,9 +24,9 @@ function getAllowedModels() {
 
 export function resolveModel(requestedModel) {
   const pool = getAllowedModels();
-  if (pool.length === 0) return DEFAULT_MODEL;
-  if (pool.includes(requestedModel)) return requestedModel;
-  const envModel = process.env.ANTHROPIC_MODEL;
+  const model = upgradeSonnetModel(requestedModel);
+  if (pool.includes(model)) return model;
+  const envModel = upgradeSonnetModel(process.env.ANTHROPIC_MODEL);
   if (pool.includes(envModel)) return envModel;
   return pool[0] || DEFAULT_MODEL;
 }
@@ -663,6 +662,13 @@ The short_explanation and sentence_translation fields must follow the requested 
     },
   };
 
+  if (resolvedModel === 'claude-sonnet-5-5') {
+    requestParams.thinking = { type: 'between_tools' };
+    requestParams.output_config.effort = 'high';
+  }
+
+  // Load credentials after the local API has read .env.
+  anthropicClient ??= new Anthropic({ timeout: 60_000, maxRetries: 1 });
   const message = await anthropicClient.messages.parse(requestParams);
 
   if (message.usage) {
