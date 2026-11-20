@@ -3,7 +3,7 @@ export const MAX_RANDOM_VOCAB_PER_KANJI = 3;
 export const QUIZ_QUESTION_COUNT = 10;
 export const QUIZ_PROMPT_VERSION = 2;
 
-export { DEFAULT_QUIZ_MODEL, QUIZ_MODELS, isSupportedQuizModel } from './quizModels.js';
+export { DEFAULT_QUIZ_MODEL, QUIZ_MODELS, isSupportedQuizModel, migrateQuizModelId } from './quizModels.js';
 
 export const SRS_INTERVALS_DAYS = [0, 1, 3, 7, 14, 30];
 
@@ -235,8 +235,8 @@ export const TEXT = {
     modelLabel: 'Model',
     modelHint: 'Pilih model akan tersimpan dan dipakai lagi nanti.',
     modelSonnetLabel: 'Sonnet 5.5 — Balanced',
-    modelOpusLabel: 'Opus 4.7 — Best quality',
-    modelHaikuLabel: 'Haiku 4.5 — Fastest',
+    modelOpusLabel: 'Opus 5.5 — Best quality',
+    modelHaikuLabel: 'Haiku 5.5 — Fastest',
     primaryNav: 'Navigasi utama',
     themeToDark: 'Pakai tema gelap',
     themeToLight: 'Pakai tema terang',
@@ -411,8 +411,8 @@ export const TEXT = {
     modelLabel: 'Model',
     modelHint: 'Your model choice is saved for next time.',
     modelSonnetLabel: 'Sonnet 5.5 — Balanced',
-    modelOpusLabel: 'Opus 4.7 — Best quality',
-    modelHaikuLabel: 'Haiku 4.5 — Fastest',
+    modelOpusLabel: 'Opus 5.5 — Best quality',
+    modelHaikuLabel: 'Haiku 5.5 — Fastest',
     primaryNav: 'Primary navigation',
     themeToDark: 'Switch to dark theme',
     themeToLight: 'Switch to light theme',

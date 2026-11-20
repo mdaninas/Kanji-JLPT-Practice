@@ -12,18 +12,20 @@ describe('resolveModel', () => {
     expect(resolveModel('unknown-model')).toBe('claude-sonnet-5-5');
   });
 
-  it('upgrades a legacy Sonnet request while honoring other model preferences', () => {
+  it('upgrades each legacy model ID to the same family', () => {
     vi.stubEnv('ALLOWED_MODELS', undefined);
     vi.stubEnv('ANTHROPIC_MODEL', 'claude-opus-4-7');
-    expect(resolveModel()).toBe('claude-opus-4-7');
+    expect(resolveModel()).toBe('claude-opus-5-5');
     expect(resolveModel('claude-sonnet-4-6')).toBe('claude-sonnet-5-5');
+    expect(resolveModel('claude-haiku-4-5-20251001')).toBe('claude-haiku-5-5');
   });
 
-  it('accepts Sonnet 5.5 when an existing allowlist includes Sonnet 4.6', () => {
+  it('preserves allowed model families when an allowlist uses older IDs', () => {
     vi.stubEnv('ALLOWED_MODELS', 'claude-sonnet-4-6,claude-haiku-4-5-20251001');
     vi.stubEnv('ANTHROPIC_MODEL', 'claude-haiku-4-5-20251001');
     expect(resolveModel('claude-sonnet-5-5')).toBe('claude-sonnet-5-5');
-    expect(resolveModel('claude-opus-4-7')).toBe('claude-haiku-4-5-20251001');
+    expect(resolveModel('claude-haiku-5-5')).toBe('claude-haiku-5-5');
+    expect(resolveModel('claude-opus-5-5')).toBe('claude-haiku-5-5');
   });
 });
 
@@ -46,7 +48,7 @@ describe('GET /api/health', () => {
     const body = await response.json();
     expect(body.ok).toBe(true);
     expect(Array.isArray(body.supportedModels)).toBe(true);
-    expect(body.supportedModels).toContain('claude-sonnet-5-5');
+    expect(body.supportedModels).toEqual(['claude-sonnet-5-5', 'claude-opus-5-5', 'claude-haiku-5-5']);
     expect(typeof body.model).toBe('string');
     expect(body).not.toHaveProperty('hasApiKey');
   });

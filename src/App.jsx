@@ -6,6 +6,7 @@ import {
   LEVEL_LABEL_BY_VALUE,
   LEVELS,
   MAX_SELECTED_KANJI,
+  migrateQuizModelId,
   SUPPORTED_LANGUAGES,
 } from './constants.js';
 import { useKanjiData } from './hooks/useKanjiData.js';
@@ -58,7 +59,8 @@ function validateSortMode(value) {
 }
 
 function validateQuizModel(value) {
-  return isSupportedQuizModel(value) ? value : DEFAULT_QUIZ_MODEL;
+  const model = migrateQuizModelId(value);
+  return isSupportedQuizModel(model) ? model : DEFAULT_QUIZ_MODEL;
 }
 
 export default function App() {
@@ -119,8 +121,9 @@ export default function App() {
   }, [query]);
 
   useEffect(() => {
-    if (!isSupportedQuizModel(quizModel)) {
-      setQuizModel(DEFAULT_QUIZ_MODEL);
+    const model = validateQuizModel(quizModel);
+    if (model !== quizModel) {
+      setQuizModel(model);
     }
   }, [quizModel, setQuizModel]);
 

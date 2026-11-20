@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { jsonSchemaOutputFormat } from '@anthropic-ai/sdk/helpers/json-schema';
-import { DEFAULT_QUIZ_MODEL, QUIZ_MODELS } from '../src/quizModels.js';
+import { DEFAULT_QUIZ_MODEL, QUIZ_MODELS, migrateQuizModelId } from '../src/quizModels.js';
 import { sanitizeDeckWithServerData } from './vocabLookup.js';
 
 let anthropicClient;
@@ -8,13 +8,9 @@ let anthropicClient;
 export const SUPPORTED_MODELS = Object.freeze(QUIZ_MODELS.map(({ value }) => value));
 export const DEFAULT_MODEL = DEFAULT_QUIZ_MODEL;
 
-function upgradeSonnetModel(model) {
-  return model === 'claude-sonnet-4-6' ? DEFAULT_MODEL : model;
-}
-
 function getAllowedModels() {
   const envList = process.env.ALLOWED_MODELS?.split(',')
-    .map((item) => upgradeSonnetModel(item.trim()))
+    .map((item) => migrateQuizModelId(item.trim()))
     .filter(Boolean);
   if (envList?.length) {
     return SUPPORTED_MODELS.filter((model) => envList.includes(model));
@@ -24,9 +20,9 @@ function getAllowedModels() {
 
 export function resolveModel(requestedModel) {
   const pool = getAllowedModels();
-  const model = upgradeSonnetModel(requestedModel);
+  const model = migrateQuizModelId(requestedModel);
   if (pool.includes(model)) return model;
-  const envModel = upgradeSonnetModel(process.env.ANTHROPIC_MODEL);
+  const envModel = migrateQuizModelId(process.env.ANTHROPIC_MODEL);
   if (pool.includes(envModel)) return envModel;
   return pool[0] || DEFAULT_MODEL;
 }
@@ -632,8 +628,10 @@ export async function generateKanjiReadingQuiz({
     explanationLanguage,
   });
 
+  const { thinking, effort } = QUIZ_MODELS.find(({ value }) => value === resolvedModel);
   const requestParams = {
     model: resolvedModel,
+    thinking: { type: thinking },
     max_tokens: 16_000,
     system: [
       {
@@ -658,14 +656,10 @@ The short_explanation and sentence_translation fields must follow the requested 
       },
     ],
     output_config: {
+      effort,
       format: jsonSchemaOutputFormat(QUIZ_OUTPUT_SCHEMA),
     },
   };
-
-  if (resolvedModel === 'claude-sonnet-5-5') {
-    requestParams.thinking = { type: 'between_tools' };
-    requestParams.output_config.effort = 'high';
-  }
 
   // Load credentials after the local API has read .env.
   anthropicClient ??= new Anthropic({ timeout: 60_000, maxRetries: 1 });
