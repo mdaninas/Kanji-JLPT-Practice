@@ -9,6 +9,8 @@ const paths = {
   arrowDown: 'M12 4v15 M6 13l6 6 6-6',
   arrowRight: 'M4 12h15 M13 6l6 6-6 6',
   chevronDown: 'm6 9 6 6 6-6',
+  chevronLeft: 'm15 6-6 6 6 6',
+  chevronRight: 'm9 6 6 6-6 6',
   search: 'M16 10a6 6 0 1 1-12 0 6 6 0 0 1 12 0z M14.5 14.5 20 20',
   sort: 'M4 6h16 M7 12h10 M10 18h4',
   shuffle: 'M3 6h3c3 0 5 3 7 7 1.4 2.7 2.8 5 5 5h3 M18 15l3 3-3 3 M3 18h3c2 0 3.2-1.2 4.3-3 M14 9c1.1-1.8 2.3-3 4-3h3 M18 3l3 3-3 3',

@@ -1,17 +1,58 @@
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useRef, useState } from 'react';
 import { LEVEL_LABEL_BY_VALUE, LEVELS, MAX_SELECTED_KANJI } from '../constants.js';
 import { FREQ_BADGE_LIMIT, KANJI_SORT_MODES } from '../utils.js';
 import { Icon } from './Icon.jsx';
 import { SkeletonGrid } from './SkeletonTile.jsx';
 
-const TILE_HEIGHT = 140;
-const TILE_GAP = 10;
-const ROW_HEIGHT = TILE_HEIGHT + TILE_GAP;
-const MIN_TILE_WIDTH = 98;
-const MAX_COLUMNS = 6;
-const OVERSCAN_ROWS = 2;
+const KANJI_PER_PAGE = 18;
 
 const statusLabels = { mastered: 'statusMastered', weak: 'statusWeak', due: 'statusDue' };
+
+function KanjiPagination({ t, page, pageCount, onPageChange }) {
+  const firstMiddlePage = Math.max(2, Math.min(page - 1, pageCount - 3));
+  const pageNumbers = pageCount <= 5
+    ? Array.from({ length: pageCount }, (_, index) => index + 1)
+    : [1, firstMiddlePage, firstMiddlePage + 1, firstMiddlePage + 2, pageCount];
+
+  return (
+    <nav className="kanjiPagination" aria-label={t('kanjiPagination')}>
+      <button
+        type="button"
+        className="kanjiPageButton"
+        aria-label={t('previousPage')}
+        disabled={page === 1}
+        onClick={() => onPageChange(page - 1)}
+      >
+        <Icon name="chevronLeft" size={16} />
+      </button>
+      {pageNumbers.map((number, index) => (
+        <Fragment key={number}>
+          {number > (pageNumbers[index - 1] ?? 0) + 1 && (
+            <span className="kanjiPageGap" aria-hidden="true">…</span>
+          )}
+          <button
+            type="button"
+            className="kanjiPageButton"
+            aria-label={t('pageNumber', { page: number })}
+            aria-current={number === page ? 'page' : undefined}
+            onClick={() => onPageChange(number)}
+          >
+            {number}
+          </button>
+        </Fragment>
+      ))}
+      <button
+        type="button"
+        className="kanjiPageButton"
+        aria-label={t('nextPage')}
+        disabled={page === pageCount}
+        onClick={() => onPageChange(page + 1)}
+      >
+        <Icon name="chevronRight" size={16} />
+      </button>
+    </nav>
+  );
+}
 
 export function KanjiShelf({
   t,
@@ -40,49 +81,25 @@ export function KanjiShelf({
   getVocabForKanji,
   getKanjiStatus,
 }) {
-  const gridRef = useRef(null);
-  const [viewport, setViewport] = useState({ scrollTop: 0, height: 450, width: 0 });
-
-  useEffect(() => {
-    const element = gridRef.current;
-    if (!element) return undefined;
-
-    function updateViewport() {
-      setViewport({
-        scrollTop: element.scrollTop,
-        height: element.clientHeight,
-        width: element.clientWidth,
-      });
-    }
-
-    updateViewport();
-    element.addEventListener('scroll', updateViewport, { passive: true });
-    const resizeObserver = typeof ResizeObserver !== 'undefined'
-      ? new ResizeObserver(updateViewport)
-      : null;
-    resizeObserver?.observe(element);
-    window.addEventListener('resize', updateViewport);
-
-    return () => {
-      element.removeEventListener('scroll', updateViewport);
-      resizeObserver?.disconnect();
-      window.removeEventListener('resize', updateViewport);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (gridRef.current) gridRef.current.scrollTop = 0;
-  }, [activeLevelLabel, onlyWithVocab, query, sortMode]);
-
-  const fittingColumns = Math.floor((viewport.width + TILE_GAP) / (MIN_TILE_WIDTH + TILE_GAP));
-  const columns = Math.max(2, Math.min(MAX_COLUMNS, fittingColumns));
-  const rowCount = Math.ceil(filteredKanji.length / columns);
-  const maxScrollTop = Math.max(0, rowCount * ROW_HEIGHT - TILE_GAP - viewport.height);
-  const scrollTop = Math.min(viewport.scrollTop, maxScrollTop);
-  const startRow = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - OVERSCAN_ROWS);
-  const endRow = Math.min(rowCount, Math.ceil((scrollTop + viewport.height) / ROW_HEIGHT) + OVERSCAN_ROWS);
-  const visibleKanji = filteredKanji.slice(startRow * columns, endRow * columns);
+  const resultsRef = useRef(null);
+  const [pageSelection, setPageSelection] = useState(null);
+  const resultCount = filteredKanji.length;
+  const pageCount = Math.ceil(resultCount / KANJI_PER_PAGE);
+  const page = pageSelection?.results === filteredKanji ? pageSelection.number : 1;
+  const startIndex = (page - 1) * KANJI_PER_PAGE;
+  const endIndex = Math.min(startIndex + KANJI_PER_PAGE, resultCount);
+  const pageKanji = filteredKanji.slice(startIndex, endIndex);
   const isLoading = isKanjiLoading || (onlyWithVocab && isVocabLoading);
+  const countLabel = pageCount > 1
+    ? t('collectionRange', { first: startIndex + 1, last: endIndex, count: resultCount })
+    : t('collectionCount', { count: resultCount });
+
+  function changePage(number) {
+    if (number === page) return;
+    setPageSelection({ results: filteredKanji, number });
+    resultsRef.current?.focus({ preventScroll: true });
+    resultsRef.current?.scrollIntoView({ block: 'start' });
+  }
 
   function renderTile(kanji) {
     const isSelected = selectedSet.has(kanji.character);
@@ -213,7 +230,7 @@ export function KanjiShelf({
         <div className="statusLine" aria-live="polite">
           {isKanjiLoading
             ? t('loadingKanji', { level: activeLevelLabel })
-            : t('collectionCount', { count: filteredKanji.length })}
+            : countLabel}
           {isVocabLoading && !isKanjiLoading && ` · ${t('loadingVocab')}`}
         </div>
         <label className="vocabFilterToggle">
@@ -231,27 +248,15 @@ export function KanjiShelf({
       {loadError && <div className="loadError" role="status">{loadError}</div>}
 
       <div
-        className="kanjiViewport"
-        ref={gridRef}
+        className="kanjiResults"
+        ref={resultsRef}
         aria-busy={isLoading}
-        style={{
-          '--kanji-columns': columns,
-          '--kanji-tile-height': `${TILE_HEIGHT}px`,
-          '--kanji-tile-gap': `${TILE_GAP}px`,
-        }}
+        tabIndex={-1}
       >
         {isLoading ? (
-          <SkeletonGrid count={columns * 3} />
-        ) : filteredKanji.length > 0 ? (
-          <div
-            className="kanjiGrid"
-            style={{
-              paddingBlockStart: `${startRow * ROW_HEIGHT}px`,
-              paddingBlockEnd: `${(rowCount - endRow) * ROW_HEIGHT}px`,
-            }}
-          >
-            {visibleKanji.map(renderTile)}
-          </div>
+          <SkeletonGrid count={KANJI_PER_PAGE} />
+        ) : pageKanji.length > 0 ? (
+          <div className="kanjiGrid">{pageKanji.map(renderTile)}</div>
         ) : !loadError && (
           <div className="quietState shelfEmpty">
             <Icon name="search" size={24} />
@@ -260,6 +265,9 @@ export function KanjiShelf({
           </div>
         )}
       </div>
+      {!isLoading && pageCount > 1 && (
+        <KanjiPagination t={t} page={page} pageCount={pageCount} onPageChange={changePage} />
+      )}
     </section>
   );
 }
