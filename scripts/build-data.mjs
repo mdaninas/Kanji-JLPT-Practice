@@ -138,7 +138,7 @@ function validateVocabFile(filePath) {
       errors.push(`${filePath}:${row} reading is not kana: ${word} (${reading})`);
     }
 
-    if ((folder === 'English' || folder === 'Chinese') && !translation) {
+    if (folder !== 'Indonesian' && !translation) {
       errors.push(`${filePath}:${row} missing ${folder} translation for ${word}`);
     }
 

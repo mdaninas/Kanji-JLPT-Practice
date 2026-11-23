@@ -105,6 +105,14 @@ const EXPLANATION_LANGUAGES = {
     name: 'Simplified Chinese',
     instruction: 'Use natural Simplified Chinese (简体中文) for translations and explanations. Keep quoted Japanese vocabulary and readings in Japanese.',
   },
+  tl: {
+    name: 'Tagalog',
+    instruction: 'Use natural Tagalog for translations and explanations. Keep quoted Japanese vocabulary and readings in Japanese.',
+  },
+  vi: {
+    name: 'Vietnamese',
+    instruction: 'Use natural Vietnamese (tiếng Việt) with diacritics for translations and explanations. Keep quoted Japanese vocabulary and readings in Japanese.',
+  },
 };
 
 function asString(value) {

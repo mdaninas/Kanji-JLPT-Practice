@@ -8,6 +8,8 @@ export default defineConfig({
       output: {
         manualChunks: {
           'kanji-meanings-zh': ['./Data/Kanji/Chinese/meanings.json'],
+          'kanji-meanings-tl': ['./Data/Kanji/Tagalog/meanings.json'],
+          'kanji-meanings-vi': ['./Data/Kanji/Vietnamese/meanings.json'],
         },
       },
     },

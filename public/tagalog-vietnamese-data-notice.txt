@@ -1,0 +1,25 @@
+Tagalog and Vietnamese study data
+
+The Tagalog and Vietnamese kanji and vocabulary glosses are adapted from the
+English study data in this repository with Argos Translate. The generated files
+include manually reviewed translations for common kanji and vocabulary.
+
+The source KANJIDIC2 and JMdict data are © James William Breen and the Electronic
+Dictionary Research and Development Group. The adapted data is distributed
+under Creative Commons Attribution-ShareAlike 4.0 International.
+https://www.edrdg.org/edrdg/licence.html
+https://creativecommons.org/licenses/by-sa/4.0/
+
+Regenerating the data
+
+Download the English → Tagalog and English → Vietnamese 1.9 model packages from
+the Argos Translate package index. Use Python 3.12 from the repository root.
+https://www.argosopentech.com/argospm/index/
+
+  python -m pip install ctranslate2==4.6.0 sentencepiece==0.2.1 "setuptools<81"
+  python scripts/generate-study-translations.py tl path/to/translate-en_tl-1_9.argosmodel
+  python scripts/generate-study-translations.py vi path/to/translate-en_vi-1_9.argosmodel
+  npm run data:validate
+
+Corrections go in scripts/study-translation-overrides.json. The app loads the
+checked-in translations directly.

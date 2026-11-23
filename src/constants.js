@@ -1,4 +1,6 @@
 import { normalizeLanguage } from './languages.js';
+import tagalog from './locales/tl.js';
+import vietnamese from './locales/vi.js';
 import simplifiedChinese from './locales/zh-Hans.js';
 
 export { LANGUAGES, LANGUAGES as SUPPORTED_LANGUAGES } from './languages.js';
@@ -33,6 +35,20 @@ export const VOCAB_LOADERS = {
     n3: () => import('../Data/Vocabulary/Chinese/n3_vocab_cleaned.csv?raw'),
     n2: () => import('../Data/Vocabulary/Chinese/n2_vocab_cleaned.csv?raw'),
     n1: () => import('../Data/Vocabulary/Chinese/n1_vocab_cleaned.csv?raw'),
+  },
+  tl: {
+    n5: () => import('../Data/Vocabulary/Tagalog/n5_vocab_cleaned.csv?raw'),
+    n4: () => import('../Data/Vocabulary/Tagalog/n4_vocab_cleaned.csv?raw'),
+    n3: () => import('../Data/Vocabulary/Tagalog/n3_vocab_cleaned.csv?raw'),
+    n2: () => import('../Data/Vocabulary/Tagalog/n2_vocab_cleaned.csv?raw'),
+    n1: () => import('../Data/Vocabulary/Tagalog/n1_vocab_cleaned.csv?raw'),
+  },
+  vi: {
+    n5: () => import('../Data/Vocabulary/Vietnamese/n5_vocab_cleaned.csv?raw'),
+    n4: () => import('../Data/Vocabulary/Vietnamese/n4_vocab_cleaned.csv?raw'),
+    n3: () => import('../Data/Vocabulary/Vietnamese/n3_vocab_cleaned.csv?raw'),
+    n2: () => import('../Data/Vocabulary/Vietnamese/n2_vocab_cleaned.csv?raw'),
+    n1: () => import('../Data/Vocabulary/Vietnamese/n1_vocab_cleaned.csv?raw'),
   },
 };
 
@@ -431,4 +447,6 @@ export const TEXT = {
     statsConfirmProceed: 'Continue',
   },
   'zh-Hans': simplifiedChinese,
+  tl: tagalog,
+  vi: vietnamese,
 };

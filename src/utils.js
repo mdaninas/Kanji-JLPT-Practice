@@ -1,5 +1,7 @@
 import chineseKanjiMeanings from '../Data/Kanji/Chinese/meanings.json' with { type: 'json' };
 import indonesianKanjiMeanings from '../Data/Kanji/Indonesian/meanings.json' with { type: 'json' };
+import tagalogKanjiMeanings from '../Data/Kanji/Tagalog/meanings.json' with { type: 'json' };
+import vietnameseKanjiMeanings from '../Data/Kanji/Vietnamese/meanings.json' with { type: 'json' };
 import { TEXT, LEVEL_LABEL_BY_VALUE, LEVELS, QUIZ_QUESTION_COUNT } from './constants.js';
 
 export { parseCsvLine } from './utils/csv.js';
@@ -124,6 +126,8 @@ export function normalizeKanji(rawKanji, level) {
         localizedMeanings: {
           id: indonesianKanjiMeanings[character] ?? [],
           'zh-Hans': chineseKanjiMeanings[character] ?? [],
+          tl: tagalogKanjiMeanings[character] ?? [],
+          vi: vietnameseKanjiMeanings[character] ?? [],
         },
         onReadings: detail.on_readings || [],
         strokeCount: detail.stroke_count,

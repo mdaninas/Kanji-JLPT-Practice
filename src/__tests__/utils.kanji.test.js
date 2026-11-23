@@ -51,10 +51,12 @@ describe('normalizeKanji', () => {
     expect(result.map((item) => item.character)).toEqual(['本', '日']);
   });
 
-  it('uses Indonesian meanings for translated kanji and preserves their English meanings', () => {
+  it('uses the selected language for translated kanji', () => {
     const [book] = normalizeKanji(rawKanji, 5);
     expect(getKanjiMeanings(book, 'id').slice(0, 2)).toEqual(['buku', 'asal']);
     expect(getKanjiMeanings(book, 'en')).toEqual(['book', 'origin']);
+    expect(getKanjiMeanings(book, 'tl')[0]).toBe('aklat');
+    expect(getKanjiMeanings(book, 'vi')[0]).toBe('sách');
   });
 
   it('uses the English meanings when an Indonesian translation is unavailable', () => {

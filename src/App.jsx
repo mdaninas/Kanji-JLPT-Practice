@@ -114,7 +114,7 @@ export default function App() {
   }, [language, t]);
 
   useEffect(() => {
-    const timer = setTimeout(() => setDebouncedQuery(query.trim().toLowerCase()), 180);
+    const timer = setTimeout(() => setDebouncedQuery(query.trim().normalize('NFC').toLowerCase()), 180);
     return () => clearTimeout(timer);
   }, [query]);
 
@@ -198,6 +198,7 @@ export default function App() {
         ...item.onReadings,
       ]
         .join(' ')
+        .normalize('NFC')
         .toLowerCase(),
     })),
     [currentKanji],
@@ -387,6 +388,12 @@ export default function App() {
           <small>
             {' '}
             <a href="/chinese-data-notice.txt">中文释义取自 Tomoshi (Y1Z)、JMdict 与 KANJIDIC2（CC BY-SA 4.0）。</a>
+          </small>
+        )}
+        {(language === 'tl' || language === 'vi') && (
+          <small>
+            {' '}
+            <a href="/tagalog-vietnamese-data-notice.txt">{t('studyDataAttribution')}</a>
           </small>
         )}
       </footer>

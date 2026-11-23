@@ -18,6 +18,12 @@ it('loads translations for the selected language and reuses the matching cache',
   expect(handLetter()?.translation).not.toBe('letter');
   await waitFor(() => expect(handLetter()?.translation).toMatch(/信/u));
 
+  rerender({ language: 'tl' });
+  await waitFor(() => expect(handLetter()?.translation).toBe('Liham; sulat'));
+
+  rerender({ language: 'vi' });
+  await waitFor(() => expect(handLetter()?.translation).toBe('Bức thư; thư tay'));
+
   rerender({ language: 'id' });
   await waitFor(() => expect(handLetter()?.translation).toBe('Surat'));
 

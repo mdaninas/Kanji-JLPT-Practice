@@ -25,7 +25,7 @@
 - Practice with flashcards, Japanese audio, stroke order animations, and character breakdowns from KanjiVG.
 - Generate up to 10 contextual reading questions with Claude.
 - Review kanji with spaced repetition, see daily statistics, and export or import progress as JSON.
-- Use the app in English, Indonesian, or Simplified Chinese, choose a light or dark theme, and install it as a progressive web app.
+- Switch the interface and study meanings between English, Indonesian, Simplified Chinese, Tagalog, and Vietnamese. Choose a light or dark theme and install it as a progressive web app.
 
 The collection covers **2,211 kanji** across JLPT N5–N1, with **7,307 vocabulary entries per language**. Vocabulary is available for **1,768 kanji**.
 
@@ -126,6 +126,8 @@ The optional Python preprocessing notebook uses the repository’s Conda environ
 The project code is released under the [MIT License](LICENSE).
 
 The Simplified Chinese meanings use JMdict and KANJIDIC2 translations from Tomoshi (Y1Z). The Chinese data is distributed under CC BY-SA 4.0. [Source, license, and update instructions](public/chinese-data-notice.txt)
+
+Tagalog and Vietnamese meanings are generated from the English study data with Argos Translate and include manually reviewed corrections. [Sources, license, and regeneration instructions](public/tagalog-vietnamese-data-notice.txt)
 
 ## Author
 

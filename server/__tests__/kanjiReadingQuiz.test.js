@@ -40,14 +40,18 @@ describe('sanitizeDeckWithServerData', () => {
     expect(sanitized[0].vocab[0].translation).toBeTruthy();
   });
 
-  it('uses Simplified Chinese meanings and explanations in a Chinese quiz', () => {
+  it.each([
+    ['zh-Hans', 'Simplified Chinese', /信/u],
+    ['tl', 'Tagalog', /Liham/u],
+    ['vi', 'Vietnamese', /Bức thư/u],
+  ])('uses the vocabulary and explanations for %s in a reading quiz', (language, languageName, translation) => {
     const deck = sanitizeDeckWithServerData([{
       kanji: '手',
       vocab: [{ word: '手紙', reading: 'てがみ', translation: 'letter' }],
-    }], 'zh-Hans');
+    }], language);
 
-    expect(deck[0].vocab[0]).toMatchObject({ word: '手紙', reading: 'てがみ', translation: expect.stringMatching(/信/u) });
-    expect(buildKanjiReadingPrompt({ deck, explanationLanguage: 'zh-Hans' })).toContain('Simplified Chinese');
+    expect(deck[0].vocab[0]).toMatchObject({ word: '手紙', reading: 'てがみ', translation: expect.stringMatching(translation) });
+    expect(buildKanjiReadingPrompt({ deck, explanationLanguage: language })).toContain(`Use natural ${languageName}`);
   });
 });
 
