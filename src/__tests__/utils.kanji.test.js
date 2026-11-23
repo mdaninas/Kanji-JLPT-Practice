@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   KANJI_SORT_MODES,
+  getKanjiMeanings,
   getUniqueKanjiCharacters,
   normalizeKanji,
   sortKanjiList,
@@ -48,6 +49,17 @@ describe('normalizeKanji', () => {
   it('sorts the result ascending by freq', () => {
     const result = normalizeKanji(rawKanji, 5);
     expect(result.map((item) => item.character)).toEqual(['本', '日']);
+  });
+
+  it('uses Indonesian meanings for translated kanji and preserves their English meanings', () => {
+    const [book] = normalizeKanji(rawKanji, 5);
+    expect(getKanjiMeanings(book, 'id').slice(0, 2)).toEqual(['buku', 'asal']);
+    expect(getKanjiMeanings(book, 'en')).toEqual(['book', 'origin']);
+  });
+
+  it('uses the English meanings when an Indonesian translation is unavailable', () => {
+    const untranslated = { meanings: ['capital'], meaningsId: [] };
+    expect(getKanjiMeanings(untranslated, 'id')).toEqual(['capital']);
   });
 
   it('falls back to MAX_SAFE_INTEGER when freq is missing', () => {

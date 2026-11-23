@@ -1,6 +1,6 @@
 import { Fragment, useRef, useState } from 'react';
 import { LEVEL_LABEL_BY_VALUE, LEVELS, MAX_SELECTED_KANJI } from '../constants.js';
-import { FREQ_BADGE_LIMIT, KANJI_SORT_MODES } from '../utils.js';
+import { FREQ_BADGE_LIMIT, getKanjiMeanings, KANJI_SORT_MODES } from '../utils.js';
 import { Icon } from './Icon.jsx';
 import { SkeletonGrid } from './SkeletonTile.jsx';
 
@@ -56,6 +56,7 @@ function KanjiPagination({ t, page, pageCount, onPageChange }) {
 
 export function KanjiShelf({
   t,
+  language,
   activeLevelLabel,
   selectedLevels,
   levelCounts,
@@ -107,7 +108,7 @@ export function KanjiShelf({
     const vocabCount = getVocabForKanji(kanji.character).length;
     const status = getKanjiStatus(kanji.character);
     const showFreqBadge = kanji.freq <= FREQ_BADGE_LIMIT;
-    const meaning = kanji.meanings[0] || t('fallbackMeaning');
+    const meaning = getKanjiMeanings(kanji, language)[0] || t('fallbackMeaning');
 
     return (
       <button

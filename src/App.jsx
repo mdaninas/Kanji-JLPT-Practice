@@ -18,6 +18,7 @@ import { useTheme } from './hooks/useTheme.js';
 import { useVocabData } from './hooks/useVocabData.js';
 import {
   formatText,
+  getKanjiMeanings,
   KANJI_SORT_MODES,
   sampleItems,
   sortKanjiList,
@@ -183,12 +184,16 @@ export default function App() {
   const selectedStudySet = selectedKanji
     .map((character) => currentKanji.find((k) => k.character === character))
     .filter(Boolean)
-    .map((kanji) => ({ ...kanji, vocab: getVocabForKanji(kanji.character) }));
+    .map((kanji) => ({
+      ...kanji,
+      meanings: getKanjiMeanings(kanji, language),
+      vocab: getVocabForKanji(kanji.character),
+    }));
 
   const searchableKanji = useMemo(
     () => currentKanji.map((item) => ({
       item,
-      searchText: [item.character, ...item.meanings, ...item.kunReadings, ...item.onReadings]
+      searchText: [item.character, ...item.meanings, ...item.meaningsId, ...item.kunReadings, ...item.onReadings]
         .join(' ')
         .toLowerCase(),
     })),
@@ -326,6 +331,7 @@ export default function App() {
         <div className="questBoard">
           <KanjiShelf
             t={t}
+            language={language}
             activeLevelLabel={activeLevelLabel}
             selectedLevels={selectedLevels}
             levelCounts={levelCounts}

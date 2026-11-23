@@ -1,3 +1,4 @@
+import indonesianKanjiMeanings from '../Data/Kanji/Indonesian/meanings.json' with { type: 'json' };
 import { TEXT, LEVEL_LABEL_BY_VALUE, LEVELS, QUIZ_QUESTION_COUNT } from './constants.js';
 
 export function formatText(language, key, params = {}) {
@@ -130,21 +131,29 @@ export function parseVocabCsv(raw, level, language) {
 
 export function normalizeKanji(rawKanji, level) {
   return Object.entries(rawKanji)
-    .map(([character, detail]) => ({
-      character: detail.kanji || character,
-      freq: detail.freq_mainichi_shinbun ?? Number.MAX_SAFE_INTEGER,
-      grade: detail.grade,
-      heisig: detail.heisig_en || '',
-      jlpt: level,
-      kunReadings: detail.kun_readings || [],
-      meanings: detail.meanings || [],
-      onReadings: detail.on_readings || [],
-      strokeCount: detail.stroke_count,
-    }))
+    .map(([key, detail]) => {
+      const character = detail.kanji || key;
+      return {
+        character,
+        freq: detail.freq_mainichi_shinbun ?? Number.MAX_SAFE_INTEGER,
+        grade: detail.grade,
+        heisig: detail.heisig_en || '',
+        jlpt: level,
+        kunReadings: detail.kun_readings || [],
+        meanings: detail.meanings || [],
+        meaningsId: indonesianKanjiMeanings[character] ?? [],
+        onReadings: detail.on_readings || [],
+        strokeCount: detail.stroke_count,
+      };
+    })
     .sort((first, second) => {
       if (first.freq !== second.freq) return first.freq - second.freq;
       return first.character.localeCompare(second.character, 'ja');
     });
+}
+
+export function getKanjiMeanings(kanji, language) {
+  return language === 'id' && kanji.meaningsId?.length ? kanji.meaningsId : kanji.meanings;
 }
 
 export function vocabSortForLevels(levels) {
