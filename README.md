@@ -25,7 +25,7 @@
 - Practice with flashcards, Japanese audio, stroke order animations, and character breakdowns from KanjiVG.
 - Generate up to 10 contextual reading questions with Claude.
 - Review kanji with spaced repetition, see daily statistics, and export or import progress as JSON.
-- Use the app in English or Indonesian, choose a light or dark theme, and install it as a progressive web app.
+- Use the app in English, Indonesian, or Simplified Chinese, choose a light or dark theme, and install it as a progressive web app.
 
 The collection covers **2,211 kanji** across JLPT N5–N1, with **7,307 vocabulary entries per language**. Vocabulary is available for **1,768 kanji**.
 
@@ -118,12 +118,14 @@ The optional Python preprocessing notebook uses the repository’s Conda environ
 | Quiz generation fails locally | Start `npm run api` and confirm `.env` contains a valid Anthropic API key. |
 | The quiz API returns HTTP 429 | Wait for the time in the `Retry-After` response header. |
 | Quiz generation fails on Vercel | Check the Anthropic and Upstash environment variables and review the function logs. |
-| Vocabulary appears in a different language | Check the CSV files in `Data/Vocabulary/English/` and `Data/Vocabulary/Indonesian/`. The parser reads the word, reading, and translation columns by position. |
+| Vocabulary appears in a different language | Check the language folders under `Data/Vocabulary/`. The parser reads the word, reading, and translation columns by position. |
 | The Vercel build fails on an import | Match the exact capitalization of the imported filename. |
 
 ## License
 
 The project code is released under the [MIT License](LICENSE).
+
+The Simplified Chinese meanings use JMdict and KANJIDIC2 translations from Tomoshi (Y1Z). The Chinese data is distributed under CC BY-SA 4.0. [Source, license, and update instructions](public/chinese-data-notice.txt)
 
 ## Author
 

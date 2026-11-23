@@ -1,5 +1,8 @@
+import chineseKanjiMeanings from '../Data/Kanji/Chinese/meanings.json' with { type: 'json' };
 import indonesianKanjiMeanings from '../Data/Kanji/Indonesian/meanings.json' with { type: 'json' };
 import { TEXT, LEVEL_LABEL_BY_VALUE, LEVELS, QUIZ_QUESTION_COUNT } from './constants.js';
+
+export { parseCsvLine } from './utils/csv.js';
 
 export function formatText(language, key, params = {}) {
   const activeText = TEXT[language] || TEXT.en;
@@ -43,29 +46,6 @@ export function getQuizSentenceParts(question) {
     before: question.sentence_before || '',
     target: question.sentence_target || question.target_vocab,
   };
-}
-
-export function parseCsvLine(line) {
-  const cells = [];
-  let cell = '';
-  let quoted = false;
-
-  for (let index = 0; index < line.length; index += 1) {
-    const char = line[index];
-    const nextChar = line[index + 1];
-
-    if (char === '"' && nextChar === '"') {
-      cell += '"';
-      index += 1;
-      continue;
-    }
-    if (char === '"') { quoted = !quoted; continue; }
-    if (char === ',' && !quoted) { cells.push(cell); cell = ''; continue; }
-    cell += char;
-  }
-
-  cells.push(cell);
-  return cells.map((value) => value.trim());
 }
 
 export function parseCsvRecords(raw) {
@@ -141,7 +121,10 @@ export function normalizeKanji(rawKanji, level) {
         jlpt: level,
         kunReadings: detail.kun_readings || [],
         meanings: detail.meanings || [],
-        meaningsId: indonesianKanjiMeanings[character] ?? [],
+        localizedMeanings: {
+          id: indonesianKanjiMeanings[character] ?? [],
+          'zh-Hans': chineseKanjiMeanings[character] ?? [],
+        },
         onReadings: detail.on_readings || [],
         strokeCount: detail.stroke_count,
       };
@@ -153,7 +136,8 @@ export function normalizeKanji(rawKanji, level) {
 }
 
 export function getKanjiMeanings(kanji, language) {
-  return language === 'id' && kanji.meaningsId?.length ? kanji.meaningsId : kanji.meanings;
+  const meanings = kanji.localizedMeanings?.[language];
+  return meanings?.length ? meanings : kanji.meanings;
 }
 
 export function vocabSortForLevels(levels) {

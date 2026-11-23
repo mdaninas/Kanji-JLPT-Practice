@@ -1,3 +1,5 @@
+import { DEFAULT_LANGUAGE, normalizeLanguage } from './languages.js';
+
 const hasWindow = typeof window !== 'undefined';
 
 export const LEGACY_KEYS = {
@@ -27,6 +29,15 @@ export const ALL_APP_STORAGE_KEYS = [
   ...Object.values(STORAGE_KEYS),
   ...Object.values(LEGACY_KEYS),
 ];
+
+export function readStoredLanguage() {
+  if (!hasWindow) return DEFAULT_LANGUAGE;
+  try {
+    return normalizeLanguage(JSON.parse(window.localStorage.getItem(STORAGE_KEYS.language)));
+  } catch {
+    return DEFAULT_LANGUAGE;
+  }
+}
 
 /**
  * If `newKey` is missing, copy value from `legacyKey` and optionally remove the legacy entry.

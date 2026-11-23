@@ -9,6 +9,7 @@ import {
   migrateQuizModelId,
   SUPPORTED_LANGUAGES,
 } from './constants.js';
+import { DEFAULT_LANGUAGE, normalizeLanguage } from './languages.js';
 import { useKanjiData } from './hooks/useKanjiData.js';
 import { usePersistedState } from './hooks/usePersistedState.js';
 import { useProgress } from './hooks/useProgress.js';
@@ -37,10 +38,6 @@ import { StrokeOrder } from './components/StrokeOrder.jsx';
 
 const VALID_LEVEL_VALUES = new Set(LEVELS.map((level) => level.value));
 
-function validateLanguage(value) {
-  return SUPPORTED_LANGUAGES.some((item) => item.value === value) ? value : 'id';
-}
-
 function validateSelectedLevels(value) {
   if (!Array.isArray(value)) return [];
   return value.filter((level) => VALID_LEVEL_VALUES.has(level));
@@ -65,7 +62,7 @@ function validateQuizModel(value) {
 }
 
 export default function App() {
-  const [language, setLanguage] = usePersistedState('kanjiApp:language', 'id', validateLanguage);
+  const [language, setLanguage] = usePersistedState('kanjiApp:language', DEFAULT_LANGUAGE, normalizeLanguage);
   const [selectedLevels, setSelectedLevels] = usePersistedState('kanjiApp:selectedLevels', [], validateSelectedLevels);
   const [selectedKanji, setSelectedKanji] = usePersistedState('kanjiApp:selectedKanji', [], validateSelectedKanji);
   const [onlyWithVocab, setOnlyWithVocab] = usePersistedState('kanjiApp:onlyWithVocab', true, validateOnlyWithVocab);
@@ -112,7 +109,7 @@ export default function App() {
   const quizCache = useQuizCache();
 
   useEffect(() => {
-    document.documentElement.lang = language === 'en' ? 'en' : 'id';
+    document.documentElement.lang = language;
     document.title = t('documentTitle');
   }, [language, t]);
 
@@ -193,7 +190,13 @@ export default function App() {
   const searchableKanji = useMemo(
     () => currentKanji.map((item) => ({
       item,
-      searchText: [item.character, ...item.meanings, ...item.meaningsId, ...item.kunReadings, ...item.onReadings]
+      searchText: [
+        item.character,
+        ...item.meanings,
+        ...Object.values(item.localizedMeanings).flat(),
+        ...item.kunReadings,
+        ...item.onReadings,
+      ]
         .join(' ')
         .toLowerCase(),
     })),
@@ -295,7 +298,7 @@ export default function App() {
               <span className="visuallyHidden">{t('language')}</span>
               <select value={language} onChange={(event) => setLanguage(event.target.value)}>
                 {SUPPORTED_LANGUAGES.map((item) => (
-                  <option key={item.value} value={item.value}>
+                  <option key={item.value} value={item.value} lang={item.value}>
                     {item.label}
                   </option>
                 ))}
@@ -380,6 +383,12 @@ export default function App() {
 
       <footer className="appFooter appShell">
         <small>{t('dataAttribution')}</small>
+        {language === 'zh-Hans' && (
+          <small>
+            {' '}
+            <a href="/chinese-data-notice.txt">中文释义取自 Tomoshi (Y1Z)、JMdict 与 KANJIDIC2（CC BY-SA 4.0）。</a>
+          </small>
+        )}
       </footer>
 
       {isVocabModalOpen && (

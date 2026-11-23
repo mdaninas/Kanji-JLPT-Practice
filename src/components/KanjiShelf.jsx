@@ -86,7 +86,12 @@ export function KanjiShelf({
   const [pageSelection, setPageSelection] = useState(null);
   const resultCount = filteredKanji.length;
   const pageCount = Math.ceil(resultCount / KANJI_PER_PAGE);
-  const page = pageSelection?.results === filteredKanji ? pageSelection.number : 1;
+  const savedResults = pageSelection?.results;
+  const sameResults = savedResults === filteredKanji || (
+    savedResults?.length === resultCount
+    && filteredKanji.every((item, index) => item.character === savedResults[index].character)
+  );
+  const page = sameResults ? pageSelection.number : 1;
   const startIndex = (page - 1) * KANJI_PER_PAGE;
   const endIndex = Math.min(startIndex + KANJI_PER_PAGE, resultCount);
   const pageKanji = filteredKanji.slice(startIndex, endIndex);

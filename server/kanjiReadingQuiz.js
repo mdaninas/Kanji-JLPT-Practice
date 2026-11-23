@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { jsonSchemaOutputFormat } from '@anthropic-ai/sdk/helpers/json-schema';
+import { normalizeLanguage } from '../src/languages.js';
 import { DEFAULT_QUIZ_MODEL, QUIZ_MODELS, migrateQuizModelId } from '../src/quizModels.js';
 import { sanitizeDeckWithServerData } from './vocabLookup.js';
 
@@ -99,6 +100,10 @@ const EXPLANATION_LANGUAGES = {
   en: {
     name: 'English',
     instruction: 'Use English words and grammar. Only the quoted vocabulary and reading may stay Japanese.',
+  },
+  'zh-Hans': {
+    name: 'Simplified Chinese',
+    instruction: 'Use natural Simplified Chinese (简体中文) for translations and explanations. Keep quoted Japanese vocabulary and readings in Japanese.',
   },
 };
 
@@ -421,8 +426,7 @@ export function buildKanjiReadingPrompt({
   choiceCount = 4,
   explanationLanguage = 'id',
 }) {
-  const explanationLanguageConfig =
-    EXPLANATION_LANGUAGES[explanationLanguage] || EXPLANATION_LANGUAGES.id;
+  const explanationLanguageConfig = EXPLANATION_LANGUAGES[normalizeLanguage(explanationLanguage)];
   const explanationLanguageName = explanationLanguageConfig.name;
 
   return `

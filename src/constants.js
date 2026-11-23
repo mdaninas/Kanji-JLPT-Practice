@@ -1,3 +1,8 @@
+import { normalizeLanguage } from './languages.js';
+import simplifiedChinese from './locales/zh-Hans.js';
+
+export { LANGUAGES, LANGUAGES as SUPPORTED_LANGUAGES } from './languages.js';
+
 export const MAX_SELECTED_KANJI = 10;
 export const MAX_RANDOM_VOCAB_PER_KANJI = 3;
 export const QUIZ_QUESTION_COUNT = 10;
@@ -22,6 +27,13 @@ export const VOCAB_LOADERS = {
     n2: () => import('../Data/Vocabulary/English/n2_vocab_cleaned.csv?raw'),
     n1: () => import('../Data/Vocabulary/English/n1_vocab_cleaned.csv?raw'),
   },
+  'zh-Hans': {
+    n5: () => import('../Data/Vocabulary/Chinese/n5_vocab_cleaned.csv?raw'),
+    n4: () => import('../Data/Vocabulary/Chinese/n4_vocab_cleaned.csv?raw'),
+    n3: () => import('../Data/Vocabulary/Chinese/n3_vocab_cleaned.csv?raw'),
+    n2: () => import('../Data/Vocabulary/Chinese/n2_vocab_cleaned.csv?raw'),
+    n1: () => import('../Data/Vocabulary/Chinese/n1_vocab_cleaned.csv?raw'),
+  },
 };
 
 export const LEVELS = [
@@ -29,40 +41,33 @@ export const LEVELS = [
     value: 5,
     label: 'N5',
     loadKanji: () => import('../Data/Kanji/kanji_n5.json'),
-    loadVocab: (language) => (VOCAB_LOADERS[language] || VOCAB_LOADERS.id).n5(),
+    loadVocab: (language) => VOCAB_LOADERS[normalizeLanguage(language)].n5(),
   },
   {
     value: 4,
     label: 'N4',
     loadKanji: () => import('../Data/Kanji/kanji_n4.json'),
-    loadVocab: (language) => (VOCAB_LOADERS[language] || VOCAB_LOADERS.id).n4(),
+    loadVocab: (language) => VOCAB_LOADERS[normalizeLanguage(language)].n4(),
   },
   {
     value: 3,
     label: 'N3',
     loadKanji: () => import('../Data/Kanji/kanji_n3.json'),
-    loadVocab: (language) => (VOCAB_LOADERS[language] || VOCAB_LOADERS.id).n3(),
+    loadVocab: (language) => VOCAB_LOADERS[normalizeLanguage(language)].n3(),
   },
   {
     value: 2,
     label: 'N2',
     loadKanji: () => import('../Data/Kanji/kanji_n2.json'),
-    loadVocab: (language) => (VOCAB_LOADERS[language] || VOCAB_LOADERS.id).n2(),
+    loadVocab: (language) => VOCAB_LOADERS[normalizeLanguage(language)].n2(),
   },
   {
     value: 1,
     label: 'N1',
     loadKanji: () => import('../Data/Kanji/kanji_n1.json'),
-    loadVocab: (language) => (VOCAB_LOADERS[language] || VOCAB_LOADERS.id).n1(),
+    loadVocab: (language) => VOCAB_LOADERS[normalizeLanguage(language)].n1(),
   },
 ];
-
-export const LANGUAGES = [
-  { value: 'id', label: 'Indonesia' },
-  { value: 'en', label: 'English' },
-];
-
-export const SUPPORTED_LANGUAGES = LANGUAGES;
 
 export const LEVEL_BY_VALUE = Object.fromEntries(
   LEVELS.map((level) => [level.value, level]),
@@ -425,4 +430,5 @@ export const TEXT = {
     statsConfirmCancel: 'Cancel',
     statsConfirmProceed: 'Continue',
   },
+  'zh-Hans': simplifiedChinese,
 };

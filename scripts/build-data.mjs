@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { LANGUAGES } from '../src/languages.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
@@ -118,6 +119,7 @@ function validateVocabFile(filePath) {
   const raw = fs.readFileSync(filePath, 'utf8');
   const { header, records } = parseCsvRecords(raw);
   const translationKey = translationColumn(header);
+  const folder = path.basename(path.dirname(filePath));
   const seen = new Map();
   let kanaOnlyCount = 0;
 
@@ -136,8 +138,8 @@ function validateVocabFile(filePath) {
       errors.push(`${filePath}:${row} reading is not kana: ${word} (${reading})`);
     }
 
-    if (filePath.includes(`${path.sep}English${path.sep}`) && !translation) {
-      errors.push(`${filePath}:${row} missing English translation for ${word}`);
+    if ((folder === 'English' || folder === 'Chinese') && !translation) {
+      errors.push(`${filePath}:${row} missing ${folder} translation for ${word}`);
     }
 
     if (isLlmJunkTranslation(translation)) {
@@ -153,7 +155,7 @@ function validateVocabFile(filePath) {
       seen.set(dedupeKey, row);
     }
 
-    if (translation && isJapaneseTranslation(translation)) {
+    if (folder !== 'Chinese' && translation && isJapaneseTranslation(translation)) {
       warnings.push(`${filePath}:${row} translation still contains Japanese: ${word} -> ${translation}`);
     }
   });
@@ -208,9 +210,9 @@ function trimKanjiFiles() {
 }
 
 const vocabFiles = [];
-for (const lang of ['English', 'Indonesian']) {
+for (const { vocabFolder } of LANGUAGES) {
   for (const level of ['n5', 'n4', 'n3', 'n2', 'n1']) {
-    vocabFiles.push(path.join(VOCAB_ROOT, lang, `${level}_vocab_cleaned.csv`));
+    vocabFiles.push(path.join(VOCAB_ROOT, vocabFolder, `${level}_vocab_cleaned.csv`));
   }
 }
 

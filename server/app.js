@@ -14,6 +14,7 @@ import {
 } from '@anthropic-ai/sdk';
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
+import { normalizeLanguage } from '../src/languages.js';
 
 import {
   DEFAULT_MODEL,
@@ -287,7 +288,7 @@ app.post('/api/generate-reading-quiz', async (c) => {
     return c.json({ error: 'Request body must be valid JSON.' }, 400);
   }
 
-  const explanationLanguage = body.explanationLanguage || 'id';
+  const explanationLanguage = normalizeLanguage(body.explanationLanguage);
   let deck = body.deck;
   if (Array.isArray(body.selections) && body.selections.length > 0) {
     deck = buildServerDeck(body.selections, explanationLanguage);

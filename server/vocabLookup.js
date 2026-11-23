@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { DEFAULT_LANGUAGE, LANGUAGES, normalizeLanguage } from '../src/languages.js';
+import { parseCsvLine } from '../src/utils/csv.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_ROOT = path.join(__dirname, '..', 'Data', 'Vocabulary');
@@ -13,24 +15,7 @@ const LEVEL_FILES = {
   1: 'n1_vocab_cleaned.csv',
 };
 
-function parseCsvLine(line) {
-  const cells = [];
-  let cell = '';
-  let quoted = false;
-  for (let index = 0; index < line.length; index += 1) {
-    const char = line[index];
-    const nextChar = line[index + 1];
-    if (char === '"' && nextChar === '"') { cell += '"'; index += 1; continue; }
-    if (char === '"') { quoted = !quoted; continue; }
-    if (char === ',' && !quoted) { cells.push(cell); cell = ''; continue; }
-    cell += char;
-  }
-  cells.push(cell);
-  return cells.map((value) => value.trim());
-}
-
-function loadLanguageIndex(language) {
-  const folder = language === 'en' ? 'English' : 'Indonesian';
+function loadLanguageIndex(folder) {
   const byWord = new Map();
   const byWordReading = new Map();
 
@@ -56,11 +41,12 @@ function loadLanguageIndex(language) {
   return { byWord, byWordReading };
 }
 
-const englishIndex = loadLanguageIndex('en');
-const indonesianIndex = loadLanguageIndex('id');
+const languageIndexes = new Map(
+  LANGUAGES.map(({ value, vocabFolder }) => [value, loadLanguageIndex(vocabFolder)]),
+);
 
-export function resolveVocabEntry(word, reading, language = 'id') {
-  const index = language === 'en' ? englishIndex : indonesianIndex;
+export function resolveVocabEntry(word, reading, language = DEFAULT_LANGUAGE) {
+  const index = languageIndexes.get(normalizeLanguage(language));
   return index.byWordReading.get(`${word}\u0000${reading}`)
     || index.byWord.get(word)
     || null;

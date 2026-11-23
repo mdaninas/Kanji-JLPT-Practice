@@ -20,7 +20,8 @@
   ],
   "functions": {
     "api/**/*.js": {
-      "maxDuration": 60
+      "maxDuration": 60,
+      "includeFiles": "Data/Vocabulary/*/*.csv"
     }
   }
 }

@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { app } from '../app.js';
-import { resolveModel } from '../kanjiReadingQuiz.js';
+import { buildKanjiReadingPrompt, resolveModel } from '../kanjiReadingQuiz.js';
 import { sanitizeDeckWithServerData } from '../vocabLookup.js';
 
 describe('resolveModel', () => {
@@ -38,6 +38,16 @@ describe('sanitizeDeckWithServerData', () => {
     const sanitized = sanitizeDeckWithServerData(deck, 'en');
     expect(sanitized[0].vocab[0].reading).not.toBe('wrong-reading');
     expect(sanitized[0].vocab[0].translation).toBeTruthy();
+  });
+
+  it('uses Simplified Chinese meanings and explanations in a Chinese quiz', () => {
+    const deck = sanitizeDeckWithServerData([{
+      kanji: '手',
+      vocab: [{ word: '手紙', reading: 'てがみ', translation: 'letter' }],
+    }], 'zh-Hans');
+
+    expect(deck[0].vocab[0]).toMatchObject({ word: '手紙', reading: 'てがみ', translation: expect.stringMatching(/信/u) });
+    expect(buildKanjiReadingPrompt({ deck, explanationLanguage: 'zh-Hans' })).toContain('Simplified Chinese');
   });
 });
 

@@ -58,7 +58,7 @@ describe('normalizeKanji', () => {
   });
 
   it('uses the English meanings when an Indonesian translation is unavailable', () => {
-    const untranslated = { meanings: ['capital'], meaningsId: [] };
+    const untranslated = { meanings: ['capital'], localizedMeanings: { id: [] } };
     expect(getKanjiMeanings(untranslated, 'id')).toEqual(['capital']);
   });
 

@@ -1,32 +1,32 @@
 import { useEffect, useMemo, useState } from 'react';
-import { LEVELS } from '../constants.js';
+import { LEVEL_BY_VALUE, LEVELS } from '../constants.js';
 import { formatText, getUniqueKanjiCharacters, parseVocabCsv } from '../utils.js';
 
+const EMPTY_VOCAB = {};
+
 export function useVocabData(language, activeLevelValues) {
-  const [vocabByLevel, setVocabByLevel] = useState({});
-  const [isVocabLoading, setIsVocabLoading] = useState(true);
-  const [vocabError, setVocabError] = useState('');
+  const [vocabByLanguage, setVocabByLanguage] = useState({});
+  const [failedLoad, setFailedLoad] = useState(null);
+  const vocabByLevel = vocabByLanguage[language] ?? EMPTY_VOCAB;
 
   const levelsToLoad = useMemo(
     () => (activeLevelValues?.length ? activeLevelValues : LEVELS.map((level) => level.value)),
     [activeLevelValues],
   );
+  const missingLevels = useMemo(
+    () => levelsToLoad.filter((level) => Object.hasOwn(LEVEL_BY_VALUE, level) && !vocabByLevel[level]),
+    [levelsToLoad, vocabByLevel],
+  );
 
   useEffect(() => {
-    let cancelled = false;
-    setIsVocabLoading(true);
-    setVocabError('');
+    if (missingLevels.length === 0) return undefined;
 
-    const missingLevels = levelsToLoad.filter((level) => !vocabByLevel[level]);
-    if (missingLevels.length === 0) {
-      setIsVocabLoading(false);
-      return undefined;
-    }
+    let cancelled = false;
+    setFailedLoad(null);
 
     Promise.all(
       missingLevels.map((levelValue) => {
-        const level = LEVELS.find((item) => item.value === levelValue);
-        if (!level) return Promise.resolve(null);
+        const level = LEVEL_BY_VALUE[levelValue];
         return level.loadVocab(language).then((module) => [
           level.value,
           parseVocabCsv(module.default, level.value, language),
@@ -35,23 +35,21 @@ export function useVocabData(language, activeLevelValues) {
     )
       .then((entries) => {
         if (cancelled) return;
-        const valid = entries.filter(Boolean);
-        if (valid.length > 0) {
-          setVocabByLevel((current) => ({
-            ...current,
-            ...Object.fromEntries(valid),
-          }));
-        }
+        setVocabByLanguage((current) => ({
+          ...current,
+          [language]: { ...current[language], ...Object.fromEntries(entries) },
+        }));
       })
       .catch(() => {
-        if (!cancelled) setVocabError(formatText(language, 'vocabError'));
-      })
-      .finally(() => {
-        if (!cancelled) setIsVocabLoading(false);
+        if (!cancelled) setFailedLoad({ language, missingLevels });
       });
 
     return () => { cancelled = true; };
-  }, [language, levelsToLoad, vocabByLevel]);
+  }, [language, missingLevels]);
+
+  const loadFailed = failedLoad?.language === language && failedLoad?.missingLevels === missingLevels;
+  const isVocabLoading = missingLevels.length > 0 && !loadFailed;
+  const vocabError = loadFailed ? formatText(language, 'vocabError') : '';
 
   const allVocab = useMemo(
     () => levelsToLoad.flatMap((level) => vocabByLevel[level] || []),

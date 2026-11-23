@@ -1,0 +1,32 @@
+Simplified Chinese dictionary data
+
+The Simplified Chinese kanji and vocabulary meanings in Kanji Study are adapted
+from the kanji_gloss and zh_defs tables of Tomoshi Dictionary Open Data
+(© Tomoshi / Y1Z). The source release is v2026-11-16.
+https://github.com/tomoshi-app/tomoshi-dict-data/releases/tag/v2026-11-16
+https://github.com/tomoshi-app/tomoshi-dict-data/blob/main/NOTICE.md
+
+The underlying JMdict and KANJIDIC2 dictionaries are © James William Breen and
+the Electronic Dictionary Research and Development Group.
+https://www.edrdg.org/edrdg/licence.html
+
+The adapted Chinese data is licensed under Creative Commons
+Attribution-ShareAlike 4.0 International.
+https://creativecommons.org/licenses/by-sa/4.0/
+
+Kanji Study extracts the entries used by its JLPT collection, matches vocabulary
+by Japanese spelling and reading, and reformats the Chinese meanings into JSON
+and CSV. The source translations are machine-assisted. Local corrections and
+translations for unmatched entries are recorded in scripts/chinese-data-overrides.json.
+
+Refreshing the data
+
+Download the latest tomoshi-dict-open.db.zst from the Tomoshi releases page.
+Verify the listed SHA-256 checksum and decompress it with zstd. Run the importer
+from the repository with Node.js 24 or later, using the unpacked database path.
+
+  node scripts/import-chinese-data.mjs path/to/tomoshi-dict-open.db
+
+After the import, run npm run data:validate and update the release reference in
+this notice. The app serves the checked-in data without requests to Tomoshi.
+https://github.com/tomoshi-app/tomoshi-dict-data/releases/latest

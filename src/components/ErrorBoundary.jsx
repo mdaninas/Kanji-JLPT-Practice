@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { clearKanjiAppStorage } from '../storageKeys.js';
+import { clearKanjiAppStorage, readStoredLanguage } from '../storageKeys.js';
 import { formatText } from '../utils.js';
 
 export class ErrorBoundary extends Component {
@@ -21,7 +21,7 @@ export class ErrorBoundary extends Component {
     const { error } = this.state;
     if (!error) return this.props.children;
 
-    const language = this.props.language || 'id';
+    const language = this.props.language || readStoredLanguage();
     const t = (key) => formatText(language, key);
     return (
       <div className="errorBoundary" role="alert">
