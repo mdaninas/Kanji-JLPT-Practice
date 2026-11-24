@@ -1,5 +1,4 @@
 export default {
-  appName: 'Kanji Study',
   heroTitle: 'Luyện',
   heroSubject: 'kanji JLPT',
   subtitle: 'Chọn kanji, học các từ liên quan và kiểm tra cách đọc.',
@@ -87,7 +86,6 @@ export default {
   statusWeak: 'cần luyện thêm',
   statusDue: 'đến hạn ôn tập',
   dataAttribution: 'Dữ liệu từ KANJIDIC2, KanjiVG (CC BY-SA) và danh sách từ vựng JLPT không chính thức.',
-  documentTitle: 'Luyện kanji JLPT',
   flashcardMode: 'Luyện với thẻ ghi nhớ',
   flashcardFlip: 'Nhấp để lật thẻ',
   flashcardGotIt: 'Đã nhớ',

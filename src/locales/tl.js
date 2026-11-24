@@ -1,5 +1,4 @@
 export default {
-  appName: 'Kanji Study',
   heroTitle: 'Magsanay sa',
   heroSubject: 'JLPT Kanji',
   subtitle: 'Pumili ng kanji, pag-aralan ang mga kaugnay na salita, at subukan ang iyong pagbasa.',
@@ -87,7 +86,6 @@ export default {
   statusWeak: 'kelangang sanayin',
   statusDue: 'dapat balikan',
   dataAttribution: 'Pinagmulan ng datos ang KANJIDIC2 at KanjiVG (CC BY-SA), pati ang mga di-opisyal na listahan ng bokabularyo ng JLPT.',
-  documentTitle: 'Pagsasanay sa JLPT Kanji',
   flashcardMode: 'Pagsasanay gamit ang mga flashcard',
   flashcardFlip: 'I-click para baligtarin',
   flashcardGotIt: 'Naalala ko',

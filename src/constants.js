@@ -95,7 +95,6 @@ export const LEVEL_LABEL_BY_VALUE = Object.fromEntries(
 
 export const TEXT = {
   id: {
-    appName: 'Kanji Study',
     heroTitle: 'Latihan',
     heroSubject: 'Kanji JLPT',
     subtitle: 'Pilih kanji, pelajari kosakatanya, lalu uji cara bacanya.',
@@ -183,7 +182,6 @@ export const TEXT = {
     statusWeak: 'lemah',
     statusDue: 'perlu review',
     dataAttribution: 'Data: KANJIDIC2/KanjiVG (CC BY-SA), vocab JLPT non-resmi.',
-    documentTitle: 'Latihan Kanji JLPT',
     flashcardMode: 'Mode Flashcard',
     flashcardFlip: 'Klik untuk balik',
     flashcardGotIt: 'Paham',
@@ -271,7 +269,6 @@ export const TEXT = {
     statsConfirmProceed: 'Lanjutkan',
   },
   en: {
-    appName: 'Kanji Study',
     heroTitle: 'Practice',
     heroSubject: 'JLPT Kanji',
     subtitle: 'Build a deck, learn new vocabulary, and test your kanji readings.',
@@ -359,7 +356,6 @@ export const TEXT = {
     statusWeak: 'weak',
     statusDue: 'review due',
     dataAttribution: 'Data: KANJIDIC2/KanjiVG (CC BY-SA), unofficial JLPT vocab lists.',
-    documentTitle: 'JLPT Kanji Practice',
     flashcardMode: 'Flashcard Mode',
     flashcardFlip: 'Click to flip',
     flashcardGotIt: 'Got it',

@@ -110,8 +110,7 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.lang = language;
-    document.title = t('documentTitle');
-  }, [language, t]);
+  }, [language]);
 
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedQuery(query.trim().normalize('NFC').toLowerCase()), 180);
@@ -261,7 +260,7 @@ export default function App() {
         <div className="topBar appShell">
           <a className="brandBlock" href="#study-home">
             <img className="brandMark" src="/kanji-study-logo.png" width="40" height="40" alt="" />
-            {t('appName')}
+            JLPT Atlas
           </a>
           <nav className="topNav" aria-label={t('primaryNav')}>
             <a className="topNavItem collectionNav" href="#kanjiShelfSection">

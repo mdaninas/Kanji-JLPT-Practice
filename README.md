@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="public/kanji-study-logo.png" width="88" height="88" alt="Kanji Study logo">
-  <h1>Kanji Study</h1>
+  <img src="public/kanji-study-logo.png" width="88" height="88" alt="JLPT Atlas logo">
+  <h1>JLPT Atlas</h1>
   <p>Build JLPT study decks, review kanji with flashcards, and practice reading Japanese sentences with Claude.</p>
   <p>
     <a href="https://github.com/mdaninas/Kanji-JLPT-Practice/actions/workflows/ci.yml"><img src="https://github.com/mdaninas/Kanji-JLPT-Practice/actions/workflows/ci.yml/badge.svg?branch=master" alt="Continuous integration"></a>

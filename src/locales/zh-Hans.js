@@ -1,5 +1,4 @@
 export default {
-  appName: 'Kanji Study',
   heroTitle: '练习',
   heroSubject: 'JLPT 汉字',
   subtitle: '挑选汉字，学习相关词汇，再测试自己是否掌握了读音。',
@@ -87,7 +86,6 @@ export default {
   statusWeak: '待加强',
   statusDue: '待复习',
   dataAttribution: '数据来源：KANJIDIC2、KanjiVG（CC BY-SA）及非官方 JLPT 词表。',
-  documentTitle: 'JLPT 汉字练习',
   flashcardMode: '闪卡练习',
   flashcardFlip: '点击翻面',
   flashcardGotIt: '已掌握',

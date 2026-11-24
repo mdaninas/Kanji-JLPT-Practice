@@ -1,6 +1,6 @@
 {
-  "name": "JLPT Kanji Study",
-  "short_name": "Kanji",
+  "name": "JLPT Atlas",
+  "short_name": "JLPT Atlas",
   "description": "JLPT kanji practice with random vocab, quiz generation, and flashcards.",
   "start_url": "/",
   "scope": "/",
