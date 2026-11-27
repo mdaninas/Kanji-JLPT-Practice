@@ -21,12 +21,14 @@ jobs:
       - name: Build container
         run: docker build --tag jlpt-atlas:test .
       - name: Check container
+        shell: bash
         run: |
-          container=$(docker run --detach --publish 127.0.0.1::8787 jlpt-atlas:test)
-          trap 'docker rm --force "$container" >/dev/null' EXIT
+          container=$(docker run --detach --init --publish 127.0.0.1::8787 jlpt-atlas:test)
+          trap 'if (( $? != 0 )); then docker logs "$container"; fi; docker rm --force "$container" >/dev/null' EXIT
           url="http://$(docker port "$container" 8787/tcp)"
 
-          curl --fail --silent --show-error --retry 10 --retry-connrefused --retry-delay 1 "$url/api/health" | jq -e '.ok == true'
+          health=$(curl --fail --silent --show-error --retry 10 --retry-all-errors --retry-delay 1 --max-time 3 "$url/api/health")
+          jq -e '.ok == true' <<< "$health"
           page=$(curl --fail --silent --show-error "$url/")
           grep -F '<title>JLPT Atlas</title>' <<< "$page"
           asset=$(grep -oE '/assets/[^" ]+\.js' <<< "$page" | head -n 1)
