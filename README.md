@@ -10,6 +10,7 @@
   </p>
   <p>
     <a href="#features">Features</a> ·
+    <a href="#docker">Docker</a> ·
     <a href="#quick-start">Quick start</a> ·
     <a href="#claude-models">Claude models</a> ·
     <a href="#deployment">Deployment</a>
@@ -28,6 +29,31 @@
 - Switch the interface and study meanings between English, Indonesian, Simplified Chinese, Tagalog, and Vietnamese. Choose a light or dark theme and install it as a progressive web app.
 
 The collection covers **2,211 kanji** across JLPT N5–N1, with **7,307 vocabulary entries per language**. Vocabulary is available for **1,768 kanji**.
+
+## Docker
+
+Run JLPT Atlas from GitHub Container Registry once the package is published and public. The image supports `linux/amd64` and `linux/arm64`.
+
+```bash
+docker run --rm --init -p 127.0.0.1:8787:8787 ghcr.io/mdaninas/kanji-jlpt-practice:latest
+```
+
+Open [http://127.0.0.1:8787](http://127.0.0.1:8787). The kanji collection, flashcards, and progress tracking work without an API key.
+
+For Claude quizzes, set `ANTHROPIC_API_KEY` in your shell and pass it to the container. You can pass the optional Upstash settings the same way.
+
+```bash
+docker run --rm --init -p 127.0.0.1:8787:8787 -e ANTHROPIC_API_KEY ghcr.io/mdaninas/kanji-jlpt-practice:latest
+```
+
+To build from a local checkout, run these commands in the repository root.
+
+```bash
+docker build -t jlpt-atlas .
+docker run --rm --init -p 127.0.0.1:8787:8787 jlpt-atlas
+```
+
+The [Docker workflow](.github/workflows/docker.yml) publishes `latest` from the default branch and a version tag such as `0.1.0` from a Git tag such as `v0.1.0`. GitHub starts new packages as private. To allow anonymous pulls, set the package visibility to **Public** in its package settings after the first publish. [GitHub package visibility](https://docs.github.com/en/packages/learn-github-packages/configuring-a-packages-access-control-and-visibility)
 
 ## Quick start
 

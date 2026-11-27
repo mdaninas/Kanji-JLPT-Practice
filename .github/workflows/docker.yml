@@ -1,0 +1,75 @@
+name: Docker image
+
+on:
+  pull_request:
+  push:
+    branches: [master, main]
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docker-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build container
+        run: docker build --tag jlpt-atlas:test .
+      - name: Check container
+        run: |
+          container=$(docker run --detach --publish 127.0.0.1::8787 jlpt-atlas:test)
+          trap 'docker rm --force "$container" >/dev/null' EXIT
+          url="http://$(docker port "$container" 8787/tcp)"
+
+          curl --fail --silent --show-error --retry 10 --retry-connrefused --retry-delay 1 "$url/api/health" | jq -e '.ok == true'
+          page=$(curl --fail --silent --show-error "$url/")
+          grep -F '<title>JLPT Atlas</title>' <<< "$page"
+          asset=$(grep -oE '/assets/[^" ]+\.js' <<< "$page" | head -n 1)
+          curl --fail --silent --show-error --output /dev/null "$url$asset"
+
+          status=$(curl --silent --show-error --output quiz-response.json --write-out '%{http_code}' \
+            --json '{"explanationLanguage":"en","selections":[{"kanji":"日","words":["日本"]}]}' \
+            "$url/api/generate-reading-quiz")
+          test "$status" = 500
+          jq -e '.code == "missing_api_key"' quiz-response.json
+
+  publish:
+    if: github.event_name == 'push' && (github.ref_type == 'tag' || github.ref_name == github.event.repository.default_branch)
+    needs: smoke-test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Sign in to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate image metadata
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ghcr.io/${{ github.repository }}
+          flavor: latest=false
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=semver,pattern={{version}}
+            type=sha,format=long
+      - name: Build and publish
+        uses: docker/build-push-action@v7
+        with:
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

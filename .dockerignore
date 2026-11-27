@@ -1,0 +1,10 @@
+.git
+.github
+.env
+.env.*
+.npmrc
+node_modules
+dist
+coverage
+**/__tests__
+*.log
